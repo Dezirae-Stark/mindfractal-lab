@@ -1,0 +1,32 @@
+{
+  "balanced": {
+    "openness": 0.5,
+    "volatility": 0.5,
+    "integration": 0.5,
+    "focus": 0.5
+  },
+  "creative_explorer": {
+    "openness": 0.9,
+    "volatility": 0.6,
+    "integration": 0.4,
+    "focus": 0.3
+  },
+  "stable_focused": {
+    "openness": 0.3,
+    "volatility": 0.2,
+    "integration": 0.8,
+    "focus": 0.9
+  },
+  "chaotic_fragmented": {
+    "openness": 0.8,
+    "volatility": 0.9,
+    "integration": 0.2,
+    "focus": 0.1
+  },
+  "meditative": {
+    "openness": 0.6,
+    "volatility": 0.1,
+    "integration": 0.9,
+    "focus": 0.95
+  }
+}

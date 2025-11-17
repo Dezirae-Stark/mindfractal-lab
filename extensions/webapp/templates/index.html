@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindFractal Lab</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .slider-group {
+            margin: 20px 0;
+        }
+        .slider-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="range"] {
+            width: 100%;
+        }
+        .value-display {
+            text-align: right;
+            color: #667eea;
+            font-weight: bold;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        #result {
+            margin-top: 20px;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 MindFractal Lab</h1>
+        <p class="subtitle">Fractal Dynamical Consciousness Model</p>
+
+        <div class="grid">
+            <div>
+                <h2>Parameter Control</h2>
+                <div class="slider-group">
+                    <label for="c1">c₁: <span id="c1-value" class="value-display">0.10</span></label>
+                    <input type="range" id="c1" min="-2" max="2" step="0.01" value="0.1">
+                </div>
+                <div class="slider-group">
+                    <label for="c2">c₂: <span id="c2-value" class="value-display">0.10</span></label>
+                    <input type="range" id="c2" min="-2" max="2" step="0.01" value="0.1">
+                </div>
+                <button onclick="simulateOrbit()">Simulate Orbit</button>
+            </div>
+
+            <div>
+                <h2>Trait Mapping</h2>
+                <div class="slider-group">
+                    <label for="openness">Openness: <span id="openness-value" class="value-display">0.50</span></label>
+                    <input type="range" id="openness" min="0" max="1" step="0.01" value="0.5">
+                </div>
+                <div class="slider-group">
+                    <label for="volatility">Volatility: <span id="volatility-value" class="value-display">0.50</span></label>
+                    <input type="range" id="volatility" min="0" max="1" step="0.01" value="0.5">
+                </div>
+                <button onclick="mapTraits()">Map Traits → Parameters</button>
+            </div>
+        </div>
+
+        <button onclick="generateFractalMap()">Generate Fractal Map</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Update slider value displays
+        document.querySelectorAll('input[type="range"]').forEach(slider => {
+            slider.addEventListener('input', function() {
+                document.getElementById(this.id + '-value').textContent = parseFloat(this.value).toFixed(2);
+            });
+        });
+
+        async function simulateOrbit() {
+            const c1 = document.getElementById('c1').value;
+            const c2 = document.getElementById('c2').value;
+
+            document.getElementById('result').innerHTML = '<p>Simulating...</p>';
+
+            const response = await fetch(`/simulate?c1=${c1}&c2=${c2}`);
+            const data = await response.json();
+
+            document.getElementById('result').innerHTML = `<img src="${data.image}" alt="Orbit">`;
+        }
+
+        async function mapTraits() {
+            const openness = document.getElementById('openness').value;
+            const volatility = document.getElementById('volatility').value;
+            const integration = 0.5; // Could add more sliders
+            const focus = 0.5;
+
+            const response = await fetch(`/traits_to_params?openness=${openness}&volatility=${volatility}&integration=${integration}&focus=${focus}`);
+            const data = await response.json();
+
+            document.getElementById('c1').value = data.c1;
+            document.getElementById('c2').value = data.c2;
+            document.getElementById('c1-value').textContent = data.c1.toFixed(2);
+            document.getElementById('c2-value').textContent = data.c2.toFixed(2);
+
+            alert(`Traits mapped to: c₁=${data.c1.toFixed(3)}, c₂=${data.c2.toFixed(3)}`);
+        }
+
+        async function generateFractalMap() {
+            document.getElementById('result').innerHTML = '<p>Generating fractal map (this may take a minute)...</p>';
+
+            const response = await fetch('/fractal?resolution=200');
+            const data = await response.json();
+
+            document.getElementById('result').innerHTML = `<img src="${data.image}" alt="Fractal Map">`;
+        }
+    </script>
+</body>
+</html>
