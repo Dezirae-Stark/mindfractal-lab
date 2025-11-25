@@ -38,9 +38,10 @@ This model exhibits:
 ### Extensions
 1. **3D State Space**: Extended model with richer dynamics
 2. **Trait Mapping**: Psychological traits → parameter conversion
-3. **Kivy GUI**: Android/desktop interface with sliders
-4. **FastAPI Web App**: Browser-based visualization
-5. **C++ Backend**: 10-100x speedup via pybind11
+3. **Tenth Dimension**: Possibility manifold explorer (𝒫 space)
+4. **Kivy GUI**: Android/desktop interface with sliders
+5. **FastAPI Web App**: Browser-based visualization
+6. **C++ Backend**: 10-100x speedup via pybind11
 
 ## 📦 Installation
 
@@ -129,7 +130,8 @@ mindfractal-lab/
 │   ├── psychomapping/      # Trait → parameter mapping
 │   ├── gui_kivy/           # Android/desktop GUI
 │   ├── webapp/             # FastAPI web interface
-│   └── cpp_backend/        # C++ accelerated backend
+│   ├── cpp_backend/        # C++ accelerated backend
+│   └── tenth_dimension_possibility/  # Possibility manifold explorer
 ├── docs/                   # Documentation
 ├── tests/                  # Unit tests
 ├── notebooks/              # Jupyter notebooks
@@ -158,6 +160,14 @@ from extensions.state3d.model_3d import FractalDynamicsModel3D
 model_3d = FractalDynamicsModel3D()
 ```
 
+### Tenth Dimension: Possibility Manifold
+```python
+from extensions.tenth_dimension_possibility import PossibilityManifold
+manifold = PossibilityManifold(dim=2)
+point = manifold.sample_point()
+orbit = manifold.compute_orbit(point, steps=500)
+```
+
 ### Web App
 ```bash
 python extensions/webapp/app.py
@@ -169,6 +179,90 @@ python extensions/webapp/app.py
 cd extensions/cpp_backend
 # See build_instructions.md
 ```
+
+## 🌌 Tenth Dimension: Possibility Manifold
+
+The **Tenth Dimension Possibility Module** extends MindFractal Lab with a mathematical formalization of the "tenth dimension" metaphor - the space of all possible dynamical configurations and timelines.
+
+### Mathematical Framework
+
+The **Possibility Manifold** 𝒫 is defined as:
+
+```
+𝒫 = { (z₀, c, F) : z₀ ∈ ℂⁿ, c ∈ ℂⁿ, F: ℂⁿ → ℂⁿ, orbit(z₀, c, F) bounded }
+```
+
+where:
+- **z₀**: Initial state vector
+- **c**: Parameter vector (personality/drive)
+- **F**: Update rule family (TANH_2D, SIGMOID_2D, STATE_3D, CALABI_YAU)
+- **orbit bounded**: No divergence to infinity
+
+### Features
+
+- **Manifold Sampling**: Explore parameter space systematically
+- **Timeline Slicing**: Extract continuous curves γ(t) through 𝒫
+- **Stability Classification**: Automatic categorization (stable, chaotic, divergent, boundary)
+- **Metrics**: Lyapunov exponents, correlation dimension, manifold distance
+- **Visualization**: 2D stability landscapes, timeline branches, Lyapunov heatmaps
+
+### Quick Start
+
+```python
+from extensions.tenth_dimension_possibility import PossibilityManifold, TimelineSlicer
+
+# Create 2D possibility manifold
+manifold = PossibilityManifold(dim=2)
+
+# Sample a point
+point = manifold.sample_point()
+
+# Compute orbit
+orbit = manifold.compute_orbit(point, steps=500)
+
+# Classify stability
+region = manifold.classify_stability(orbit)
+print(f"Stability: {region.value}")
+
+# Create timeline slice
+slicer = TimelineSlicer(manifold)
+start = manifold.sample_point()
+end = manifold.sample_point()
+branch = slicer.slice_parameter_line(start, end, n_steps=20)
+```
+
+### CLI Commands
+
+```bash
+# Create timeline slice
+python -m extensions.tenth_dimension_possibility.possibility_cli slice --steps 20 --output timeline.png
+
+# Visualize stability landscape
+python -m extensions.tenth_dimension_possibility.possibility_cli visualize --resolution 100 --output landscape.png
+
+# Generate random orbit
+python -m extensions.tenth_dimension_possibility.possibility_cli random-orbit --steps 500 --output orbit.png
+
+# Map stability boundaries
+python -m extensions.tenth_dimension_possibility.possibility_cli boundary-map --resolution 150 --output boundaries.png
+```
+
+### Documentation
+
+- **[Mathematical Reference](extensions/tenth_dimension_possibility/td_math_reference.md)**: Complete mathematical foundations
+- **[Tests](extensions/tenth_dimension_possibility/tests/test_possibility.py)**: Comprehensive test suite
+
+### Conceptual Mapping
+
+| Metaphor | Mathematical Object |
+|----------|---------------------|
+| "All possible realities" | Complete parameter space 𝒫 |
+| "Timeline" | Curve γ(t) through 𝒫 |
+| "Branching realities" | Bifurcation points |
+| "Choosing a reality" | Fixing (z₀, c, F) |
+| "Space of possibilities" | Manifold topology |
+
+This extension provides rigorous foundations for exploring the full space of dynamical possibilities - from stable attractors to chaotic trajectories across parameter variations.
 
 ## 🧪 Examples
 
