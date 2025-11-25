@@ -10,6 +10,8 @@ Usage:
     python -m mindfractal.mindfractal_cli visualize --output orbit.png
     python -m mindfractal.mindfractal_cli fractal --resolution 500 --output fractal.png
     python -m mindfractal.mindfractal_cli analyze --mode lyapunov
+    python -m mindfractal.mindfractal_cli td slice --steps 20 --output timeline.png
+    python -m mindfractal.mindfractal_cli td visualize --resolution 100 --output landscape.png
 """
 
 import argparse
@@ -19,6 +21,13 @@ from .model import FractalDynamicsModel
 from .simulate import simulate_orbit, find_fixed_points, compute_attractor_type
 from .visualize import plot_orbit, plot_fractal_map, plot_basin_of_attraction, plot_lyapunov_spectrum
 from .fractal_map import generate_fractal_map
+
+# Optional: Tenth Dimension Possibility Module
+try:
+    from extensions.tenth_dimension_possibility import possibility_cli as td_cli
+    TD_AVAILABLE = True
+except ImportError:
+    TD_AVAILABLE = False
 
 
 def cmd_simulate(args):
@@ -162,6 +171,30 @@ def cmd_analyze(args):
         print(f"\nAttractor type: {atype.upper()}")
 
 
+def cmd_tenth_dimension(args):
+    """Tenth Dimension: Possibility Manifold commands."""
+    if not TD_AVAILABLE:
+        print("ERROR: Tenth Dimension module not available.")
+        print("Install with: pip install -e .[tenth_dimension]")
+        print("Or ensure extensions/tenth_dimension_possibility/ exists.")
+        sys.exit(1)
+
+    print("=== MindFractal Lab: Tenth Dimension - Possibility Manifold ===")
+
+    # Delegate to the tenth dimension CLI
+    if args.td_command == 'slice':
+        td_cli.td_slice(args)
+    elif args.td_command == 'visualize':
+        td_cli.td_visualize(args)
+    elif args.td_command == 'random-orbit':
+        td_cli.td_random_orbit(args)
+    elif args.td_command == 'boundary-map':
+        td_cli.td_boundary_map(args)
+    else:
+        print(f"Unknown tenth dimension command: {args.td_command}")
+        sys.exit(1)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="MindFractal Lab - Fractal Dynamical Consciousness Model CLI",
@@ -205,6 +238,47 @@ def main():
     ana_parser.add_argument('--x0', nargs=2, type=float, help='Initial condition')
     ana_parser.add_argument('--steps', type=int, default=5000, help='Number of steps')
 
+    # Tenth Dimension command (if available)
+    if TD_AVAILABLE:
+        td_parser = subparsers.add_parser('tenth-dimension',
+                                         aliases=['td', '10d'],
+                                         help='Explore Possibility Manifold (10th dimension)')
+        td_subparsers = td_parser.add_subparsers(dest='td_command', help='Tenth dimension sub-command')
+
+        # td slice
+        td_slice_parser = td_subparsers.add_parser('slice', help='Create timeline slice')
+        td_slice_parser.add_argument('--dim', type=int, default=2, help='Dimension (2 or 3)')
+        td_slice_parser.add_argument('--steps', type=int, default=20, help='Number of timeline steps')
+        td_slice_parser.add_argument('--output', '-o', help='Output filename')
+        td_slice_parser.add_argument('--no-plot', action='store_true', help='Skip visualization')
+        td_slice_parser.add_argument('--no-show', action='store_true', help='Don\'t display plot')
+
+        # td visualize
+        td_viz_parser = td_subparsers.add_parser('visualize', help='Visualize stability landscape')
+        td_viz_parser.add_argument('--dim', type=int, default=2, help='Dimension')
+        td_viz_parser.add_argument('--resolution', type=int, default=50, help='Grid resolution')
+        td_viz_parser.add_argument('--min-param', type=float, default=-2.0, help='Min parameter')
+        td_viz_parser.add_argument('--max-param', type=float, default=2.0, help='Max parameter')
+        td_viz_parser.add_argument('--output', '-o', help='Output filename')
+        td_viz_parser.add_argument('--no-show', action='store_true', help='Don\'t display plot')
+
+        # td random-orbit
+        td_orbit_parser = td_subparsers.add_parser('random-orbit', help='Generate random orbit')
+        td_orbit_parser.add_argument('--dim', type=int, default=2, help='Dimension')
+        td_orbit_parser.add_argument('--steps', type=int, default=500, help='Number of orbit steps')
+        td_orbit_parser.add_argument('--output', '-o', help='Output filename')
+        td_orbit_parser.add_argument('--no-plot', action='store_true', help='Skip visualization')
+        td_orbit_parser.add_argument('--no-show', action='store_true', help='Don\'t display plot')
+
+        # td boundary-map
+        td_bound_parser = td_subparsers.add_parser('boundary-map', help='Map stability boundaries')
+        td_bound_parser.add_argument('--dim', type=int, default=2, help='Dimension')
+        td_bound_parser.add_argument('--resolution', type=int, default=100, help='Grid resolution')
+        td_bound_parser.add_argument('--min-param', type=float, default=-2.0, help='Min parameter')
+        td_bound_parser.add_argument('--max-param', type=float, default=2.0, help='Max parameter')
+        td_bound_parser.add_argument('--output', '-o', help='Output filename')
+        td_bound_parser.add_argument('--no-show', action='store_true', help='Don\'t display plot')
+
     args = parser.parse_args()
 
     if not args.command:
@@ -220,6 +294,8 @@ def main():
         cmd_fractal(args)
     elif args.command == 'analyze':
         cmd_analyze(args)
+    elif args.command in ['tenth-dimension', 'td', '10d']:
+        cmd_tenth_dimension(args)
 
 
 if __name__ == '__main__':

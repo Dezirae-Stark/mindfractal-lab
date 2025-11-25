@@ -302,6 +302,391 @@ Load pre-defined trait profile from `traits.json`
 
 ---
 
+### Extension: `extensions.tenth_dimension_possibility`
+
+The **Tenth Dimension Possibility Module** provides a mathematical framework for exploring the complete space of dynamical system configurations - the "possibility manifold" 𝒫.
+
+#### `extensions.tenth_dimension_possibility.PossibilityManifold`
+
+**Constructor:**
+```python
+PossibilityManifold(dim=2, bounds=(-2.0, 2.0))
+```
+
+**Parameters:**
+- `dim` (int): State space dimension (2 or 3)
+- `bounds` (tuple): Parameter sampling bounds
+
+**Methods:**
+
+##### `sample_point(rule_family=UpdateRuleFamily.TANH_2D, z0=None, c=None) -> ParameterPoint`
+Sample a random point from the manifold
+
+**Parameters:**
+- `rule_family` (UpdateRuleFamily): One of TANH_2D, SIGMOID_2D, STATE_3D, CALABI_YAU
+- `z0` (ndarray, optional): Initial state (default: random)
+- `c` (ndarray, optional): Parameters (default: random)
+
+**Returns:**
+- `ParameterPoint`: Complete system specification
+
+##### `compute_orbit(point: ParameterPoint, steps=100) -> ndarray`
+Compute trajectory for given manifold point
+
+**Parameters:**
+- `point` (ParameterPoint): System specification
+- `steps` (int): Number of iterations
+
+**Returns:**
+- `ndarray`: Complex orbit array of shape (steps, dim)
+
+##### `classify_stability(orbit: ndarray) -> StabilityRegion`
+Classify orbit stability
+
+**Parameters:**
+- `orbit` (ndarray): Trajectory array
+
+**Returns:**
+- `StabilityRegion`: One of STABLE_ATTRACTOR, CHAOTIC, DIVERGENT, BOUNDARY, UNKNOWN
+
+##### `distance(p1: ParameterPoint, p2: ParameterPoint) -> float`
+Compute manifold distance between two points
+
+**Parameters:**
+- `p1`, `p2` (ParameterPoint): Points to compare
+
+**Returns:**
+- `float`: Weighted Frobenius distance
+
+**Formula:**
+```
+d(p1, p2) = √(w₁‖z₀,₁ - z₀,₂‖² + w₂‖c₁ - c₂‖² + w₃‖F₁ - F₂‖²)
+```
+
+---
+
+#### `extensions.tenth_dimension_possibility.ManifoldMetrics`
+
+**Constructor:**
+```python
+ManifoldMetrics(manifold: PossibilityManifold)
+```
+
+**Methods:**
+
+##### `lyapunov_exponent(orbit, method='tangent') -> float`
+Estimate largest Lyapunov exponent
+
+**Parameters:**
+- `orbit` (ndarray): Trajectory array
+- `method` (str): Either 'tangent' or 'separation'
+
+**Returns:**
+- `float`: Lyapunov exponent (λ > 0 → chaos)
+
+##### `attractor_dimension(orbit) -> float`
+Estimate correlation dimension via Grassberger-Procaccia algorithm
+
+**Parameters:**
+- `orbit` (ndarray): Trajectory array
+
+**Returns:**
+- `float`: Correlation dimension D
+
+**Algorithm:**
+```
+C(r) = (1/N²) Σᵢⱼ Θ(r - ‖xᵢ - xⱼ‖)
+D = lim_{r→0} log C(r) / log r
+```
+
+##### `frobenius_distance(p1, p2) -> float`
+Matrix Frobenius norm distance
+
+**Parameters:**
+- `p1`, `p2` (ParameterPoint): Points with matrices A, B, W
+
+**Returns:**
+- `float`: ‖A₁-A₂‖_F + ‖B₁-B₂‖_F + ‖W₁-W₂‖_F
+
+---
+
+#### `extensions.tenth_dimension_possibility.StabilityClassifier`
+
+**Constructor:**
+```python
+StabilityClassifier(manifold: PossibilityManifold)
+```
+
+**Methods:**
+
+##### `classify_point(point: ParameterPoint, steps=500) -> StabilityMetrics`
+Full stability analysis of a point
+
+**Parameters:**
+- `point` (ParameterPoint): System to analyze
+- `steps` (int): Simulation length
+
+**Returns:**
+- `StabilityMetrics`: Dataclass with fields:
+  - `region` (StabilityRegion): Classification
+  - `lyapunov` (float): Lyapunov exponent
+  - `dimension` (float): Correlation dimension
+  - `convergence_time` (int): Steps to convergence (if stable)
+
+##### `map_stability_landscape(param_range=(-2, 2), resolution=50) -> dict`
+Generate 2D stability map
+
+**Parameters:**
+- `param_range` (tuple): (min, max) for c₁ and c₂
+- `resolution` (int): Grid size
+
+**Returns:**
+- `dict`: Dictionary with keys:
+  - `'stability_grid'` (ndarray): Classification codes (resolution × resolution)
+  - `'lyapunov_grid'` (ndarray): Lyapunov values
+  - `'c1_values'` (ndarray): c₁ coordinate array
+  - `'c2_values'` (ndarray): c₂ coordinate array
+
+**Encoding:**
+- 0: STABLE_ATTRACTOR
+- 1: CHAOTIC
+- 2: DIVERGENT
+- 3: BOUNDARY
+- 4: UNKNOWN
+
+---
+
+#### `extensions.tenth_dimension_possibility.TimelineSlicer`
+
+**Constructor:**
+```python
+TimelineSlicer(manifold: PossibilityManifold)
+```
+
+**Methods:**
+
+##### `slice_parameter_line(start: ParameterPoint, end: ParameterPoint, n_steps=20) -> OrbitBranch`
+Create timeline by linear interpolation
+
+**Parameters:**
+- `start`, `end` (ParameterPoint): Endpoints
+- `n_steps` (int): Number of intermediate points
+
+**Returns:**
+- `OrbitBranch`: Dataclass with fields:
+  - `points` (list): List of ParameterPoints
+  - `orbits` (list): Corresponding trajectories
+  - `branch_id` (int): Unique identifier
+  - `parent_id` (int, optional): For branching timelines
+
+**Interpolation:**
+```
+γ(t) = (1-t)·p_start + t·p_end  for t ∈ [0, 1]
+```
+
+##### `slice_random_walk(start: ParameterPoint, n_steps=20, step_size=0.1) -> OrbitBranch`
+Random walk through parameter space
+
+**Parameters:**
+- `start` (ParameterPoint): Starting point
+- `n_steps` (int): Walk length
+- `step_size` (float): Step magnitude
+
+**Returns:**
+- `OrbitBranch`: Random walk timeline
+
+---
+
+#### `extensions.tenth_dimension_possibility.PossibilityVisualizer`
+
+**Constructor:**
+```python
+PossibilityVisualizer(manifold: PossibilityManifold)
+```
+
+**Methods:**
+
+##### `plot_stability_landscape(param_range=(-2, 2), resolution=50, figsize=(12, 5))`
+Create 2D stability landscape with Lyapunov heatmap
+
+**Parameters:**
+- `param_range` (tuple): Parameter bounds
+- `resolution` (int): Grid resolution
+- `figsize` (tuple): Figure size
+
+**Returns:**
+- `Figure`: Matplotlib figure with 2 panels:
+  1. Stability regions (color-coded)
+  2. Lyapunov exponent heatmap
+
+##### `plot_timeline_branch(branch: OrbitBranch, figsize=(14, 5))`
+Visualize timeline through manifold
+
+**Parameters:**
+- `branch` (OrbitBranch): Timeline to plot
+- `figsize` (tuple): Figure size
+
+**Returns:**
+- `Figure`: Matplotlib figure with 3 panels:
+  1. Parameter evolution over timeline
+  2. Orbit endpoints in state space
+  3. Sample orbits at beginning/middle/end
+
+##### `plot_manifold_slice_3d(points, orbits, figsize=(10, 8))`
+3D visualization of manifold slice
+
+**Parameters:**
+- `points` (list): List of ParameterPoints
+- `orbits` (list): Corresponding trajectories
+- `figsize` (tuple): Figure size
+
+**Returns:**
+- `Figure`: 3D scatter plot colored by stability
+
+---
+
+#### Command-Line Interface
+
+The module includes a standalone CLI and integration with main CLI:
+
+**Standalone:**
+```bash
+python -m extensions.tenth_dimension_possibility.possibility_cli slice --steps 20
+python -m extensions.tenth_dimension_possibility.possibility_cli visualize --resolution 100
+python -m extensions.tenth_dimension_possibility.possibility_cli random-orbit --steps 500
+python -m extensions.tenth_dimension_possibility.possibility_cli boundary-map --resolution 150
+```
+
+**Integrated (via main CLI):**
+```bash
+python -m mindfractal.mindfractal_cli td slice --steps 20 --output timeline.png
+python -m mindfractal.mindfractal_cli td visualize --resolution 100 --output landscape.png
+python -m mindfractal.mindfractal_cli 10d random-orbit --steps 500 --output orbit.png
+```
+
+**Note:** Aliases supported: `td`, `10d`, `tenth-dimension`
+
+---
+
+#### Data Structures
+
+##### `ParameterPoint` (dataclass)
+Complete specification of a dynamical system:
+- `z0` (ndarray): Initial state (complex)
+- `c` (ndarray): Parameter vector (complex)
+- `A`, `B`, `W` (ndarray, optional): System matrices
+- `dimension` (int): State space dimension
+- `rule_family` (UpdateRuleFamily): Update rule type
+
+##### `UpdateRuleFamily` (enum)
+- `TANH_2D`: Standard tanh nonlinearity (2D)
+- `SIGMOID_2D`: Logistic sigmoid (2D)
+- `STATE_3D`: 3D extension
+- `CALABI_YAU`: Complex manifold with Hermitian/unitary structure
+
+##### `StabilityRegion` (enum)
+- `STABLE_ATTRACTOR`: Converges to fixed point/cycle
+- `CHAOTIC`: Positive Lyapunov exponent
+- `DIVERGENT`: Escapes to infinity
+- `BOUNDARY`: Near bifurcation (|λ| < ε)
+- `UNKNOWN`: Classification uncertain
+
+##### `OrbitBranch` (dataclass)
+Timeline through possibility space:
+- `points` (list): Sequence of ParameterPoints
+- `orbits` (list): Corresponding trajectories
+- `branch_id` (int): Unique identifier
+- `parent_id` (int, optional): For branching trees
+
+---
+
+#### Mathematical Foundations
+
+See [extensions/tenth_dimension_possibility/td_math_reference.md](../extensions/tenth_dimension_possibility/td_math_reference.md) for complete mathematical documentation.
+
+**Key Concepts:**
+
+**Possibility Manifold:**
+```
+𝒫 = { (z₀, c, F) : z₀ ∈ ℂⁿ, c ∈ ℂⁿ, F: ℂⁿ → ℂⁿ, orbit bounded }
+```
+
+**Manifold Distance:**
+```
+d_𝒫(p₁, p₂) = √(w₁‖z₀,₁ - z₀,₂‖² + w₂‖c₁ - c₂‖² + w₃‖F₁ - F₂‖²_F)
+```
+
+**Timeline:**
+```
+γ(t) = (z₀(t), c(t), F(t))  for t ∈ [0, 1]
+```
+
+---
+
+#### Usage Examples
+
+**Basic Exploration:**
+```python
+from extensions.tenth_dimension_possibility import PossibilityManifold
+
+# Create manifold
+manifold = PossibilityManifold(dim=2)
+
+# Sample and analyze point
+point = manifold.sample_point()
+orbit = manifold.compute_orbit(point, steps=500)
+region = manifold.classify_stability(orbit)
+print(f"Stability: {region.value}")
+```
+
+**Timeline Slicing:**
+```python
+from extensions.tenth_dimension_possibility import TimelineSlicer
+
+slicer = TimelineSlicer(manifold)
+start = manifold.sample_point()
+end = manifold.sample_point()
+
+# Create timeline
+branch = slicer.slice_parameter_line(start, end, n_steps=20)
+
+# Analyze stability changes
+regions = [manifold.classify_stability(orbit) for orbit in branch.orbits]
+bifurcations = [i for i in range(len(regions)-1) if regions[i] != regions[i+1]]
+print(f"Bifurcation points: {bifurcations}")
+```
+
+**Stability Landscape:**
+```python
+from extensions.tenth_dimension_possibility import StabilityClassifier, PossibilityVisualizer
+
+classifier = StabilityClassifier(manifold)
+landscape = classifier.map_stability_landscape(param_range=(-2, 2), resolution=100)
+
+visualizer = PossibilityVisualizer(manifold)
+fig = visualizer.plot_stability_landscape()
+fig.savefig('stability_landscape.png')
+```
+
+**Attractor Hunting:**
+```python
+from extensions.tenth_dimension_possibility import ManifoldMetrics
+
+metrics = ManifoldMetrics(manifold)
+
+for _ in range(100):
+    point = manifold.sample_point()
+    orbit = manifold.compute_orbit(point, steps=1000)
+    lyap = metrics.lyapunov_exponent(orbit)
+    dim = metrics.attractor_dimension(orbit)
+
+    # Strange attractor criteria
+    if 0 < lyap < 0.5 and 1.2 < dim < 2.0:
+        print(f"Strange attractor found! λ={lyap:.3f}, D={dim:.3f}")
+```
+
+---
+
 ## Architecture
 
 ### Module Dependency Graph
@@ -312,11 +697,17 @@ mindfractal/
 ├── simulate.py       (depends: model)
 ├── visualize.py      (depends: model, simulate)
 ├── fractal_map.py    (depends: model, simulate)
-└── mindfractal_cli.py (depends: all)
+└── mindfractal_cli.py (depends: all + tenth_dimension_possibility)
 
 extensions/
 ├── state3d/          (depends: core mindfractal)
 ├── psychomapping/    (depends: core mindfractal)
+├── tenth_dimension_possibility/  (independent, self-contained)
+│   ├── possibility_manifold.py   (no external deps)
+│   ├── possibility_metrics.py    (depends: possibility_manifold)
+│   ├── possibility_slicer.py     (depends: possibility_manifold)
+│   ├── possibility_viewer.py     (depends: all above)
+│   └── possibility_cli.py        (depends: all above)
 ├── gui_kivy/         (depends: core + psychomapping)
 ├── webapp/           (depends: core + psychomapping)
 └── cpp_backend/      (no Python deps, pure C++)
