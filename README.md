@@ -1,20 +1,20 @@
-# 🧠 MindFractal Lab
+# MindFractal Lab
 
-**Fractal Dynamical Consciousness Model - A Scientific Python Package**
+**Fractal Dynamical Consciousness Model — A Scientific Python Package**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
-[![Android Compatible](https://img.shields.io/badge/Android-Compatible-green.svg)](README.md#installation)
+[![Android Compatible](https://img.shields.io/badge/Android-Compatible-green.svg)](#installation)
 
 A complete scientific software system for simulating and analyzing 2D and 3D fractal dynamical systems modeling consciousness states, metastability, and personality traits.
 
-## 🎯 Overview
+---
+
+## Overview
 
 MindFractal Lab implements the discrete-time nonlinear dynamical system:
 
-```
-x_{n+1} = A x_n + B tanh(W x_n) + c
-```
+$$\mathbf{x}_{n+1} = A\mathbf{x}_n + B\tanh(W\mathbf{x}_n) + \mathbf{c}$$
 
 where:
 - **x ∈ ℝ²** (or ℝ³): consciousness state vector
@@ -22,12 +22,34 @@ where:
 - **c ∈ ℝ²**: external drive / personality parameter vector
 
 This model exhibits:
-- ✨ Fixed points, limit cycles, and chaotic attractors
-- 🌀 Fractal basin boundaries (metastable regions)
-- 🎨 Rich bifurcation structure in parameter space
-- 🧬 Trait-to-parameter mappings for personalized modeling
+- Fixed points, limit cycles, and chaotic attractors
+- Fractal basin boundaries (metastable regions)
+- Rich bifurcation structure in parameter space
+- Trait-to-parameter mappings for personalized modeling
 
-## 🚀 Features
+---
+
+## Visualizations
+
+<p align="center">
+  <img src="docs/images/phase_portrait.png" alt="Phase Portrait" width="400">
+  <img src="docs/images/basin.png" alt="Basin of Attraction" width="400">
+</p>
+
+<p align="center">
+  <img src="docs/images/lyapunov_param_space.png" alt="Lyapunov Parameter Space" width="400">
+  <img src="docs/images/attractor_3d.png" alt="3D Attractor" width="400">
+</p>
+
+<p align="center">
+  <img src="docs/images/trajectory_on_basin.gif" alt="Trajectory Animation" width="600">
+</p>
+
+*Run scripts in `examples/` to generate these figures.*
+
+---
+
+## Features
 
 ### Core Capabilities
 - **2D & 3D Models**: Complete dynamics engine with Jacobian, Lyapunov exponents
@@ -36,39 +58,43 @@ This model exhibits:
 - **CLI Interface**: Full command-line control
 
 ### Extensions
-1. **3D State Space**: Extended model with richer dynamics
-2. **Trait Mapping**: Psychological traits → parameter conversion
-3. **Tenth Dimension**: Possibility manifold explorer (𝒫 space)
-4. **Kivy GUI**: Android/desktop interface with sliders
-5. **FastAPI Web App**: Browser-based visualization
-6. **C++ Backend**: 10-100x speedup via pybind11
+| Extension | Description |
+|-----------|-------------|
+| **3D State Space** | Extended model with richer dynamics |
+| **Trait Mapping** | Psychological traits → parameter conversion |
+| **Kivy GUI** | Android/desktop interface with sliders |
+| **FastAPI Web App** | Browser-based visualization |
+| **C++ Backend** | 10-100x speedup via pybind11 |
 
-## 📦 Installation
+---
+
+## Installation
 
 ### PyDroid 3 (Android)
 ```python
-# In PyDroid 3
 import os
 os.system('pip install numpy matplotlib')
-os.system('pip install git+https://github.com/YOUR_USERNAME/mindfractal-lab.git')
+os.system('pip install git+https://github.com/Dezirae-Stark/mindfractal-lab.git')
 ```
 
 ### Termux (Android)
 ```bash
 pkg install python numpy matplotlib git
-git clone https://github.com/YOUR_USERNAME/mindfractal-lab.git
+git clone https://github.com/Dezirae-Stark/mindfractal-lab.git
 cd mindfractal-lab
 pip install -e .
 ```
 
 ### Linux/macOS/Windows
 ```bash
-git clone https://github.com/YOUR_USERNAME/mindfractal-lab.git
+git clone https://github.com/Dezirae-Stark/mindfractal-lab.git
 cd mindfractal-lab
 pip install -e .
 ```
 
-## 🎯 Quick Start
+---
+
+## Quick Start
 
 ### Python API
 ```python
@@ -108,163 +134,93 @@ c = traits_to_parameters(traits)
 model = FractalDynamicsModel(c=c)
 ```
 
-## 📚 Documentation
+---
 
-- **[Scientific Paper](docs/paper.md)**: Mathematical framework and theory
-- **[User Guide](docs/user_guide.md)**: Installation and usage instructions
-- **[Developer Guide](docs/developer.md)**: API reference and architecture
-- **[Architecture](docs/architecture.md)**: System design and diagrams
+## Documentation
 
-## 🏗️ Project Structure
+| Document | Description |
+|----------|-------------|
+| [Scientific Paper](docs/paper.md) | Mathematical framework and theory |
+| [Mathematical Supplement](docs/supplement.md) | Detailed derivations and algorithms |
+| [User Guide](docs/user_guide.md) | Installation and usage instructions |
+| [Developer Guide](docs/developer.md) | API reference and architecture |
+| [Image Embedding](docs/images/README.md) | Markdown snippets for visualizations |
+
+---
+
+## Project Structure
 
 ```
 mindfractal-lab/
 ├── mindfractal/              # Core package
-│   ├── model.py             # 2D fractal dynamics model
-│   ├── simulate.py          # Simulation engine
-│   ├── visualize.py         # Matplotlib plotting
-│   ├── fractal_map.py       # Parameter-space fractals
-│   └── mindfractal_cli.py   # Command-line interface
-├── extensions/              # Optional extensions
-│   ├── state3d/            # 3D model
-│   ├── psychomapping/      # Trait → parameter mapping
-│   ├── gui_kivy/           # Android/desktop GUI
-│   ├── webapp/             # FastAPI web interface
-│   ├── cpp_backend/        # C++ accelerated backend
-│   └── tenth_dimension_possibility/  # Possibility manifold explorer
-├── docs/                   # Documentation
-├── tests/                  # Unit tests
-├── notebooks/              # Jupyter notebooks
-└── README.md              # This file
+│   ├── model.py              # 2D fractal dynamics model
+│   ├── simulate.py           # Simulation engine
+│   ├── visualize.py          # Matplotlib plotting
+│   ├── fractal_map.py        # Parameter-space fractals
+│   └── mindfractal_cli.py    # Command-line interface
+├── extensions/               # Optional extensions
+│   ├── state3d/              # 3D model
+│   ├── psychomapping/        # Trait → parameter mapping
+│   ├── gui_kivy/             # Android/desktop GUI
+│   ├── webapp/               # FastAPI web interface
+│   └── cpp_backend/          # C++ accelerated backend
+├── examples/                 # Figure generation scripts
+│   ├── phase_portrait_script.py
+│   ├── basin_script.py
+│   ├── lyapunov_param_space_script.py
+│   ├── attractor_3d_script.py
+│   └── trajectory_gif_script.py
+├── docs/                     # Documentation
+│   ├── paper.md              # Scientific paper
+│   ├── supplement.md         # Mathematical supplement
+│   └── images/               # Generated figures
+├── tests/                    # Unit tests
+└── notebooks/                # Jupyter notebooks
 ```
 
-## 🔬 Scientific Background
+---
+
+## Scientific Background
 
 This model is grounded in:
-- Dynamical systems theory (chaos, bifurcations, fractals)
-- Computational neuroscience (metastability, attractor dynamics)
-- Complexity science (self-similarity, criticality)
+- **Dynamical systems theory**: chaos, bifurcations, fractals
+- **Computational neuroscience**: metastability, attractor dynamics
+- **Complexity science**: self-similarity, criticality
 
-Key concepts:
-- **Metastability**: Systems near fractal basin boundaries exhibit prolonged transients
-- **Fractal dimensions**: Parameter-space boundaries have fractal dimension D ≈ 1.3-1.8
-- **Lyapunov exponents**: Positive → chaos, zero → periodic, negative → stable
+### Key Concepts
 
-See [docs/paper.md](docs/paper.md) for full mathematical treatment.
+| Concept | Description |
+|---------|-------------|
+| **Metastability** | Systems near fractal basin boundaries exhibit prolonged transients |
+| **Fractal dimension** | Parameter-space boundaries have D ≈ 1.3–1.8 |
+| **Lyapunov exponent** | λ > 0: chaotic, λ = 0: periodic, λ < 0: stable |
 
-## 🎮 Extensions
+See [docs/paper.md](docs/paper.md) for the full mathematical treatment.
 
-### 3D Model
-```python
-from extensions.state3d.model_3d import FractalDynamicsModel3D
-model_3d = FractalDynamicsModel3D()
-```
+---
 
-### Tenth Dimension: Possibility Manifold
-```python
-from extensions.tenth_dimension_possibility import PossibilityManifold
-manifold = PossibilityManifold(dim=2)
-point = manifold.sample_point()
-orbit = manifold.compute_orbit(point, steps=500)
-```
+## Figure Generation
 
-### Web App
-```bash
-python extensions/webapp/app.py
-# Open http://localhost:8000
-```
-
-### C++ Backend (10-100x faster)
-```bash
-cd extensions/cpp_backend
-# See build_instructions.md
-```
-
-## 🌌 Tenth Dimension: Possibility Manifold
-
-The **Tenth Dimension Possibility Module** extends MindFractal Lab with a mathematical formalization of the "tenth dimension" metaphor - the space of all possible dynamical configurations and timelines.
-
-### Mathematical Framework
-
-The **Possibility Manifold** 𝒫 is defined as:
-
-```
-𝒫 = { (z₀, c, F) : z₀ ∈ ℂⁿ, c ∈ ℂⁿ, F: ℂⁿ → ℂⁿ, orbit(z₀, c, F) bounded }
-```
-
-where:
-- **z₀**: Initial state vector
-- **c**: Parameter vector (personality/drive)
-- **F**: Update rule family (TANH_2D, SIGMOID_2D, STATE_3D, CALABI_YAU)
-- **orbit bounded**: No divergence to infinity
-
-### Features
-
-- **Manifold Sampling**: Explore parameter space systematically
-- **Timeline Slicing**: Extract continuous curves γ(t) through 𝒫
-- **Stability Classification**: Automatic categorization (stable, chaotic, divergent, boundary)
-- **Metrics**: Lyapunov exponents, correlation dimension, manifold distance
-- **Visualization**: 2D stability landscapes, timeline branches, Lyapunov heatmaps
-
-### Quick Start
-
-```python
-from extensions.tenth_dimension_possibility import PossibilityManifold, TimelineSlicer
-
-# Create 2D possibility manifold
-manifold = PossibilityManifold(dim=2)
-
-# Sample a point
-point = manifold.sample_point()
-
-# Compute orbit
-orbit = manifold.compute_orbit(point, steps=500)
-
-# Classify stability
-region = manifold.classify_stability(orbit)
-print(f"Stability: {region.value}")
-
-# Create timeline slice
-slicer = TimelineSlicer(manifold)
-start = manifold.sample_point()
-end = manifold.sample_point()
-branch = slicer.slice_parameter_line(start, end, n_steps=20)
-```
-
-### CLI Commands
+Generate all figures for the paper:
 
 ```bash
-# Create timeline slice
-python -m extensions.tenth_dimension_possibility.possibility_cli slice --steps 20 --output timeline.png
+cd mindfractal-lab
 
-# Visualize stability landscape
-python -m extensions.tenth_dimension_possibility.possibility_cli visualize --resolution 100 --output landscape.png
+# Generate static figures
+python examples/phase_portrait_script.py
+python examples/basin_script.py
+python examples/lyapunov_param_space_script.py
+python examples/attractor_3d_script.py
 
-# Generate random orbit
-python -m extensions.tenth_dimension_possibility.possibility_cli random-orbit --steps 500 --output orbit.png
-
-# Map stability boundaries
-python -m extensions.tenth_dimension_possibility.possibility_cli boundary-map --resolution 150 --output boundaries.png
+# Generate animated GIF
+python examples/trajectory_gif_script.py
 ```
 
-### Documentation
+Output files are saved to `docs/images/`.
 
-- **[Mathematical Reference](extensions/tenth_dimension_possibility/td_math_reference.md)**: Complete mathematical foundations
-- **[Tests](extensions/tenth_dimension_possibility/tests/test_possibility.py)**: Comprehensive test suite
+---
 
-### Conceptual Mapping
-
-| Metaphor | Mathematical Object |
-|----------|---------------------|
-| "All possible realities" | Complete parameter space 𝒫 |
-| "Timeline" | Curve γ(t) through 𝒫 |
-| "Branching realities" | Bifurcation points |
-| "Choosing a reality" | Fixing (z₀, c, F) |
-| "Space of possibilities" | Manifold topology |
-
-This extension provides rigorous foundations for exploring the full space of dynamical possibilities - from stable attractors to chaotic trajectories across parameter variations.
-
-## 🧪 Examples
+## Examples
 
 ### Basin of Attraction
 ```python
@@ -284,7 +240,15 @@ from mindfractal.fractal_map import generate_fractal_map
 fractal_data = generate_fractal_map(resolution=500)
 ```
 
-## 🤝 Contributing
+### 3D Model
+```python
+from extensions.state3d.model_3d import FractalDynamicsModel3D
+model_3d = FractalDynamicsModel3D()
+```
+
+---
+
+## Contributing
 
 Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -293,23 +257,29 @@ Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
 3. Make your changes
 4. Submit a pull request
 
-## 📄 License
+---
 
-MIT License - see [LICENSE](LICENSE) for details.
+## License
 
-## 🙏 Acknowledgments
+MIT License — see [LICENSE](LICENSE) for details.
+
+---
+
+## Acknowledgments
 
 - Inspired by dynamical systems research in neuroscience and consciousness studies
 - Built for compatibility with Android (PyDroid 3, Termux)
 - Pure CPU implementation (no GPU dependencies)
 
-## 📞 Contact
+---
 
-- **Issues**: https://github.com/YOUR_USERNAME/mindfractal-lab/issues
-- **Discussions**: https://github.com/YOUR_USERNAME/mindfractal-lab/discussions
+## Contact
+
+- **Issues**: https://github.com/Dezirae-Stark/mindfractal-lab/issues
+- **Discussions**: https://github.com/Dezirae-Stark/mindfractal-lab/discussions
 
 ---
 
-**Version**: 0.1.0  
-**Author**: MindFractal Lab Contributors  
+**Version**: 1.0.0
+**Author**: MindFractal Lab Contributors
 **Status**: Production-ready research software
