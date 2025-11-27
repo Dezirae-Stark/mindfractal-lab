@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 import asyncio
 from enum import Enum
 
-from .core import QuantumAgent, QuantumTask, EntangledMessage, TaskState
+from .core import QuantumAgent, QuantumTask, EntangledMessage, TaskState, AgentState
 
 
 class ProtocolType(Enum):
@@ -191,9 +191,9 @@ class SuperpositionTaskDistribution:
         
         for agent_id, agent in agents.items():
             # Calculate amplitude based on agent state and task priority
-            if agent.state == agent.state.GROUND:
+            if agent.state == AgentState.GROUND:
                 base_amplitude = 0.9
-            elif agent.state == agent.state.EXCITED:
+            elif agent.state == AgentState.EXCITED:
                 base_amplitude = 0.3  # Already busy
             else:
                 base_amplitude = 0.6
@@ -328,7 +328,7 @@ class EntanglementConsensus:
         self.consensus_states[topic] = consensus_state
         
         # Determine if consensus reached
-        consensus_reached = entanglement >= self.entanglement_threshold
+        consensus_reached = bool(entanglement >= self.entanglement_threshold)
         
         # Extract consensus decision
         if consensus_reached:
@@ -374,11 +374,9 @@ class EntanglementConsensus:
             return 0.0
             
         # Estimate entanglement from state distribution
-        entropy = -np.sum(
-            p * np.log(p + 1e-10) 
-            for p in np.abs(state)**2 
-            if p > 1e-10
-        )
+        probs = np.abs(state)**2
+        probs = probs[probs > 1e-10]
+        entropy = -np.sum(probs * np.log(probs + 1e-10))
         
         max_entropy = np.log(2**n_qubits)
         

@@ -354,6 +354,7 @@ class TestMindFractalIntegration:
     async def test_task_orchestration(self):
         """Test general task orchestration"""
         qwamos = MindFractalQWAMOS()
+        await qwamos.initialize()  # Initialize first to create consensus
         
         task = "Analyze the fractal properties of consciousness emergence"
         

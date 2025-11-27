@@ -195,7 +195,7 @@ class EntanglementMatrix:
     def set_entanglement(self, agent1: int, agent2: int, strength: complex):
         """Set entanglement strength between two agents"""
         self.matrix[agent1, agent2] = strength
-        self.matrix[agent2, agent1] = strength.conj()
+        self.matrix[agent2, agent1] = strength.conjugate()
         
     def get_entanglement(self, agent1: int, agent2: int) -> complex:
         """Get entanglement strength between two agents"""
@@ -298,7 +298,7 @@ class CoherenceMetric:
         Uses l1-norm of coherence
         """
         # Convert to density matrix
-        rho = np.outer(state.amplitudes, state.amplitudes.conj())
+        rho = np.outer(state.amplitudes, state.amplitudes.conjugate())
         
         # l1-norm of off-diagonal elements
         coherence = 0.0
@@ -317,7 +317,7 @@ class CoherenceMetric:
         More sophisticated measure
         """
         # Convert to density matrix
-        rho = np.outer(state.amplitudes, state.amplitudes.conj())
+        rho = np.outer(state.amplitudes, state.amplitudes.conjugate())
         
         # Diagonal part (incoherent state)
         rho_diag = np.diag(np.diag(rho))
