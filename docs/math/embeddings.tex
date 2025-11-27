@@ -1,0 +1,409 @@
+% ============================================================================
+% Embeddings — Latent Space Representations
+% MindFractal Lab Mathematical Documentation
+% ============================================================================
+
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{hyperref}
+
+\input{macros}
+
+\title{Embeddings and Latent Spaces}
+\author{MindFractal Lab}
+\date{\today}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We formalize embedding maps from the Possibility Manifold $\Pcal$ and dynamical orbits into lower-dimensional latent spaces. These embeddings enable machine learning analysis, dimensionality reduction, and classification of dynamical behaviors. We develop both linear and nonlinear embedding frameworks.
+\end{abstract}
+
+\tableofcontents
+
+% ----------------------------------------------------------------------------
+\section{Introduction}
+% ----------------------------------------------------------------------------
+
+The high-dimensional spaces of fractal dynamics require dimensionality reduction for:
+\begin{itemize}
+    \item \textbf{Visualization}: Project to 2D/3D for human interpretation
+    \item \textbf{Classification}: Group similar dynamical behaviors
+    \item \textbf{Interpolation}: Navigate between configurations
+    \item \textbf{Generative modeling}: Sample new configurations
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{Embedding Framework}
+% ----------------------------------------------------------------------------
+
+\subsection{Basic Definitions}
+
+\begin{definition}[Embedding Map]
+An embedding is a map $\Phi: \Pcal \to \R^m$ (or $\C^m$) that preserves relevant structure from the Possibility Manifold.
+\end{definition}
+
+\begin{definition}[Latent Space]
+The latent space $\mathcal{L} = \Phi(\Pcal) \subseteq \R^m$ is the image of $\Pcal$ under embedding $\Phi$.
+\end{definition}
+
+\subsection{Desirable Properties}
+
+An ideal embedding satisfies:
+\begin{enumerate}
+    \item \textbf{Injectivity}: $\Phi(p_1) = \Phi(p_2) \Rightarrow p_1 = p_2$ (or approximate)
+    \item \textbf{Continuity}: Small changes in $p$ yield small changes in $\Phi(p)$
+    \item \textbf{Structure preservation}: Nearby points in $\Pcal$ remain nearby in $\mathcal{L}$
+    \item \textbf{Interpretability}: Dimensions in $\mathcal{L}$ have meaningful interpretations
+\end{enumerate}
+
+% ----------------------------------------------------------------------------
+\section{Orbit-Based Embeddings}
+% ----------------------------------------------------------------------------
+
+\subsection{Trajectory Summary Statistics}
+
+\begin{definition}[Statistical Embedding]
+Map orbit to summary statistics:
+\begin{equation}
+    \Phi_{\text{stat}}(p) = \left(\bar{\vz}, \text{Var}(\vz), \lyap, E, \ldots\right)
+    \label{eq:stat_embed}
+\end{equation}
+where:
+\begin{itemize}
+    \item $\bar{\vz} = \frac{1}{N}\sum_{k=0}^{N-1} \vz_k$ is the orbit mean
+    \item $\text{Var}(\vz)$ is component-wise variance
+    \item $\lyap$ is the Lyapunov exponent
+    \item $E$ is energy or other dynamical invariant
+\end{itemize}
+\end{definition}
+
+\subsection{Time-Delay Embedding}
+
+\begin{definition}[Takens Embedding]
+For scalar observable $h: \C^n \to \R$:
+\begin{equation}
+    \Phi_{\text{delay}}(p) = \left(h(\vz_0), h(\vz_\tau), h(\vz_{2\tau}), \ldots, h(\vz_{(d-1)\tau})\right)
+    \label{eq:takens}
+\end{equation}
+with delay $\tau$ and embedding dimension $d$.
+\end{definition}
+
+\begin{theorem}[Takens' Theorem]
+For generic $h$ and sufficiently large $d \geq 2\dim(\Acal) + 1$, the delay embedding is a diffeomorphism onto its image.
+\end{theorem}
+
+\subsection{Recurrence-Based Embedding}
+
+\begin{definition}[Recurrence Quantification]
+Compute recurrence matrix and extract features:
+\begin{equation}
+    R_{ij} = \Theta(\epsilon - \norm{\vz_i - \vz_j})
+\end{equation}
+where $\Theta$ is the Heaviside function. The embedding uses recurrence rate, determinism, entropy, etc.
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Configuration Embeddings}
+% ----------------------------------------------------------------------------
+
+\subsection{Direct Parameter Embedding}
+
+\begin{definition}[Parameter Flattening]
+Flatten configuration to vector:
+\begin{equation}
+    \Phi_{\text{flat}}(p) = \left(\Re(\vz_0), \Im(\vz_0), \Re(\vc), \Im(\vc), \text{index}(F)\right)
+    \label{eq:flat}
+\end{equation}
+\end{definition}
+
+This provides a $4n + 1$ dimensional representation for $n$-dimensional complex dynamics.
+
+\subsection{Feature Engineering}
+
+\begin{definition}[Engineered Features]
+Domain-specific features:
+\begin{equation}
+    \Phi_{\text{eng}}(p) = \left(\norm{\vz_0}, \arg(z_{0,1}), \norm{\vc}, \text{stability}(\vc), \ldots\right)
+\end{equation}
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Learned Embeddings}
+% ----------------------------------------------------------------------------
+
+\subsection{Autoencoder Framework}
+
+\begin{definition}[Autoencoder]
+An autoencoder consists of:
+\begin{align}
+    \text{Encoder}: & \quad \Phi: \Pcal \to \R^m \\
+    \text{Decoder}: & \quad \Psi: \R^m \to \Pcal
+\end{align}
+trained to minimize reconstruction loss:
+\begin{equation}
+    \mathcal{L} = \mathbb{E}_{p \sim \Pcal}\left[\norm{p - \Psi(\Phi(p))}^2\right]
+    \label{eq:ae_loss}
+\end{equation}
+\end{definition}
+
+\subsection{Variational Autoencoder}
+
+\begin{definition}[VAE Embedding]
+The VAE encoder outputs distribution parameters:
+\begin{equation}
+    \Phi_{\text{VAE}}(p) = (\boldsymbol{\mu}(p), \boldsymbol{\sigma}(p))
+\end{equation}
+with latent $\vz \sim \mathcal{N}(\boldsymbol{\mu}, \diag(\boldsymbol{\sigma}^2))$.
+
+The loss includes reconstruction and KL divergence:
+\begin{equation}
+    \mathcal{L}_{\text{VAE}} = \mathcal{L}_{\text{recon}} + \beta \cdot D_{\text{KL}}\left(q(\vz|p) \| p(\vz)\right)
+\end{equation}
+\end{definition}
+
+\subsection{Contrastive Learning}
+
+\begin{definition}[Contrastive Embedding]
+Train embedding such that:
+\begin{itemize}
+    \item Similar configurations have similar embeddings
+    \item Dissimilar configurations have distant embeddings
+\end{itemize}
+
+Loss function (e.g., InfoNCE):
+\begin{equation}
+    \mathcal{L}_{\text{NCE}} = -\log \frac{\exp(\Phi(p)^\top \Phi(p^+) / \tau)}{\sum_{p^-} \exp(\Phi(p)^\top \Phi(p^-) / \tau)}
+    \label{eq:nce}
+\end{equation}
+where $p^+$ is a positive pair and $p^-$ are negatives.
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Dimensionality Reduction}
+% ----------------------------------------------------------------------------
+
+\subsection{Principal Component Analysis}
+
+\begin{definition}[PCA Embedding]
+For data matrix $\mX \in \R^{N \times d}$ with samples as rows:
+\begin{equation}
+    \Phi_{\text{PCA}}(\vx) = \mV_m^\top (\vx - \bar{\vx})
+\end{equation}
+where $\mV_m$ contains top $m$ eigenvectors of covariance matrix $\mC = \frac{1}{N}\mX^\top\mX$.
+\end{definition}
+
+\subsection{t-SNE}
+
+\begin{definition}[t-SNE Embedding]
+Minimize KL divergence between high-dimensional affinities $p_{ij}$ and low-dimensional affinities $q_{ij}$:
+\begin{equation}
+    \mathcal{L}_{\text{t-SNE}} = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}}
+\end{equation}
+where $q_{ij}$ uses Student's t-distribution in the embedding space.
+\end{definition}
+
+\subsection{UMAP}
+
+\begin{definition}[UMAP Embedding]
+Based on fuzzy topological representation:
+\begin{equation}
+    \mathcal{L}_{\text{UMAP}} = \sum_{i,j} \left[p_{ij} \log\frac{p_{ij}}{q_{ij}} + (1-p_{ij}) \log\frac{1-p_{ij}}{1-q_{ij}}\right]
+\end{equation}
+Preserves both local and some global structure.
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Spectral Embeddings}
+% ----------------------------------------------------------------------------
+
+\subsection{Laplacian Eigenmaps}
+
+\begin{definition}[Graph Laplacian Embedding]
+Construct similarity graph with adjacency $W_{ij}$ and degree matrix $D$. Compute eigenvectors of:
+\begin{equation}
+    L\mathbf{v} = \lambda D\mathbf{v}
+\end{equation}
+where $L = D - W$ is the graph Laplacian. Embedding uses smallest nonzero eigenvectors.
+\end{definition}
+
+\subsection{Diffusion Maps}
+
+\begin{definition}[Diffusion Embedding]
+Define diffusion operator $P = D^{-1}W$ and compute eigenvectors:
+\begin{equation}
+    \Phi_{\text{diff}}(p) = (\lambda_1^t \psi_1(p), \lambda_2^t \psi_2(p), \ldots, \lambda_m^t \psi_m(p))
+\end{equation}
+where $t$ is the diffusion time scale.
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Koopman Embeddings}
+% ----------------------------------------------------------------------------
+
+\subsection{Koopman Operator}
+
+\begin{definition}[Koopman Operator]
+For dynamics $\vz\tnp = F(\vz\tn)$, the Koopman operator $\mathcal{K}$ acts on observables:
+\begin{equation}
+    (\mathcal{K}g)(\vz) = g(F(\vz))
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Koopman Spectral Decomposition]
+For suitable observables:
+\begin{equation}
+    g(\vz\tn) = \sum_{j} \langle g, \phi_j \rangle \lambda_j^n \phi_j(\vz_0)
+\end{equation}
+where $\phi_j$ are Koopman eigenfunctions with eigenvalues $\lambda_j$.
+\end{definition}
+
+\subsection{Dynamic Mode Decomposition}
+
+\begin{definition}[DMD Embedding]
+From trajectory data, construct:
+\begin{equation}
+    \mX' \approx \mA \mX
+\end{equation}
+where columns of $\mX$ are states and $\mX'$ are next states. The DMD modes and eigenvalues provide an embedding:
+\begin{equation}
+    \Phi_{\text{DMD}}(\vz) = (\mathbf{v}_1^\top \vz, \mathbf{v}_2^\top \vz, \ldots, \mathbf{v}_m^\top \vz)
+\end{equation}
+where $\mathbf{v}_j$ are DMD modes.
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Classification in Latent Space}
+% ----------------------------------------------------------------------------
+
+\subsection{Stability Classification}
+
+\begin{definition}[Stability Classifier]
+A classifier $C: \R^m \to \{0, 1, 2, 3\}$ trained to predict:
+\begin{equation}
+    C(\Phi(p)) = \begin{cases}
+        0 & \text{stable fixed point} \\
+        1 & \text{limit cycle} \\
+        2 & \text{chaotic} \\
+        3 & \text{divergent}
+    \end{cases}
+\end{equation}
+\end{definition}
+
+\subsection{Attractor Type Prediction}
+
+\begin{definition}[Attractor Classifier]
+Multi-class classification of attractor types based on orbit features:
+\begin{equation}
+    C_{\text{att}}: \Phi(\orbit(p)) \to \{\text{fixed}, \text{cycle}, \text{torus}, \text{strange}\}
+\end{equation}
+\end{definition}
+
+\subsection{Boundary Detection}
+
+\begin{definition}[Boundary Classifier]
+Binary classifier for basin boundary proximity:
+\begin{equation}
+    C_{\text{boundary}}(\Phi(p)) = \begin{cases}
+        1 & \text{if } d(p, \partial\Pcal) < \epsilon \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{equation}
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Generative Models}
+% ----------------------------------------------------------------------------
+
+\subsection{Latent Space Sampling}
+
+\begin{definition}[Configuration Generator]
+Sample new configurations via:
+\begin{enumerate}
+    \item Sample $\vz \sim p(\vz)$ from latent distribution
+    \item Decode: $\hat{p} = \Psi(\vz)$
+    \item Validate: Check $\hat{p} \in \Pcal$
+\end{enumerate}
+\end{definition}
+
+\subsection{Interpolation}
+
+\begin{definition}[Latent Interpolation]
+To interpolate between $p_1, p_2 \in \Pcal$:
+\begin{equation}
+    p(t) = \Psi\left((1-t)\Phi(p_1) + t\Phi(p_2)\right)
+\end{equation}
+\end{definition}
+
+\begin{remark}
+Latent interpolation often produces smoother transitions than direct configuration interpolation, especially near bifurcations.
+\end{remark}
+
+% ----------------------------------------------------------------------------
+\section{Metric Preservation}
+% ----------------------------------------------------------------------------
+
+\subsection{Distortion Measures}
+
+\begin{definition}[Embedding Distortion]
+The distortion of embedding $\Phi$ is:
+\begin{equation}
+    \text{distortion}(\Phi) = \max_{p_1, p_2} \left|\frac{\norm{\Phi(p_1) - \Phi(p_2)}}{\dP(p_1, p_2)} - 1\right|
+\end{equation}
+\end{definition}
+
+\subsection{Stress Function}
+
+\begin{definition}[MDS Stress]
+The stress function measures embedding quality:
+\begin{equation}
+    \text{stress} = \sqrt{\frac{\sum_{i<j}(d_{ij} - \delta_{ij})^2}{\sum_{i<j} d_{ij}^2}}
+\end{equation}
+where $d_{ij} = \dP(p_i, p_j)$ and $\delta_{ij} = \norm{\Phi(p_i) - \Phi(p_j)}$.
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Applications}
+% ----------------------------------------------------------------------------
+
+\subsection{Parameter Space Exploration}
+
+Use embeddings to:
+\begin{itemize}
+    \item Cluster similar parameter regimes
+    \item Identify regions of stability/chaos
+    \item Navigate between dynamical behaviors
+\end{itemize}
+
+\subsection{Model Selection}
+
+\begin{itemize}
+    \item Compare different update rules in shared latent space
+    \item Identify which model best fits observed data
+    \item Transfer knowledge between model families
+\end{itemize}
+
+\subsection{Anomaly Detection}
+
+\begin{itemize}
+    \item Detect configurations far from typical behavior
+    \item Identify transitions between regimes
+    \item Flag numerical instabilities
+\end{itemize}
+
+\end{document}

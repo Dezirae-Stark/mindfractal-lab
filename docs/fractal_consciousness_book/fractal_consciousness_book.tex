@@ -1,0 +1,236 @@
+% ============================================================================
+% Fractal Consciousness: Mathematical Models for Dynamical Mind States
+% A Scientific Book
+% MindFractal Lab
+% ============================================================================
+
+\documentclass[11pt, twoside, openright]{book}
+
+% ----------------------------------------------------------------------------
+% Packages
+% ----------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Page geometry
+\geometry{
+    a4paper,
+    left=30mm,
+    right=25mm,
+    top=30mm,
+    bottom=30mm
+}
+
+% Colors
+\definecolor{fractalblue}{RGB}{30, 90, 150}
+\definecolor{fractalred}{RGB}{180, 60, 60}
+\definecolor{fractalgold}{RGB}{180, 140, 40}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=fractalblue,
+    citecolor=fractalred,
+    urlcolor=fractalgold
+}
+
+% Headers
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\leftmark}
+\fancyhead[RO]{\rightmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Custom commands (from macros.tex)
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\Bcal}{\mathcal{B}}
+\newcommand{\Acal}{\mathcal{A}}
+\newcommand{\Fcal}{\mathcal{F}}
+\newcommand{\vx}{\mathbf{x}}
+\newcommand{\vz}{\mathbf{z}}
+\newcommand{\vc}{\mathbf{c}}
+\newcommand{\vzero}{\mathbf{0}}
+\newcommand{\mA}{\mathbf{A}}
+\newcommand{\mB}{\mathbf{B}}
+\newcommand{\mW}{\mathbf{W}}
+\newcommand{\mU}{\mathbf{U}}
+\newcommand{\mH}{\mathbf{H}}
+\newcommand{\mI}{\mathbf{I}}
+\newcommand{\mJ}{\mathbf{J}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\sech}{\operatorname{sech}}
+\newcommand{\orbit}{\operatorname{orbit}}
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\had}{\odot}
+\newcommand{\lyap}{\lambda}
+\newcommand{\xstar}{\vx^*}
+\newcommand{\zstar}{\vz^*}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dP}{d_{\Pcal}}
+
+% Book info
+\title{
+    \Huge\textbf{Fractal Consciousness} \\[1em]
+    \LARGE Mathematical Models for Dynamical Mind States \\[2em]
+    \large A Scientific Framework for Nonlinear Psychology
+}
+\author{
+    \Large MindFractal Lab Contributors \\[1em]
+    \normalsize \url{https://github.com/Dezirae-Stark/mindfractal-lab}
+}
+\date{\today \\ Version 1.0.0}
+
+% ============================================================================
+\begin{document}
+% ============================================================================
+
+\frontmatter
+
+% Title page
+\maketitle
+
+% Copyright page
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+\textcopyright{} 2025 MindFractal Lab Contributors \\[1em]
+Licensed under the MIT License \\[2em]
+\textit{This is a mathematical and computational framework.} \\
+\textit{It is not a clinical or diagnostic tool.}
+\end{center}
+\vspace*{\fill}
+\newpage
+
+% Preface
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+This book presents a mathematical framework for modeling consciousness states, mental dynamics, and personality-dependent behavior using nonlinear dynamical systems theory. The core idea is simple: mental states can be represented as points in a state space, and their evolution can be described by deterministic (or stochastic) maps that exhibit rich dynamical behaviors including fixed points, limit cycles, chaos, and fractal basin boundaries.
+
+The framework draws inspiration from:
+\begin{itemize}
+    \item \textbf{Dynamical systems theory}: Chaos, bifurcations, attractors
+    \item \textbf{Computational neuroscience}: Metastability, attractor networks
+    \item \textbf{Complex systems science}: Self-organization, criticality
+    \item \textbf{Calabi-Yau geometry}: Complex structure, higher dimensions
+\end{itemize}
+
+\textbf{Important Disclaimers:}
+\begin{enumerate}
+    \item This is a \emph{conceptual model}, not a literal theory of brain physics
+    \item The ``tenth dimension'' interpretation is metaphorical, providing intuitive language for mathematical constructs
+    \item The framework is for research and education, not clinical diagnosis
+    \item All code and theory are provided under MIT License for open exploration
+\end{enumerate}
+
+We hope this book serves as both a mathematical reference and an invitation to explore the intersection of dynamical systems and consciousness research.
+
+\vspace{2em}
+\noindent\textit{The MindFractal Lab Team} \\
+\textit{November 2025}
+
+% Table of contents
+\tableofcontents
+
+% List of figures (optional)
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+
+% ============================================================================
+\mainmatter
+% ============================================================================
+
+\include{chapters/01_intro}
+\include{chapters/02_base_models}
+\include{chapters/03_cy_dynamics}
+\include{chapters/04_possibility_manifold}
+\include{chapters/05_tenth_dimension_metaphor}
+\include{chapters/06_ml_embeddings}
+\include{chapters/07_visualization_and_interfaces}
+\include{chapters/08_future_work}
+
+% ============================================================================
+\backmatter
+% ============================================================================
+
+% Bibliography
+\chapter*{Bibliography}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\begin{thebibliography}{99}
+
+\bibitem{strogatz2018}
+Strogatz, S. H. (2018). \emph{Nonlinear Dynamics and Chaos} (2nd ed.). CRC Press.
+
+\bibitem{ott2002}
+Ott, E. (2002). \emph{Chaos in Dynamical Systems} (2nd ed.). Cambridge University Press.
+
+\bibitem{kantz2004}
+Kantz, H., \& Schreiber, T. (2004). \emph{Nonlinear Time Series Analysis} (2nd ed.). Cambridge University Press.
+
+\bibitem{tognoli2014}
+Tognoli, E., \& Kelso, J. A. S. (2014). The metastable brain. \emph{Neuron}, 81(1), 35-48.
+
+\bibitem{freeman2005}
+Freeman, W. J., \& Holmes, M. D. (2005). Metastability, instability, and state transition in neocortex. \emph{Neural Networks}, 18(5-6), 497-504.
+
+\bibitem{chialvo2010}
+Chialvo, D. R. (2010). Emergent complex neural dynamics. \emph{Nature Physics}, 6(10), 744-750.
+
+\bibitem{breakspear2017}
+Breakspear, M. (2017). Dynamic models of large-scale brain activity. \emph{Nature Neuroscience}, 20(3), 340-352.
+
+\bibitem{mandelbrot1982}
+Mandelbrot, B. B. (1982). \emph{The Fractal Geometry of Nature}. W.H. Freeman.
+
+\bibitem{milnor2006}
+Milnor, J. (2006). \emph{Dynamics in One Complex Variable} (3rd ed.). Princeton University Press.
+
+\bibitem{hubner2006}
+H\"ubner, A., et al. (2006). Calabi-Yau Manifolds: A Bestiary for Physicists. In \emph{String Theory and Fundamental Interactions}. Springer.
+
+\end{thebibliography}
+
+% Index (optional)
+\chapter*{Index}
+\addcontentsline{toc}{chapter}{Index}
+\textit{Index entries would be generated by the \texttt{makeindex} tool.}
+
+% ============================================================================
+\end{document}
+% ============================================================================
