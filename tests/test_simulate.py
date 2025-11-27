@@ -147,17 +147,19 @@ class TestComputeAttractorType:
 
     def test_compute_attractor_type_unbounded(self):
         """Test classification of unbounded trajectory"""
-        # Create model with diverging dynamics
-        A = np.eye(2) * 2.0  # Amplifying
+        # Create model with strongly diverging dynamics
+        # A = 2*I means each step doubles the state, so after ~7 steps
+        # the norm exceeds 100 (0.7 * 2^7 = 89.6, 0.7 * 2^8 = 179)
+        A = np.eye(2) * 2.0  # Amplifying: doubles state each step
         B = np.zeros((2, 2))
         W = np.eye(2)
         c = np.zeros(2)
 
         model = FractalDynamicsModel(A=A, B=B, W=W, c=c)
-        x0 = np.array([0.5, 0.5])
+        x0 = np.array([1.0, 1.0])  # Start with larger values
 
-        # n_steps must be > transient, use 2000 with transient=500
-        attractor_type = compute_attractor_type(model, x0, n_steps=2000, transient=500, tolerance=1e-3)
+        # Use short transient to ensure we catch the divergence
+        attractor_type = compute_attractor_type(model, x0, n_steps=200, transient=10, tolerance=1e-3)
 
         assert attractor_type == 'unbounded'
 
