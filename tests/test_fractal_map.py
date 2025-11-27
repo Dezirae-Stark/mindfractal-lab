@@ -80,15 +80,17 @@ class TestGenerateFractalMap:
 
     def test_generate_fractal_map_attractor_type(self):
         """Test fractal map with attractor_type criterion"""
+        # Note: attractor_type criterion internally uses compute_attractor_type
+        # which requires n_steps > transient (default 1000), so max_steps must be > 1000
         fractal_data = generate_fractal_map(
-            resolution=8,
+            resolution=5,
             c1_range=(-0.3, 0.3),
             c2_range=(-0.3, 0.3),
             criterion='attractor_type',
-            max_steps=100
+            max_steps=1500
         )
 
-        assert fractal_data.shape == (8, 8)
+        assert fractal_data.shape == (5, 5)
         # Attractor types are integers: 0, 1, 2, 3, or -1
         assert np.all((fractal_data >= -1) & (fractal_data <= 3))
 
