@@ -20,13 +20,12 @@ setup(
         "Topic :: Scientific/Engineering :: Physics",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     install_requires=[
         "numpy>=1.19.0",
         "matplotlib>=3.3.0",
@@ -35,6 +34,7 @@ setup(
         "dev": [
             "pytest>=6.0",
             "pytest-cov>=2.10",
+            "pytest-asyncio>=0.21.0",
         ],
         "gui": [
             "kivy>=2.0.0",

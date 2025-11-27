@@ -15,8 +15,8 @@ import sys
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from mindfractal import FractalDynamicsModel
-from mindfractal.simulate import simulate_trajectory
-from mindfractal.visualize import create_phase_portrait
+from mindfractal.simulate import simulate_orbit
+from mindfractal.visualize import plot_orbit
 
 from .core import QWAMOSEngine, QuantumTask, TaskState
 from .agents import (
