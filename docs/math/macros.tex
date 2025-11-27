@@ -1,0 +1,132 @@
+% ============================================================================
+% MindFractal Lab — LaTeX Macros
+% Common mathematical notation for the Fractal Consciousness Model
+% ============================================================================
+
+% ----------------------------------------------------------------------------
+% Number Sets and Spaces
+% ----------------------------------------------------------------------------
+\newcommand{\R}{\mathbb{R}}                     % Real numbers
+\newcommand{\C}{\mathbb{C}}                     % Complex numbers
+\newcommand{\Z}{\mathbb{Z}}                     % Integers
+\newcommand{\N}{\mathbb{N}}                     % Natural numbers
+
+% State/parameter spaces
+\newcommand{\Pcal}{\mathcal{P}}                 % Possibility manifold
+\newcommand{\Bcal}{\mathcal{B}}                 % Basin of attraction
+\newcommand{\Acal}{\mathcal{A}}                 % Attractor set
+\newcommand{\Tcal}{\mathcal{T}}                 % Timeline space
+\newcommand{\Fcal}{\mathcal{F}}                 % Function family
+
+% ----------------------------------------------------------------------------
+% Vectors and Matrices
+% ----------------------------------------------------------------------------
+\newcommand{\vx}{\mathbf{x}}                    % State vector (real)
+\newcommand{\vz}{\mathbf{z}}                    % State vector (complex)
+\newcommand{\vc}{\mathbf{c}}                    % Parameter vector
+\newcommand{\veta}{\boldsymbol{\eta}}           % Noise vector
+\newcommand{\vzero}{\mathbf{0}}                 % Zero vector
+
+\newcommand{\mA}{\mathbf{A}}                    % Linear feedback matrix
+\newcommand{\mB}{\mathbf{B}}                    % Nonlinear coupling matrix
+\newcommand{\mW}{\mathbf{W}}                    % Weight matrix
+\newcommand{\mU}{\mathbf{U}}                    % Unitary matrix
+\newcommand{\mH}{\mathbf{H}}                    % Hermitian matrix
+\newcommand{\mI}{\mathbf{I}}                    % Identity matrix
+\newcommand{\mJ}{\mathbf{J}}                    % Jacobian matrix
+
+% ----------------------------------------------------------------------------
+% Operators and Functions
+% ----------------------------------------------------------------------------
+\newcommand{\diag}{\operatorname{diag}}         % Diagonal operator
+\newcommand{\sech}{\operatorname{sech}}         % Hyperbolic secant
+\newcommand{\orbit}{\operatorname{orbit}}       % Orbit function
+\newcommand{\sgn}{\operatorname{sgn}}           % Sign function
+\newcommand{\tr}{\operatorname{tr}}             % Trace
+\newcommand{\rank}{\operatorname{rank}}         % Rank
+\newcommand{\spec}{\operatorname{spec}}         % Spectrum
+
+% Norms
+\newcommand{\norm}[1]{\left\| #1 \right\|}      % Generic norm
+\newcommand{\abs}[1]{\left| #1 \right|}         % Absolute value
+
+% Element-wise product (Hadamard)
+\newcommand{\had}{\odot}                        % Hadamard product
+
+% ----------------------------------------------------------------------------
+% Dynamical Systems Notation
+% ----------------------------------------------------------------------------
+\newcommand{\lyap}{\lambda}                     % Lyapunov exponent
+\newcommand{\lyapmax}{\lambda_{\max}}           % Maximum Lyapunov exponent
+\newcommand{\lyapspec}{\boldsymbol{\lambda}}    % Lyapunov spectrum
+
+% Fixed point notation
+\newcommand{\xstar}{\vx^*}                      % Fixed point (real)
+\newcommand{\zstar}{\vz^*}                      % Fixed point (complex)
+
+% Time indices
+\newcommand{\tn}{_{n}}                          % Time n subscript
+\newcommand{\tnp}{_{n+1}}                       % Time n+1 subscript
+
+% ----------------------------------------------------------------------------
+% Calabi-Yau Extension Notation
+% ----------------------------------------------------------------------------
+\newcommand{\CY}{\text{CY}}                     % Calabi-Yau abbreviation
+\newcommand{\eps}{\varepsilon}                  % Epsilon for nonlinearity
+
+% Update rules
+\newcommand{\Ftanh}{F_{\tanh}}                  % Tanh update rule
+\newcommand{\Fsigmoid}{F_{\sigma}}              % Sigmoid update rule
+\newcommand{\Fthree}{F_{3D}}                    % 3D update rule
+\newcommand{\Fcy}{F_{\CY}}                      % CY update rule
+
+% ----------------------------------------------------------------------------
+% Metric and Distance Notation
+% ----------------------------------------------------------------------------
+\newcommand{\dP}{d_{\Pcal}}                     % Distance on possibility manifold
+\newcommand{\dH}{d_H}                           % Hausdorff distance
+\newcommand{\dimH}{\dim_H}                      % Hausdorff dimension
+\newcommand{\dimB}{\dim_B}                      % Box-counting dimension
+
+% ----------------------------------------------------------------------------
+% Common Expressions
+% ----------------------------------------------------------------------------
+% State update equation
+\newcommand{\stateupdate}{\vx\tnp = \mA\vx\tn + \mB\tanh(\mW\vx\tn) + \vc}
+
+% Complex state update
+\newcommand{\cstateupdate}{\vz\tnp = \mU\vz\tn + \eps(\vz\tn \had \vz\tn) + \vc}
+
+% Jacobian expression
+\newcommand{\jacobian}{\mJ(\vx) = \mA + \mB \cdot \diag\left(\sech^2(\mW\vx)\right) \cdot \mW}
+
+% Lyapunov exponent limit
+\newcommand{\lyaplimit}{\lyap = \lim_{n \to \infty} \frac{1}{n} \sum_{k=0}^{n-1} \log \norm{\mJ(\vx_k)}}
+
+% Possibility manifold definition
+\newcommand{\Pdef}{\Pcal = \left\{ (\vz_0, \vc, F) : \orbit(\vz_0, \vc, F) \text{ bounded} \right\}}
+
+% ----------------------------------------------------------------------------
+% Psychological Trait Mapping
+% ----------------------------------------------------------------------------
+\newcommand{\traitO}{O}                         % Openness
+\newcommand{\traitV}{V}                         % Volatility
+\newcommand{\traitI}{I}                         % Integration
+\newcommand{\traitF}{F}                         % Focus
+
+% ----------------------------------------------------------------------------
+% Theorem Environments (requires amsthm)
+% ----------------------------------------------------------------------------
+% \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{proposition}[theorem]{Proposition}
+% \newtheorem{corollary}[theorem]{Corollary}
+% \theoremstyle{definition}
+% \newtheorem{definition}[theorem]{Definition}
+% \newtheorem{example}[theorem]{Example}
+% \theoremstyle{remark}
+% \newtheorem{remark}[theorem]{Remark}
+
+% ============================================================================
+% End of Macros
+% ============================================================================

@@ -1,0 +1,332 @@
+% ============================================================================
+% Chapter 2: Base Models
+% ============================================================================
+
+\chapter{Base Dynamical Models}
+\label{ch:base_models}
+
+This chapter presents the foundational 2D and 3D real-valued dynamical systems that form the core of the MindFractal framework.
+
+% ----------------------------------------------------------------------------
+\section{The 2D Fractal Dynamics Model}
+% ----------------------------------------------------------------------------
+
+\subsection{Model Definition}
+
+\begin{definition}[2D Fractal Dynamics]
+The 2D fractal dynamics model is the discrete-time map $f: \R^2 \to \R^2$:
+\begin{equation}
+    \vx_{n+1} = f(\vx_n) = \mA\vx_n + \mB\tanh(\mW\vx_n) + \vc
+    \label{eq:2d_map}
+\end{equation}
+where:
+\begin{align}
+    \vx_n &= \begin{pmatrix} x_1 \\ x_2 \end{pmatrix} \in \R^2 && \text{(state vector)} \\
+    \mA &\in \R^{2 \times 2} && \text{(linear feedback matrix)} \\
+    \mB &\in \R^{2 \times 2} && \text{(nonlinear coupling matrix)} \\
+    \mW &\in \R^{2 \times 2} && \text{(weight matrix)} \\
+    \vc &\in \R^2 && \text{(external drive)}
+\end{align}
+and $\tanh$ is applied element-wise.
+\end{definition}
+
+\subsection{Default Parameters}
+
+The default configuration producing rich dynamics:
+\begin{equation}
+    \mA = \begin{pmatrix} 0.9 & 0 \\ 0 & 0.9 \end{pmatrix}, \quad
+    \mB = \begin{pmatrix} 0.2 & 0.3 \\ 0.3 & 0.2 \end{pmatrix}, \quad
+    \mW = \begin{pmatrix} 1.0 & 0.1 \\ 0.1 & 1.0 \end{pmatrix}
+\end{equation}
+
+These parameters ensure:
+\begin{itemize}
+    \item $\rho(\mA) = 0.9 < 1$: Bounded linear dynamics
+    \item Off-diagonal coupling in $\mB$: Component interaction
+    \item Near-identity $\mW$: Local nonlinear response
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{Component Analysis}
+% ----------------------------------------------------------------------------
+
+\subsection{Linear Term: $\mA\vx$}
+
+The linear term provides:
+\begin{itemize}
+    \item \textbf{Contraction}: $\rho(\mA) < 1$ ensures bounded trajectories
+    \item \textbf{Rotation}: Off-diagonal elements induce spiraling
+    \item \textbf{Timescale}: $\log(1/\rho(\mA))$ sets relaxation rate
+\end{itemize}
+
+\begin{proposition}
+If $\rho(\mA) < 1$, then for the linear system $\vx_{n+1} = \mA\vx_n$:
+\begin{equation}
+    \lim_{n \to \infty} \vx_n = \vzero
+\end{equation}
+with exponential convergence rate $\rho(\mA)$.
+\end{proposition}
+
+\subsection{Nonlinear Term: $\mB\tanh(\mW\vx)$}
+
+The hyperbolic tangent provides:
+\begin{itemize}
+    \item \textbf{Saturation}: $\tanh(u) \to \pm 1$ as $u \to \pm\infty$
+    \item \textbf{Sigmoidal response}: Smooth transition between extremes
+    \item \textbf{Neural analogy}: Similar to activation functions in neural networks
+\end{itemize}
+
+Key properties of $\tanh$:
+\begin{align}
+    \tanh(0) &= 0 \\
+    \frac{d}{du}\tanh(u) &= \sech^2(u) = 1 - \tanh^2(u) \\
+    \sech^2(0) &= 1, \quad \sech^2(u) \to 0 \text{ as } |u| \to \infty
+\end{align}
+
+\subsection{External Drive: $\vc$}
+
+The constant drive vector:
+\begin{itemize}
+    \item Shifts the fixed point location
+    \item Acts as bifurcation parameter
+    \item Represents environmental context or personality traits
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{Fixed Point Analysis}
+% ----------------------------------------------------------------------------
+
+\subsection{Fixed Point Equation}
+
+A fixed point $\xstar$ satisfies:
+\begin{equation}
+    \xstar = \mA\xstar + \mB\tanh(\mW\xstar) + \vc
+\end{equation}
+
+Rearranging:
+\begin{equation}
+    (\mI - \mA)\xstar = \mB\tanh(\mW\xstar) + \vc
+    \label{eq:fp_implicit}
+\end{equation}
+
+Since $\mI - \mA$ is invertible when $1 \notin \sigma(\mA)$:
+\begin{equation}
+    \xstar = (\mI - \mA)^{-1}\left[\mB\tanh(\mW\xstar) + \vc\right]
+\end{equation}
+
+This implicit equation is solved numerically via Newton's method.
+
+\subsection{Newton's Method for Fixed Points}
+
+\begin{algorithm}[H]
+\caption{Newton's Method for Fixed Points}
+\begin{algorithmic}[1]
+\STATE Initialize $\vx^{(0)} = (\mI - \mA)^{-1}\vc$
+\FOR{$k = 0, 1, 2, \ldots$ until convergence}
+    \STATE $g(\vx) = \vx - \mA\vx - \mB\tanh(\mW\vx) - \vc$
+    \STATE $\mJ_g = \mI - \mA - \mB \cdot \diag(\sech^2(\mW\vx^{(k)})) \cdot \mW$
+    \STATE $\vx^{(k+1)} = \vx^{(k)} - \mJ_g^{-1} g(\vx^{(k)})$
+\ENDFOR
+\RETURN $\xstar = \vx^{(k)}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Jacobian Matrix}
+
+\begin{theorem}[Jacobian of the Dynamics]
+The Jacobian of $f$ at $\vx$ is:
+\begin{equation}
+    \mJ(\vx) = \mA + \mB \cdot \diag\left(\sech^2(\mW\vx)\right) \cdot \mW
+    \label{eq:jacobian}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The derivative of the linear term is $\mA$. For the nonlinear term, using the chain rule:
+\begin{align}
+    \frac{\partial}{\partial \vx}\left[\mB\tanh(\mW\vx)\right]
+    &= \mB \cdot \frac{\partial}{\partial \vx}\tanh(\mW\vx) \\
+    &= \mB \cdot \diag\left(\frac{d\tanh}{du}\bigg|_{u=\mW\vx}\right) \cdot \mW \\
+    &= \mB \cdot \diag\left(\sech^2(\mW\vx)\right) \cdot \mW
+\end{align}
+\end{proof}
+
+\subsection{Stability Criterion}
+
+\begin{theorem}[Linear Stability]
+A fixed point $\xstar$ is locally asymptotically stable if and only if all eigenvalues $\mu_i$ of $\mJ(\xstar)$ satisfy:
+\begin{equation}
+    |\mu_i| < 1 \quad \forall i
+\end{equation}
+\end{theorem}
+
+\begin{definition}[Fixed Point Classification]
+Based on eigenvalues of $\mJ(\xstar)$:
+\begin{itemize}
+    \item \textbf{Stable node}: All $|\mu_i| < 1$, all real
+    \item \textbf{Stable spiral}: Complex conjugate pair with $|\mu| < 1$
+    \item \textbf{Saddle}: Mixed $|\mu| < 1$ and $|\mu| > 1$
+    \item \textbf{Unstable}: At least one $|\mu| > 1$
+\end{itemize}
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Lyapunov Exponents}
+% ----------------------------------------------------------------------------
+
+\subsection{Definition}
+
+\begin{definition}[Largest Lyapunov Exponent]
+The largest Lyapunov exponent quantifies average exponential divergence of nearby trajectories:
+\begin{equation}
+    \lyap = \lim_{n \to \infty} \frac{1}{n} \sum_{k=0}^{n-1} \log \norm{\mJ(\vx_k)}
+    \label{eq:lyap}
+\end{equation}
+\end{definition}
+
+\subsection{Interpretation}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cll}
+\toprule
+$\lyap$ & Dynamics & Psychological Interpretation \\
+\midrule
+$< 0$ & Stable & Focused, convergent thinking \\
+$\approx 0$ & Neutral/Periodic & Rhythmic, cyclic patterns \\
+$> 0$ & Chaotic & Creative, divergent thinking \\
+\bottomrule
+\end{tabular}
+\caption{Lyapunov exponent interpretation}
+\end{table}
+
+\subsection{Computational Algorithm}
+
+\begin{algorithm}[H]
+\caption{Lyapunov Exponent Computation}
+\begin{algorithmic}[1]
+\STATE Initialize $\vx \leftarrow \vx_0$, $\mathbf{v} \leftarrow$ random unit vector, $S \leftarrow 0$
+\STATE Transient: iterate $N_{\text{trans}}$ times without accumulating
+\FOR{$k = 1$ to $N$}
+    \STATE $\mJ \leftarrow \mA + \mB \cdot \diag(\sech^2(\mW\vx)) \cdot \mW$
+    \STATE $\mathbf{v} \leftarrow \mJ \cdot \mathbf{v}$
+    \STATE $S \leftarrow S + \log\norm{\mathbf{v}}$
+    \STATE $\mathbf{v} \leftarrow \mathbf{v} / \norm{\mathbf{v}}$
+    \STATE $\vx \leftarrow f(\vx)$
+\ENDFOR
+\RETURN $\lyap = S / N$
+\end{algorithmic}
+\end{algorithm}
+
+% ----------------------------------------------------------------------------
+\section{Attractor Types}
+% ----------------------------------------------------------------------------
+
+\subsection{Fixed Point Attractors}
+
+When $\lyap < 0$, trajectories converge to a stable fixed point.
+
+\textbf{Psychological interpretation}: Persistent mood states, stable attention focus, meditative equilibrium.
+
+\subsection{Limit Cycles}
+
+Periodic orbits with $\vx_{n+p} = \vx_n$ for period $p$.
+
+\textbf{Psychological interpretation}: Rumination, mood cycling, circadian patterns.
+
+\subsection{Strange Attractors}
+
+Bounded, aperiodic dynamics with $\lyap > 0$ and fractal structure.
+
+\textbf{Psychological interpretation}: Creative flow, rapid association, flexible cognition.
+
+% ----------------------------------------------------------------------------
+\section{Basin of Attraction}
+% ----------------------------------------------------------------------------
+
+\begin{definition}[Basin of Attraction]
+The basin of attraction of attractor $\Acal$:
+\begin{equation}
+    \Bcal(\Acal) = \left\{ \vx_0 : \lim_{n \to \infty} f^n(\vx_0) \in \Acal \right\}
+\end{equation}
+\end{definition}
+
+\subsection{Fractal Boundaries}
+
+When multiple attractors coexist, basin boundaries often exhibit:
+\begin{itemize}
+    \item Self-similar structure at all scales
+    \item Non-integer box-counting dimension
+    \item Sensitive dependence on initial conditions
+\end{itemize}
+
+\textbf{Psychological interpretation}: Near basin boundaries, small perturbations can trigger large state changes---analogous to mood instability or decision thresholds.
+
+% ----------------------------------------------------------------------------
+\section{The 3D Extension}
+% ----------------------------------------------------------------------------
+
+\subsection{3D Model Definition}
+
+\begin{definition}[3D Fractal Dynamics]
+The 3D extension:
+\begin{equation}
+    \vx_{n+1} = \mA\vx_n + \mB\tanh(\mW\vx_n) + \vc, \quad \vx \in \R^3
+\end{equation}
+with default parameters:
+\begin{equation}
+    \mA = 0.9\mI_3, \quad
+    \mB = \begin{pmatrix} 0.2 & 0.1 & 0.1 \\ 0.1 & 0.2 & 0.1 \\ 0.1 & 0.1 & 0.2 \end{pmatrix}
+\end{equation}
+\end{definition}
+
+\subsection{Lyapunov Spectrum}
+
+In 3D, we compute three Lyapunov exponents $\lyap_1 \geq \lyap_2 \geq \lyap_3$:
+\begin{itemize}
+    \item $\lyap_1 > 0$, $\lyap_2 < 0$, $\lyap_3 < 0$: Chaos
+    \item $\lyap_1 > 0$, $\lyap_2 > 0$: Hyperchaos
+    \item $\lyap_1 \approx 0$: Quasiperiodic torus
+\end{itemize}
+
+\subsection{3D Visualization}
+
+3D dynamics enable:
+\begin{itemize}
+    \item Richer attractor geometry (strange attractors with 3D structure)
+    \item More complex bifurcation sequences
+    \item Higher-dimensional parameter exploration
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{Energy Function}
+% ----------------------------------------------------------------------------
+
+\begin{definition}[Energy]
+An energy-like function for monitoring state:
+\begin{equation}
+    E(\vx) = \norm{\vx}^2
+\end{equation}
+\end{definition}
+
+This is not a Lyapunov function in the strict sense but provides useful diagnostics:
+\begin{itemize}
+    \item $E$ bounded $\Rightarrow$ trajectory bounded
+    \item $E$ increasing $\Rightarrow$ potential escape
+    \item $E$ oscillating $\Rightarrow$ periodic or quasiperiodic dynamics
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{Summary}
+% ----------------------------------------------------------------------------
+
+The base models provide:
+\begin{enumerate}
+    \item A minimal nonlinear map with rich dynamics
+    \item Rigorous fixed point and stability analysis
+    \item Lyapunov characterization of dynamical regimes
+    \item Fractal basin boundaries enabling metastability
+    \item Natural extension to 3D with richer spectrum
+\end{enumerate}
+
+These real-valued models form the foundation for the complex extensions in Chapter 3.

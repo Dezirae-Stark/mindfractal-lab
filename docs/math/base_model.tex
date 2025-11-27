@@ -1,0 +1,378 @@
+% ============================================================================
+% Base Model — 2D/3D Real Fractal Dynamics
+% MindFractal Lab Mathematical Documentation
+% ============================================================================
+
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{hyperref}
+
+\input{macros}
+
+\title{Base Fractal Dynamics Model}
+\author{MindFractal Lab}
+\date{\today}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This document defines the base 2D and 3D real-valued fractal dynamical systems used in MindFractal Lab. We present the discrete-time nonlinear maps, derive stability conditions, characterize attractor types, and formalize the Lyapunov exponent framework.
+\end{abstract}
+
+\tableofcontents
+
+% ----------------------------------------------------------------------------
+\section{Introduction}
+% ----------------------------------------------------------------------------
+
+The base model is a discrete-time nonlinear dynamical system that exhibits rich behavior including fixed points, limit cycles, chaotic attractors, and fractal basin boundaries. The model is designed to be:
+
+\begin{itemize}
+    \item \textbf{Minimal}: Small number of parameters for interpretability
+    \item \textbf{Complete}: Captures essential nonlinear phenomena
+    \item \textbf{Computationally tractable}: Efficient simulation and analysis
+    \item \textbf{Extensible}: Natural generalization to higher dimensions
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{Model Definition}
+% ----------------------------------------------------------------------------
+
+\subsection{2D Dynamical System}
+
+\begin{definition}[2D Fractal Dynamics Map]
+The 2D fractal dynamics model is defined by the discrete-time map $f: \R^2 \to \R^2$:
+\begin{equation}
+    \vx\tnp = f(\vx\tn) = \mA\vx\tn + \mB\tanh(\mW\vx\tn) + \vc
+    \label{eq:base_map}
+\end{equation}
+where:
+\begin{itemize}
+    \item $\vx\tn \in \R^2$ is the state vector at discrete time $n \in \N$
+    \item $\mA \in \R^{2 \times 2}$ is the linear feedback matrix
+    \item $\mB \in \R^{2 \times 2}$ is the nonlinear coupling matrix
+    \item $\mW \in \R^{2 \times 2}$ is the weight matrix
+    \item $\vc \in \R^2$ is the external drive (control parameter)
+    \item $\tanh(\cdot)$ is applied element-wise
+\end{itemize}
+\end{definition}
+
+\subsection{Default Parameters}
+
+The default parameter configuration that produces rich dynamics is:
+\begin{equation}
+    \mA = \begin{pmatrix} 0.9 & 0 \\ 0 & 0.9 \end{pmatrix}, \quad
+    \mB = \begin{pmatrix} 0.2 & 0.3 \\ 0.3 & 0.2 \end{pmatrix}, \quad
+    \mW = \begin{pmatrix} 1.0 & 0.1 \\ 0.1 & 1.0 \end{pmatrix}
+    \label{eq:default_params}
+\end{equation}
+
+\subsection{3D Extension}
+
+\begin{definition}[3D Fractal Dynamics Map]
+The 3D extension follows the same structure with $\vx \in \R^3$:
+\begin{equation}
+    \vx\tnp = \mA\vx\tn + \mB\tanh(\mW\vx\tn) + \vc
+    \label{eq:3d_map}
+\end{equation}
+with default parameters:
+\begin{equation}
+    \mA = 0.9\mI_3, \quad
+    \mB = \begin{pmatrix} 0.2 & 0.1 & 0.1 \\ 0.1 & 0.2 & 0.1 \\ 0.1 & 0.1 & 0.2 \end{pmatrix}, \quad
+    \vc = \begin{pmatrix} 0.1 \\ 0.1 \\ 0.1 \end{pmatrix}
+\end{equation}
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Component Interpretation}
+% ----------------------------------------------------------------------------
+
+\subsection{Linear Term: $\mA\vx\tn$}
+
+The linear term encodes intrinsic decay or amplification:
+\begin{itemize}
+    \item \textbf{Diagonal elements} ($A_{ii}$): Self-feedback of each component
+    \item \textbf{Off-diagonal elements} ($A_{ij}, i \neq j$): Cross-coupling between components
+    \item \textbf{Spectral condition}: Bounded dynamics require $\rho(\mA) < 1$ where $\rho$ denotes spectral radius
+\end{itemize}
+
+\begin{proposition}[Boundedness of Linear Part]
+If $\rho(\mA) < 1$, then the linear system $\vx\tnp = \mA\vx\tn$ is globally asymptotically stable with $\lim_{n \to \infty} \vx\tn = \vzero$.
+\end{proposition}
+
+\subsection{Nonlinear Term: $\mB\tanh(\mW\vx\tn)$}
+
+The nonlinear term provides:
+\begin{itemize}
+    \item \textbf{Saturation}: Bounded output via $\tanh(\cdot) \in (-1, 1)^d$
+    \item \textbf{Neural-like activation}: Sigmoidal response to inputs
+    \item \textbf{Multistability}: Enables coexistence of multiple attractors
+\end{itemize}
+
+The weight matrix $\mW$ determines input sensitivity, while $\mB$ distributes the nonlinear output.
+
+\subsection{External Drive: $\vc$}
+
+The constant drive vector represents:
+\begin{itemize}
+    \item Environmental context or external input
+    \item Personality traits (via trait-to-parameter mapping)
+    \item Primary bifurcation parameter for fractal structure analysis
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{Fixed Point Analysis}
+% ----------------------------------------------------------------------------
+
+\subsection{Fixed Point Equation}
+
+\begin{definition}[Fixed Point]
+A fixed point $\xstar$ satisfies:
+\begin{equation}
+    \xstar = f(\xstar) = \mA\xstar + \mB\tanh(\mW\xstar) + \vc
+    \label{eq:fixed_point}
+\end{equation}
+\end{definition}
+
+Rearranging yields the implicit equation:
+\begin{equation}
+    (\mI - \mA)\xstar = \mB\tanh(\mW\xstar) + \vc
+    \label{eq:fixed_point_implicit}
+\end{equation}
+
+\begin{remark}
+Equation~\eqref{eq:fixed_point_implicit} is solved numerically via Newton's method with initial guess $\vx_0 = (\mI - \mA)^{-1}\vc$ (the fixed point of the linear part plus constant).
+\end{remark}
+
+\subsection{Jacobian Matrix}
+
+\begin{theorem}[Jacobian of the Dynamics Map]
+The Jacobian of $f$ at state $\vx$ is:
+\begin{equation}
+    \mJ(\vx) = \pdv{f}{\vx} = \mA + \mB \cdot \diag\left(\sech^2(\mW\vx)\right) \cdot \mW
+    \label{eq:jacobian}
+\end{equation}
+where $\sech^2(u) = 1 - \tanh^2(u)$ and $\diag(\cdot)$ constructs a diagonal matrix.
+\end{theorem}
+
+\begin{proof}
+Using the chain rule:
+\begin{align}
+    \pdv{}{\vx}\left[\mB\tanh(\mW\vx)\right] &= \mB \cdot \pdv{}{\vx}\tanh(\mW\vx) \\
+    &= \mB \cdot \diag\left(\pdv{}{\vx}\tanh(\mW\vx)\right) \cdot \mW \\
+    &= \mB \cdot \diag\left(\sech^2(\mW\vx)\right) \cdot \mW
+\end{align}
+Adding the linear term derivative $\pdv{}{\vx}[\mA\vx] = \mA$ gives \eqref{eq:jacobian}.
+\end{proof}
+
+\subsection{Linear Stability Criterion}
+
+\begin{theorem}[Local Stability of Fixed Points]
+A fixed point $\xstar$ is locally asymptotically stable if and only if all eigenvalues $\mu_i$ of $\mJ(\xstar)$ satisfy:
+\begin{equation}
+    \abs{\mu_i} < 1 \quad \forall i \in \{1, \ldots, d\}
+    \label{eq:stability}
+\end{equation}
+\end{theorem}
+
+\begin{definition}[Fixed Point Classification]
+Based on the eigenvalues $\{\mu_i\}$ of $\mJ(\xstar)$:
+\begin{itemize}
+    \item \textbf{Stable node}: All $\abs{\mu_i} < 1$, all real
+    \item \textbf{Stable spiral}: Complex conjugate pair with $\abs{\mu} < 1$
+    \item \textbf{Saddle}: Mixed $\abs{\mu} < 1$ and $\abs{\mu} > 1$
+    \item \textbf{Unstable node/spiral}: At least one $\abs{\mu} > 1$
+\end{itemize}
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Lyapunov Exponent Analysis}
+% ----------------------------------------------------------------------------
+
+\subsection{Definition}
+
+\begin{definition}[Largest Lyapunov Exponent]
+The largest Lyapunov exponent $\lyap$ quantifies the average exponential rate of separation of nearby trajectories:
+\begin{equation}
+    \lyap = \lim_{n \to \infty} \frac{1}{n} \sum_{k=0}^{n-1} \log \norm{\mJ(\vx_k)}
+    \label{eq:lyap_def}
+\end{equation}
+\end{definition}
+
+More precisely, using tangent vector evolution:
+\begin{equation}
+    \lyap = \lim_{n \to \infty} \frac{1}{n} \log \norm{\prod_{k=0}^{n-1} \mJ(\vx_k)}
+    \label{eq:lyap_product}
+\end{equation}
+
+\subsection{Computational Algorithm}
+
+\begin{enumerate}
+    \item Initialize tangent vector $\mathbf{v}_0$ with unit norm
+    \item For each iteration $k$:
+    \begin{enumerate}
+        \item Evolve: $\mathbf{v}_{k+1} = \mJ(\vx_k)\mathbf{v}_k$
+        \item Record: $s_k = \log\norm{\mathbf{v}_{k+1}}$
+        \item Renormalize: $\mathbf{v}_{k+1} \leftarrow \mathbf{v}_{k+1} / \norm{\mathbf{v}_{k+1}}$
+    \end{enumerate}
+    \item Estimate: $\lyap \approx \frac{1}{n}\sum_{k=0}^{n-1} s_k$
+\end{enumerate}
+
+\subsection{Dynamical Classification}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Lyapunov Exponent} & \textbf{Dynamics} & \textbf{Behavior} \\
+\hline
+$\lyap < 0$ & Stable & Convergence to fixed point \\
+$\lyap \approx 0$ & Neutral & Periodic or quasiperiodic orbit \\
+$\lyap > 0$ & Chaotic & Sensitive dependence on initial conditions \\
+\hline
+\end{tabular}
+\caption{Dynamical classification by Lyapunov exponent}
+\label{tab:lyap_class}
+\end{table}
+
+\subsection{Full Lyapunov Spectrum}
+
+In $d$ dimensions, the full Lyapunov spectrum $\{\lyap_1, \lyap_2, \ldots, \lyap_d\}$ is computed via QR decomposition of the tangent map product. The spectrum is ordered: $\lyap_1 \geq \lyap_2 \geq \cdots \geq \lyap_d$.
+
+\begin{definition}[Hyperchaos]
+A system exhibits \emph{hyperchaos} if at least two Lyapunov exponents are positive:
+\begin{equation}
+    \lyap_1 > 0 \quad \text{and} \quad \lyap_2 > 0
+\end{equation}
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Attractor Classification}
+% ----------------------------------------------------------------------------
+
+\subsection{Fixed Point Attractors}
+
+Stable equilibria satisfying $\lyap < 0$.
+
+\textbf{Condition}: All eigenvalues of $\mJ(\xstar)$ have modulus less than 1.
+
+\subsection{Limit Cycles}
+
+Periodic orbits with period $p$: $f^p(\vx) = \vx$.
+
+\textbf{Condition}: $\lyap \approx 0$ with exactly one zero exponent (along the orbit direction).
+
+\subsection{Quasiperiodic Attractors (Tori)}
+
+Motion on invariant tori with $k$ incommensurate frequencies.
+
+\textbf{Condition}: $k$ zero Lyapunov exponents with remaining exponents negative.
+
+\subsection{Chaotic (Strange) Attractors}
+
+Aperiodic, bounded dynamics with fractal structure.
+
+\textbf{Condition}: $\lyap_1 > 0$ with bounded trajectories.
+
+% ----------------------------------------------------------------------------
+\section{Basin of Attraction}
+% ----------------------------------------------------------------------------
+
+\begin{definition}[Basin of Attraction]
+The basin of attraction of an attractor $\Acal$ is:
+\begin{equation}
+    \Bcal(\Acal) = \left\{ \vx_0 \in \R^d : \lim_{n \to \infty} f^n(\vx_0) \in \Acal \right\}
+    \label{eq:basin}
+\end{equation}
+\end{definition}
+
+\subsection{Fractal Basin Boundaries}
+
+When multiple attractors coexist, basin boundaries often exhibit fractal structure characterized by:
+\begin{enumerate}
+    \item \textbf{Self-similarity}: Patterns repeat at multiple scales
+    \item \textbf{Non-integer dimension}: Box-counting dimension $D \in (1, 2)$ for 2D systems
+    \item \textbf{Sensitivity}: Initial conditions near boundaries yield unpredictable outcomes
+\end{enumerate}
+
+\subsection{Box-Counting Dimension}
+
+\begin{definition}[Box-Counting Dimension]
+The box-counting dimension of a set $S$ is:
+\begin{equation}
+    \dimB(S) = \lim_{\epsilon \to 0} \frac{\log N(\epsilon)}{\log(1/\epsilon)}
+    \label{eq:box_dim}
+\end{equation}
+where $N(\epsilon)$ is the number of boxes of side $\epsilon$ needed to cover $S$.
+\end{definition}
+
+A basin boundary $\partial\Bcal$ is fractal if $\dimB(\partial\Bcal) > d - 1$.
+
+% ----------------------------------------------------------------------------
+\section{Parameter-Space Fractals}
+% ----------------------------------------------------------------------------
+
+Varying the control parameter $\vc$ reveals rich bifurcation structure in parameter space.
+
+\begin{definition}[Lyapunov Exponent Map]
+The parameter-space Lyapunov map $\Lambda: \R^2 \to \R$ is:
+\begin{equation}
+    \Lambda(c_1, c_2) = \lyap(\vx_0; c_1, c_2)
+    \label{eq:lyap_map}
+\end{equation}
+where $\lyap$ is computed with fixed initial condition $\vx_0$ and varying $\vc = (c_1, c_2)^T$.
+\end{definition}
+
+The resulting visualization reveals:
+\begin{itemize}
+    \item \textbf{Stability regions}: Parameter sets leading to $\lyap < 0$
+    \item \textbf{Chaotic regions}: Parameter sets yielding $\lyap > 0$
+    \item \textbf{Fractal boundaries}: Self-similar bifurcation frontiers
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{Metastability}
+% ----------------------------------------------------------------------------
+
+\begin{definition}[Metastable Regime]
+A trajectory is in a metastable regime if it dwells near a saddle point or basin boundary for extended time before settling to an attractor.
+\end{definition}
+
+The characteristic dwell time scales as:
+\begin{equation}
+    \tau \sim d(\vx_0, \partial\Bcal)^{-\alpha}
+    \label{eq:dwell}
+\end{equation}
+where $d(\vx_0, \partial\Bcal)$ is the distance to the basin boundary and $\alpha > 0$ depends on local geometry.
+
+% ----------------------------------------------------------------------------
+\section{Energy Function}
+% ----------------------------------------------------------------------------
+
+An energy-like function monitoring system state:
+\begin{equation}
+    E(\vx) = \norm{\vx}^2 + \gamma \norm{\mW\vx}^2
+    \label{eq:energy}
+\end{equation}
+where $\gamma \geq 0$ is a weighting factor.
+
+\begin{remark}
+This is not a Lyapunov function in the strict sense but provides useful diagnostics for trajectory boundedness.
+\end{remark}
+
+\end{document}

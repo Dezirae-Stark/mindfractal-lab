@@ -193,6 +193,69 @@ model = FractalDynamicsModel(c=c)
 
 ---
 
+## Documentation & Website
+
+### GitHub Pages Site
+
+A comprehensive documentation website built with **mkdocs-material**:
+
+- **URL**: https://dezirae-stark.github.io/mindfractal-lab/
+- **Features**:
+  - Full math rendering (MathJax/KaTeX)
+  - Interactive fractal demos (Pyodide)
+  - API reference (Sphinx)
+  - Cosmic/fractal themed styling
+
+### Scientific Book (LaTeX)
+
+A complete LaTeX textbook documenting the entire framework:
+
+```
+docs/fractal_consciousness_book/
+├── fractal_consciousness_book.tex  # Main document
+├── chapters/                       # 8 chapters
+│   ├── 01_intro.tex
+│   ├── 02_base_models.tex
+│   ├── 03_cy_dynamics.tex
+│   ├── 04_possibility_manifold.tex
+│   ├── 05_tenth_dimension_metaphor.tex
+│   ├── 06_ml_embeddings.tex
+│   ├── 07_visualization_and_interfaces.tex
+│   └── 08_future_work.tex
+└── Makefile                        # Build with: make pdf
+```
+
+### LaTeX Math Documents
+
+Formal mathematical specifications:
+
+```
+docs/math/
+├── macros.tex                # Shared notation
+├── base_model.tex            # 2D/3D real dynamics
+├── cy_extension.tex          # Complex CY dynamics
+├── possibility_manifold.tex  # The Possibility Manifold P
+├── embeddings.tex            # ML latent spaces
+└── visualization_algorithms.tex
+```
+
+### Interactive Demos
+
+Browser-based visualization using Pyodide (Python in WebAssembly):
+
+```
+docs/site/interactive/
+├── js/                       # JavaScript controllers
+│   ├── pyodide_bootstrap.js
+│   └── fractal_viewer.js
+└── py/                       # Python computation modules
+    ├── fractal_core.py
+    ├── cy_core.py
+    └── possibility_core.py
+```
+
+---
+
 ## Project Structure
 
 ```
