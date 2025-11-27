@@ -1,0 +1,114 @@
+# ============================================================================
+# MindFractal Lab — LaTeX Book Build Workflow
+# Compiles the Fractal Consciousness Book to PDF
+# ============================================================================
+
+name: Build LaTeX Book
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/fractal_consciousness_book/**'
+      - 'docs/math/**'
+      - '.github/workflows/book_build.yml'
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build-pdf:
+    name: Build PDF
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-science \
+            texlive-pictures \
+            latexmk
+
+      - name: Build Book PDF
+        run: |
+          cd docs/fractal_consciousness_book
+          pdflatex -interaction=nonstopmode fractal_consciousness_book.tex || true
+          pdflatex -interaction=nonstopmode fractal_consciousness_book.tex || true
+          pdflatex -interaction=nonstopmode fractal_consciousness_book.tex
+
+      - name: Check PDF exists
+        run: |
+          if [ -f docs/fractal_consciousness_book/fractal_consciousness_book.pdf ]; then
+            echo "PDF built successfully!"
+            ls -lh docs/fractal_consciousness_book/fractal_consciousness_book.pdf
+          else
+            echo "PDF build failed!"
+            exit 1
+          fi
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fractal-consciousness-book
+          path: docs/fractal_consciousness_book/fractal_consciousness_book.pdf
+          retention-days: 30
+
+      - name: Upload to Release
+        if: github.event_name == 'release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: docs/fractal_consciousness_book/fractal_consciousness_book.pdf
+          asset_name: Fractal_Consciousness_Book_${{ github.event.release.tag_name }}.pdf
+          asset_content_type: application/pdf
+
+  build-math-docs:
+    name: Build Math Documents
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-science
+
+      - name: Build Math PDFs
+        run: |
+          cd docs/math
+          for tex_file in *.tex; do
+            if [ "$tex_file" != "macros.tex" ]; then
+              echo "Building $tex_file..."
+              pdflatex -interaction=nonstopmode "$tex_file" || true
+              pdflatex -interaction=nonstopmode "$tex_file" || true
+            fi
+          done
+
+      - name: List built PDFs
+        run: |
+          echo "Built PDFs:"
+          ls -lh docs/math/*.pdf 2>/dev/null || echo "No PDFs found"
+
+      - name: Upload Math PDFs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: math-documents
+          path: docs/math/*.pdf
+          retention-days: 30
+          if-no-files-found: warn

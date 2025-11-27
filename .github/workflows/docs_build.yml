@@ -1,0 +1,109 @@
+# ============================================================================
+# MindFractal Lab — Documentation Build Workflow
+# Builds MkDocs and Sphinx documentation
+# ============================================================================
+
+name: Build Documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - 'mindfractal/**'
+      - '.github/workflows/docs_build.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+  workflow_dispatch:
+
+jobs:
+  build-mkdocs:
+    name: Build MkDocs Site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install MkDocs dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install mkdocs mkdocs-material pymdown-extensions mkdocs-minify-plugin
+
+      - name: Build MkDocs site
+        run: |
+          mkdocs build --strict
+
+      - name: Upload MkDocs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mkdocs-site
+          path: site/
+          retention-days: 7
+
+  build-sphinx:
+    name: Build Sphinx API Docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Sphinx dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints myst-parser
+          pip install -e .
+
+      - name: Build Sphinx docs
+        run: |
+          cd docs/api_src
+          sphinx-build -b html . ../_build/html
+
+      - name: Upload Sphinx artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sphinx-docs
+          path: docs/_build/html/
+          retention-days: 7
+
+  # Combined build check
+  verify:
+    name: Verify Build
+    runs-on: ubuntu-latest
+    needs: [build-mkdocs, build-sphinx]
+
+    steps:
+      - name: Download MkDocs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mkdocs-site
+          path: mkdocs-site/
+
+      - name: Download Sphinx artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: sphinx-docs
+          path: sphinx-docs/
+
+      - name: Check artifacts
+        run: |
+          echo "MkDocs site contents:"
+          ls -la mkdocs-site/
+          echo ""
+          echo "Sphinx docs contents:"
+          ls -la sphinx-docs/

@@ -504,6 +504,157 @@ def validate_state_vector(x):
 
 ---
 
+## Documentation & Site Architecture
+
+### Documentation Stack
+
+```mermaid
+graph TD
+    A[Source Files] --> B{Format}
+    B -->|Markdown| C[MkDocs Material]
+    B -->|LaTeX| D[LaTeX Book]
+    B -->|Python Docstrings| E[Sphinx AutoAPI]
+    B -->|JS/Python| F[Interactive Demos]
+
+    C --> G[GitHub Pages]
+    D --> H[PDF Artifacts]
+    E --> I[API Reference]
+    F --> J[Pyodide/Browser]
+
+    G --> K[Public Website]
+    H --> K
+    I --> K
+    J --> K
+```
+
+### Mathematical Layer
+
+```
+docs/math/
+├── macros.tex           # Shared notation macros
+├── base_model.tex       # 2D/3D real dynamics
+├── cy_extension.tex     # Complex CY-inspired dynamics
+├── possibility_manifold.tex  # Space of all configurations
+├── embeddings.tex       # ML latent spaces
+└── visualization_algorithms.tex  # Rendering algorithms
+```
+
+### Scientific Book Structure
+
+```
+docs/fractal_consciousness_book/
+├── fractal_consciousness_book.tex  # Main document
+├── chapters/
+│   ├── 01_intro.tex
+│   ├── 02_base_models.tex
+│   ├── 03_cy_dynamics.tex
+│   ├── 04_possibility_manifold.tex
+│   ├── 05_tenth_dimension_metaphor.tex
+│   ├── 06_ml_embeddings.tex
+│   ├── 07_visualization_and_interfaces.tex
+│   └── 08_future_work.tex
+├── images/
+├── Makefile
+└── build_instructions.md
+```
+
+### Interactive Visualization
+
+```mermaid
+graph LR
+    A[Browser] --> B[Pyodide WASM]
+    B --> C[NumPy]
+    B --> D[Matplotlib]
+    B --> E[fractal_core.py]
+    B --> F[cy_core.py]
+    B --> G[possibility_core.py]
+
+    E --> H[Basin Maps]
+    F --> I[Julia/Mandelbrot]
+    G --> J[Timeline Navigation]
+
+    H --> K[Canvas Display]
+    I --> K
+    J --> K
+```
+
+---
+
+## CI/CD Architecture
+
+### GitHub Actions Workflows
+
+```mermaid
+graph TD
+    A[Push to main] --> B{Changed Files}
+
+    B -->|Code| C[tests.yml]
+    B -->|Docs| D[docs_build.yml]
+    B -->|Both| E[pages_deploy.yml]
+    B -->|LaTeX| F[book_build.yml]
+
+    C --> G[pytest]
+    C --> H[Coverage]
+    C --> I[Lint]
+
+    D --> J[MkDocs Build]
+    D --> K[Sphinx Build]
+
+    E --> L[Deploy to Pages]
+
+    F --> M[pdflatex]
+    F --> N[PDF Artifact]
+```
+
+### Workflow Files
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| `tests.yml` | Code changes | Run pytest, lint, type check |
+| `docs_build.yml` | Doc changes | Build MkDocs & Sphinx |
+| `pages_deploy.yml` | Push to main | Deploy to GitHub Pages |
+| `book_build.yml` | Release/manual | Compile LaTeX book to PDF |
+
+---
+
+## Possibility Manifold Architecture
+
+### Mathematical Structure
+
+```mermaid
+graph TD
+    A[Possibility Manifold P] --> B[Initial Conditions Z₀]
+    A --> C[Parameters C]
+    A --> D[Update Rules F]
+
+    B --> E[Complex Space ℂⁿ]
+    C --> E
+    D --> F[Rule Family]
+
+    F --> G[F_tanh: Real dynamics]
+    F --> H[F_CY: Complex CY]
+    F --> I[F_3D: 3D extension]
+
+    E --> J[Bounded Orbits]
+    J --> K[Stability Classification]
+    K --> L[Stable]
+    K --> M[Chaotic]
+    K --> N[Periodic]
+    K --> O[Divergent]
+```
+
+### Tenth Dimension Mapping
+
+| Metaphor | Mathematical Object |
+|----------|-------------------|
+| "All possible realities" | Manifold $\mathcal{P}$ |
+| "Single timeline" | Point $p \in \mathcal{P}$ + orbit |
+| "Branching realities" | Bifurcation points |
+| "Adjacent realities" | Nearby in $d_{\mathcal{P}}$ metric |
+| "Laws of physics" | Update rule $F$ |
+
+---
+
 ## Future Architecture Enhancements
 
 ### Phase 1: Optimization
@@ -528,6 +679,12 @@ def validate_state_vector(x):
 - Computational psychiatry applications
 - Consciousness research experiments
 - Publication and peer review
+
+### Phase 5: Documentation Evolution
+- Full interactive web documentation
+- Video tutorials
+- Jupyter Book integration
+- Multi-language support
 
 ---
 

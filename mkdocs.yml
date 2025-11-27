@@ -1,0 +1,205 @@
+# ============================================================================
+# MindFractal Lab — MkDocs Material Configuration
+# ============================================================================
+
+site_name: MindFractal Lab
+site_url: https://dezirae-stark.github.io/mindfractal-lab/
+site_author: MindFractal Lab Contributors
+site_description: >-
+  Fractal Dynamical Consciousness Model — A scientific Python package for
+  simulating and analyzing fractal dynamical systems modeling consciousness
+  states, metastability, and personality traits.
+
+# Repository
+repo_name: Dezirae-Stark/mindfractal-lab
+repo_url: https://github.com/Dezirae-Stark/mindfractal-lab
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2025 MindFractal Lab Contributors — MIT License
+
+# Theme Configuration
+theme:
+  name: material
+  custom_dir: docs/site/overrides
+
+  # Color palette - Cosmic/Fractal aesthetic
+  palette:
+    # Dark mode (default)
+    - scheme: slate
+      primary: deep purple
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+  # Font
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+  # Features
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.tabs.link
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+    - toc.integrate
+
+  # Icons
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/atom-variant
+
+  # Favicon
+  favicon: assets/favicon.png
+
+  # Language
+  language: en
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - minify:
+      minify_html: true
+
+# Extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: Dezirae-Stark
+      repo: mindfractal-lab
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Math (KaTeX for speed)
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Extra CSS
+extra_css:
+  - stylesheets/extra.css
+
+# Navigation
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Tutorials: getting-started/tutorials.md
+  - Mathematical Foundations:
+    - Overview: math/overview.md
+    - Base Models: math/base-models.md
+    - CY Dynamics: math/cy-dynamics.md
+    - Possibility Manifold: math/possibility-manifold.md
+    - Tenth Dimension: math/tenth-dimension.md
+    - Embeddings: math/embeddings.md
+  - Simulation Playground:
+    - 2D/3D Explorer: playground/explorer.md
+    - CY Slice Viewer: playground/cy-viewer.md
+    - Possibility Navigator: playground/navigator.md
+    - Interactive Demo: playground/interactive.md
+  - ML & Embeddings:
+    - Overview: ml/overview.md
+    - Latent Spaces: ml/latent-spaces.md
+    - Classification: ml/classification.md
+  - API Reference:
+    - Overview: api/index.md
+    - Core Module: api/core.md
+    - Simulation: api/simulation.md
+    - Visualization: api/visualization.md
+    - Extensions: api/extensions.md
+  - Developer Guide:
+    - Architecture: developer/architecture.md
+    - Contributing: developer/contributing.md
+    - Testing: developer/testing.md
+    - CI/CD: developer/ci-cd.md
+  - Research & Publications:
+    - Scientific Paper: research/paper.md
+    - LaTeX Book: research/book.md
+    - Supplement: research/supplement.md
+  - Roadmap: roadmap.md
+
+# Social links
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Dezirae-Stark/mindfractal-lab
+      name: GitHub Repository
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/mindfractal/
+      name: PyPI Package
+
+  # Analytics (optional, fill in tracking ID)
+  # analytics:
+  #   provider: google
+  #   property: G-XXXXXXXXXX
+
+  # Version
+  version:
+    provider: mike
+    default: latest
+
+  # Generator notice
+  generator: false

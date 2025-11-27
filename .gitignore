@@ -78,3 +78,7 @@ output/
 # Documentation build
 docs/_build/
 site/
+
+# Allow MkDocs source files in docs/site/
+!docs/site/
+!docs/site/**

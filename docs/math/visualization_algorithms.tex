@@ -1,0 +1,573 @@
+% ============================================================================
+% Visualization Algorithms
+% MindFractal Lab Mathematical Documentation
+% ============================================================================
+
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\input{macros}
+
+\title{Visualization Algorithms for Fractal Dynamics}
+\author{MindFractal Lab}
+\date{\today}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We present algorithms for visualizing fractal dynamical systems, including fractal slices, Calabi-Yau projections, possibility manifold navigation, and parameter space exploration. These algorithms enable interactive exploration of high-dimensional dynamics through carefully designed 2D and 3D projections.
+\end{abstract}
+
+\tableofcontents
+
+% ----------------------------------------------------------------------------
+\section{Overview}
+% ----------------------------------------------------------------------------
+
+Visualization of fractal dynamics presents unique challenges:
+\begin{itemize}
+    \item High-dimensional state and parameter spaces
+    \item Fractal boundary structure requiring high resolution
+    \item Dynamic behavior requiring trajectory animation
+    \item Multi-scale structure requiring zoom capability
+\end{itemize}
+
+We address these through specialized algorithms for different visualization tasks.
+
+% ----------------------------------------------------------------------------
+\section{Phase Portrait Visualization}
+% ----------------------------------------------------------------------------
+
+\subsection{Single Trajectory}
+
+\begin{algorithm}[H]
+\caption{Plot Single Trajectory}
+\begin{algorithmic}[1]
+\REQUIRE Initial state $\vz_0$, parameters $(\mA, \mB, \mW, \vc)$, iterations $N$
+\ENSURE 2D trajectory plot
+
+\STATE $\vz \leftarrow \vz_0$
+\STATE trajectory $\leftarrow [\vz_0]$
+\FOR{$n = 1$ to $N$}
+    \STATE $\vz \leftarrow \mA\vz + \mB\tanh(\mW\vz) + \vc$
+    \STATE trajectory.append($\vz$)
+\ENDFOR
+\STATE Plot trajectory[:, 0] vs trajectory[:, 1] with color gradient by time
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Phase Space Vector Field}
+
+\begin{algorithm}[H]
+\caption{Vector Field Visualization}
+\begin{algorithmic}[1]
+\REQUIRE Grid bounds $[-L, L]^2$, resolution $n$, parameters
+\ENSURE Vector field plot
+
+\STATE Create grid $(x_i, y_j)$ for $i, j \in \{0, \ldots, n-1\}$
+\FOR{each grid point $\vz = (x_i, y_j)$}
+    \STATE $\vz' \leftarrow f(\vz) - \vz$ \COMMENT{Displacement vector}
+    \STATE Normalize: $\hat{\vz}' \leftarrow \vz' / \max(1, \norm{\vz'})$
+\ENDFOR
+\STATE Plot arrows at grid points with direction $\hat{\vz}'$
+\end{algorithmic}
+\end{algorithm}
+
+% ----------------------------------------------------------------------------
+\section{Basin of Attraction}
+% ----------------------------------------------------------------------------
+
+\subsection{Attractor Classification Grid}
+
+\begin{algorithm}[H]
+\caption{Basin of Attraction Map}
+\begin{algorithmic}[1]
+\REQUIRE Grid bounds $[-L, L]^2$, resolution $n$, max iterations $N_{\max}$
+\ENSURE Color-coded basin map
+
+\STATE Create empty $n \times n$ classification array
+\STATE Identify fixed points $\{\vz^*_k\}$ via Newton's method
+\FOR{$i = 0$ to $n-1$}
+    \FOR{$j = 0$ to $n-1$}
+        \STATE $\vz_0 \leftarrow (-L + 2L \cdot i/n, -L + 2L \cdot j/n)$
+        \STATE $\vz \leftarrow \vz_0$
+        \FOR{$m = 1$ to $N_{\max}$}
+            \STATE $\vz \leftarrow f(\vz)$
+            \IF{$\norm{\vz} > R_{\text{escape}}$}
+                \STATE classification[$i, j$] $\leftarrow -1$ (escaped)
+                \STATE \textbf{break}
+            \ENDIF
+            \FOR{each fixed point $\vz^*_k$}
+                \IF{$\norm{\vz - \vz^*_k} < \epsilon$}
+                    \STATE classification[$i, j$] $\leftarrow k$
+                    \STATE \textbf{break}
+                \ENDIF
+            \ENDFOR
+        \ENDFOR
+    \ENDFOR
+\ENDFOR
+\STATE Assign colors to classification values
+\STATE Display as heatmap
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Boundary Detection}
+
+\begin{algorithm}[H]
+\caption{Fractal Boundary Detection}
+\begin{algorithmic}[1]
+\REQUIRE Basin classification array $C$
+\ENSURE Boundary mask
+
+\STATE boundary $\leftarrow$ zeros\_like($C$)
+\FOR{$i = 1$ to $n-2$}
+    \FOR{$j = 1$ to $n-2$}
+        \STATE neighbors $\leftarrow \{C[i\pm1, j], C[i, j\pm1]\}$
+        \IF{any neighbor $\neq C[i, j]$}
+            \STATE boundary[$i, j$] $\leftarrow 1$
+        \ENDIF
+    \ENDFOR
+\ENDFOR
+\RETURN boundary
+\end{algorithmic}
+\end{algorithm}
+
+% ----------------------------------------------------------------------------
+\section{Lyapunov Exponent Maps}
+% ----------------------------------------------------------------------------
+
+\subsection{Parameter-Space Lyapunov Map}
+
+\begin{algorithm}[H]
+\caption{Lyapunov Parameter Map}
+\begin{algorithmic}[1]
+\REQUIRE Parameter bounds $[-L_c, L_c]^2$, resolution $n$, fixed $\vz_0$
+\ENSURE Lyapunov exponent heatmap
+
+\STATE Create $n \times n$ array $\Lambda$
+\FOR{$i = 0$ to $n-1$}
+    \FOR{$j = 0$ to $n-1$}
+        \STATE $c_1 \leftarrow -L_c + 2L_c \cdot i/n$
+        \STATE $c_2 \leftarrow -L_c + 2L_c \cdot j/n$
+        \STATE $\vc \leftarrow (c_1, c_2)$
+        \STATE $\Lambda[i, j] \leftarrow$ ComputeLyapunov($\vz_0, \vc$)
+    \ENDFOR
+\ENDFOR
+\STATE Apply colormap: blue (stable) $\to$ white (neutral) $\to$ red (chaotic)
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Lyapunov Computation Subroutine}
+
+\begin{algorithm}[H]
+\caption{ComputeLyapunov}
+\begin{algorithmic}[1]
+\REQUIRE Initial state $\vz_0$, parameters, iterations $N$, transient $N_{\text{trans}}$
+\ENSURE Largest Lyapunov exponent $\lambda$
+
+\STATE $\vz \leftarrow \vz_0$
+\STATE $\mathbf{v} \leftarrow$ random unit vector
+\STATE $S \leftarrow 0$
+
+\COMMENT{Transient phase}
+\FOR{$k = 1$ to $N_{\text{trans}}$}
+    \STATE $\vz \leftarrow f(\vz)$
+\ENDFOR
+
+\COMMENT{Lyapunov accumulation}
+\FOR{$k = 1$ to $N$}
+    \STATE $\mJ \leftarrow \mA + \mB \cdot \diag(\sech^2(\mW\vz)) \cdot \mW$
+    \STATE $\mathbf{v} \leftarrow \mJ \cdot \mathbf{v}$
+    \STATE $S \leftarrow S + \log\norm{\mathbf{v}}$
+    \STATE $\mathbf{v} \leftarrow \mathbf{v} / \norm{\mathbf{v}}$
+    \STATE $\vz \leftarrow f(\vz)$
+\ENDFOR
+
+\RETURN $\lambda = S / N$
+\end{algorithmic}
+\end{algorithm}
+
+% ----------------------------------------------------------------------------
+\section{Fractal Slice Visualization}
+% ----------------------------------------------------------------------------
+
+\subsection{Mandelbrot-Style Slice}
+
+\begin{algorithm}[H]
+\caption{Mandelbrot-Style Parameter Slice}
+\begin{algorithmic}[1]
+\REQUIRE Complex parameter bounds, resolution $n$, max iterations $N_{\max}$
+\ENSURE Escape-time colored fractal
+
+\STATE Create $n \times n$ array escape\_time
+\FOR{$i = 0$ to $n-1$}
+    \FOR{$j = 0$ to $n-1$}
+        \STATE $c \leftarrow$ complex(bounds, $i$, $j$)
+        \STATE $\vc \leftarrow$ embed\_parameter($c$)
+        \STATE $\vz \leftarrow \vz_0$
+        \FOR{$m = 1$ to $N_{\max}$}
+            \STATE $\vz \leftarrow f(\vz; \vc)$
+            \IF{$\norm{\vz} > R_{\text{escape}}$}
+                \STATE escape\_time[$i, j$] $\leftarrow m$
+                \STATE \textbf{break}
+            \ENDIF
+        \ENDFOR
+        \IF{not escaped}
+            \STATE escape\_time[$i, j$] $\leftarrow N_{\max}$
+        \ENDIF
+    \ENDFOR
+\ENDFOR
+\STATE Apply smooth coloring: color($m$) = palette($m + 1 - \log_2(\log_2(\norm{\vz}))$)
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Julia-Style Slice}
+
+\begin{algorithm}[H]
+\caption{Julia Set Slice}
+\begin{algorithmic}[1]
+\REQUIRE Fixed parameter $\vc$, initial condition bounds, resolution $n$
+\ENSURE Julia set visualization
+
+\COMMENT{Similar to Mandelbrot but varying $\vz_0$ instead of $\vc$}
+\FOR{each grid point $(x, y)$}
+    \STATE $\vz_0 \leftarrow (x, y)$
+    \STATE Iterate with fixed $\vc$
+    \STATE Color by escape time or attractor reached
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+% ----------------------------------------------------------------------------
+\section{CY Projection Algorithms}
+% ----------------------------------------------------------------------------
+
+\subsection{Complex to Real Projection}
+
+\begin{definition}[CY Projection Methods]
+For $\vz \in \C^k$, define projections to $\R^2$:
+\begin{align}
+    P_{\text{Re-Im}}(\vz) &= (\Re(z_1), \Im(z_1)) \\
+    P_{\text{mag-phase}}(\vz) &= (\abs{z_1}, \arg(z_1)) \\
+    P_{\text{stereo}}(\vz) &= \text{stereographic}(z_1 / z_2)
+\end{align}
+\end{definition}
+
+\begin{algorithm}[H]
+\caption{CY Slice Viewer}
+\begin{algorithmic}[1]
+\REQUIRE CY dynamics parameters, slice specification
+\ENSURE 2D visualization of CY dynamics
+
+\STATE Choose projection $P: \C^k \to \R^2$
+\STATE Fix all but 2 complex dimensions
+\FOR{each point in 2D slice}
+    \STATE Embed into $\C^k$
+    \STATE Iterate CY dynamics
+    \STATE Classify: bounded/escaped/attractor type
+    \STATE Color accordingly
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Multi-Slice Animation}
+
+\begin{algorithm}[H]
+\caption{CY Multi-Slice Animation}
+\begin{algorithmic}[1]
+\REQUIRE Slice parameter range $[s_{\min}, s_{\max}]$, number of frames $N_f$
+\ENSURE Animation of slice evolution
+
+\FOR{$k = 0$ to $N_f - 1$}
+    \STATE $s \leftarrow s_{\min} + (s_{\max} - s_{\min}) \cdot k / (N_f - 1)$
+    \STATE Compute slice at parameter $s$
+    \STATE Render frame $k$
+\ENDFOR
+\STATE Compile frames into animation
+\end{algorithmic}
+\end{algorithm}
+
+% ----------------------------------------------------------------------------
+\section{Possibility Manifold Navigator}
+% ----------------------------------------------------------------------------
+
+\subsection{Manifold Exploration Interface}
+
+\begin{algorithm}[H]
+\caption{Possibility Navigator}
+\begin{algorithmic}[1]
+\REQUIRE Current configuration $p = (\vz_0, \vc, F)$
+\ENSURE Interactive exploration interface
+
+\LOOP
+    \STATE Display current orbit visualization
+    \STATE Show Lyapunov exponent and stability classification
+    \STATE Show position in parameter space
+
+    \STATE Read user input: $\Delta\vz_0$, $\Delta\vc$, or $\Delta F$
+    \STATE $p' \leftarrow p + (\Delta\vz_0, \Delta\vc, \Delta F)$
+
+    \IF{$p' \in \Pcal$}
+        \STATE $p \leftarrow p'$
+        \STATE Animate transition from old to new orbit
+    \ELSE
+        \STATE Display warning: configuration escapes
+    \ENDIF
+\ENDLOOP
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Timeline Visualization}
+
+\begin{algorithm}[H]
+\caption{Timeline Path Visualization}
+\begin{algorithmic}[1]
+\REQUIRE Start configuration $p_0$, end configuration $p_1$, steps $N$
+\ENSURE Visualization of timeline $\gamma: p_0 \to p_1$
+
+\FOR{$k = 0$ to $N$}
+    \STATE $t \leftarrow k / N$
+    \STATE $p(t) \leftarrow (1-t)p_0 + t p_1$
+    \STATE Compute orbit from $p(t)$
+    \STATE Plot projected orbit in subplot $k$
+    \STATE Record Lyapunov exponent
+\ENDFOR
+\STATE Plot Lyapunov exponent vs $t$
+\STATE Highlight bifurcations where $\lambda$ changes sign
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Branching Visualization}
+
+\begin{algorithm}[H]
+\caption{Bifurcation Branch Visualization}
+\begin{algorithmic}[1]
+\REQUIRE Bifurcation point $p^*$, perturbation directions $\{\mathbf{v}_k\}$
+\ENSURE Visualization of branching structure
+
+\STATE Plot orbit at $p^*$
+\FOR{each direction $\mathbf{v}_k$}
+    \FOR{$\epsilon \in \{-\delta, -\delta/2, \delta/2, \delta\}$}
+        \STATE $p' \leftarrow p^* + \epsilon \mathbf{v}_k$
+        \STATE Compute and plot orbit from $p'$ (semi-transparent)
+    \ENDFOR
+\ENDFOR
+\STATE Color-code by attractor reached
+\end{algorithmic}
+\end{algorithm}
+
+% ----------------------------------------------------------------------------
+\section{3D Visualization}
+% ----------------------------------------------------------------------------
+
+\subsection{3D Attractor Rendering}
+
+\begin{algorithm}[H]
+\caption{3D Attractor Visualization}
+\begin{algorithmic}[1]
+\REQUIRE 3D dynamics model, initial state $\vz_0$, iterations $N$
+\ENSURE 3D trajectory plot
+
+\STATE trajectory $\leftarrow$ []
+\STATE $\vz \leftarrow \vz_0$
+\FOR{$n = 1$ to $N$}
+    \STATE $\vz \leftarrow f(\vz)$
+    \STATE trajectory.append($\vz$)
+\ENDFOR
+\STATE Plot 3D line with color gradient by iteration
+\STATE Add rotation animation for interactive viewing
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{3D Basin Slices}
+
+\begin{algorithm}[H]
+\caption{3D Basin Visualization}
+\begin{algorithmic}[1]
+\REQUIRE 3D state bounds, resolution $n$, slice positions
+\ENSURE Stacked 2D slices or isosurface
+
+\COMMENT{Option 1: Stacked slices}
+\FOR{$z$ in slice\_positions}
+    \STATE Compute 2D basin at $z = \text{const}$
+    \STATE Render as textured plane at height $z$
+\ENDFOR
+
+\COMMENT{Option 2: Isosurface}
+\STATE Compute 3D Lyapunov field on grid
+\STATE Extract isosurface at $\lambda = 0$
+\STATE Render using marching cubes
+\end{algorithmic}
+\end{algorithm}
+
+% ----------------------------------------------------------------------------
+\section{Animation Algorithms}
+% ----------------------------------------------------------------------------
+
+\subsection{Trajectory Animation}
+
+\begin{algorithm}[H]
+\caption{Animated Trajectory}
+\begin{algorithmic}[1]
+\REQUIRE Trajectory data, background (basin map), frame rate
+\ENSURE Animated GIF/video
+
+\STATE Render background image
+\FOR{frame $k = 1$ to $N_{\text{frames}}$}
+    \STATE $i_{\text{end}} \leftarrow k \cdot N / N_{\text{frames}}$
+    \STATE Plot trajectory[0:$i_{\text{end}}$] on background
+    \STATE Mark current point with symbol
+    \STATE Save frame
+\ENDFOR
+\STATE Compile frames to animation
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Parameter Sweep Animation}
+
+\begin{algorithm}[H]
+\caption{Parameter Sweep Animation}
+\begin{algorithmic}[1]
+\REQUIRE Parameter path $\vc(t)$ for $t \in [0, 1]$, frames $N_f$
+\ENSURE Animation showing dynamics evolution
+
+\FOR{$k = 0$ to $N_f - 1$}
+    \STATE $t \leftarrow k / (N_f - 1)$
+    \STATE $\vc \leftarrow \vc(t)$
+    \STATE Compute representative orbit
+    \STATE Render phase portrait
+    \STATE Overlay parameter value indicator
+    \STATE Save frame
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+% ----------------------------------------------------------------------------
+\section{Coloring Schemes}
+% ----------------------------------------------------------------------------
+
+\subsection{Escape Time Coloring}
+
+\begin{definition}[Smooth Escape Time]
+For escape at iteration $n$ with final state $\vz_n$:
+\begin{equation}
+    \nu = n + 1 - \frac{\log(\log\norm{\vz_n})}{\log 2}
+\end{equation}
+Map $\nu$ to color via palette.
+\end{definition}
+
+\subsection{Lyapunov Coloring}
+
+\begin{definition}[Lyapunov Color Map]
+Map Lyapunov exponent to color:
+\begin{equation}
+    \text{color}(\lambda) = \begin{cases}
+        \text{blue}(|\lambda|) & \lambda < 0 \\
+        \text{white} & \lambda \approx 0 \\
+        \text{red}(\lambda) & \lambda > 0
+    \end{cases}
+\end{equation}
+\end{definition}
+
+\subsection{Orbit Trap Coloring}
+
+\begin{definition}[Orbit Trap]
+Color by minimum distance to geometric shape $S$:
+\begin{equation}
+    d_{\min} = \min_{k} d(\vz_k, S)
+\end{equation}
+Common shapes: circles, lines, crosses, grids.
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Performance Optimization}
+% ----------------------------------------------------------------------------
+
+\subsection{GPU Parallelization}
+
+Key parallelization strategies:
+\begin{itemize}
+    \item Each pixel computed independently (embarrassingly parallel)
+    \item Use GPU shaders for real-time rendering
+    \item Batch trajectory computations across parameter grid
+\end{itemize}
+
+\subsection{Progressive Rendering}
+
+\begin{algorithm}[H]
+\caption{Progressive Refinement}
+\begin{algorithmic}[1]
+\REQUIRE Target resolution $n$
+\ENSURE Progressively refined image
+
+\FOR{level $L = 2, 4, 8, \ldots, n$}
+    \STATE Compute at resolution $L \times L$
+    \STATE Display upscaled result
+    \STATE Allow user interaction (zoom, pan)
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Caching}
+
+\begin{itemize}
+    \item Cache fixed point locations
+    \item Cache Lyapunov exponents for parameter grid
+    \item Use memoization for repeated computations
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{WebGL/WebGPU Implementation}
+% ----------------------------------------------------------------------------
+
+\subsection{Shader-Based Rendering}
+
+\begin{definition}[Fragment Shader Structure]
+For web-based visualization:
+\begin{verbatim}
+uniform vec2 c;          // Parameter
+uniform mat2 A, B, W;    // System matrices
+varying vec2 uv;         // Pixel coordinates
+
+void main() {
+    vec2 z = uv * scale + offset;
+    int escape = 0;
+    for (int i = 0; i < MAX_ITER; i++) {
+        z = A * z + B * tanh(W * z) + c;
+        if (length(z) > ESCAPE_R) {
+            escape = i;
+            break;
+        }
+    }
+    gl_FragColor = palette(escape);
+}
+\end{verbatim}
+\end{definition}
+
+\subsection{Interactive Controls}
+
+\begin{itemize}
+    \item Mouse drag: pan view
+    \item Scroll: zoom in/out
+    \item Click: show orbit from point
+    \item Sliders: adjust parameters in real-time
+\end{itemize}
+
+\end{document}

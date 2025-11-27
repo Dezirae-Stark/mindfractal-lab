@@ -1,0 +1,348 @@
+% ============================================================================
+% Chapter 6: Machine Learning and Embeddings
+% ============================================================================
+
+\chapter{Machine Learning Embeddings}
+\label{ch:ml_embeddings}
+
+This chapter develops machine learning approaches for analyzing, navigating, and generating configurations in the Possibility Manifold.
+
+% ----------------------------------------------------------------------------
+\section{Motivation}
+% ----------------------------------------------------------------------------
+
+The Possibility Manifold $\Pcal$ is high-dimensional and complex. ML provides tools for:
+
+\begin{itemize}
+    \item \textbf{Dimensionality reduction}: Project to interpretable spaces
+    \item \textbf{Classification}: Categorize dynamical behaviors
+    \item \textbf{Generation}: Sample new configurations
+    \item \textbf{Navigation}: Find paths through possibility space
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{Embedding Framework}
+% ----------------------------------------------------------------------------
+
+\subsection{Basic Definition}
+
+\begin{definition}[Embedding Map]
+An embedding $\Phi: \Pcal \to \R^m$ maps configurations to a latent space preserving relevant structure.
+\end{definition}
+
+\subsection{Desirable Properties}
+
+\begin{enumerate}
+    \item \textbf{Injectivity}: Different configurations map to different embeddings
+    \item \textbf{Continuity}: Nearby configurations have nearby embeddings
+    \item \textbf{Interpretability}: Latent dimensions have meaning
+    \item \textbf{Computability}: Efficient to compute
+\end{enumerate}
+
+% ----------------------------------------------------------------------------
+\section{Orbit-Based Embeddings}
+% ----------------------------------------------------------------------------
+
+\subsection{Statistical Features}
+
+\begin{definition}[Statistical Embedding]
+\begin{equation}
+    \Phi_{\text{stat}}(p) = (\bar{\vz}, \sigma_{\vz}^2, \lyap, E, \ldots)
+\end{equation}
+where:
+\begin{itemize}
+    \item $\bar{\vz}$: Mean state
+    \item $\sigma_{\vz}^2$: Variance
+    \item $\lyap$: Lyapunov exponent
+    \item $E$: Energy/norm statistics
+\end{itemize}
+\end{definition}
+
+\subsection{Time-Delay Embedding}
+
+\begin{definition}[Takens Embedding]
+For observable $h: \C^n \to \R$:
+\begin{equation}
+    \Phi_{\text{delay}}(p) = (h(\vz_0), h(\vz_\tau), \ldots, h(\vz_{(d-1)\tau}))
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Takens]
+For generic $h$ and $d \geq 2\dim(\Acal) + 1$, the delay embedding is a diffeomorphism onto its image.
+\end{theorem}
+
+\subsection{Recurrence Features}
+
+\begin{definition}[Recurrence Matrix]
+\begin{equation}
+    R_{ij} = \Theta(\epsilon - \norm{\vz_i - \vz_j})
+\end{equation}
+\end{definition}
+
+Extract features: recurrence rate, determinism, entropy.
+
+% ----------------------------------------------------------------------------
+\section{Learned Embeddings}
+% ----------------------------------------------------------------------------
+
+\subsection{Autoencoders}
+
+\begin{definition}[Autoencoder]
+\begin{align}
+    \text{Encoder}: &\quad \Phi: \Pcal \to \R^m \\
+    \text{Decoder}: &\quad \Psi: \R^m \to \Pcal
+\end{align}
+trained to minimize:
+\begin{equation}
+    \mathcal{L} = \mathbb{E}[\norm{p - \Psi(\Phi(p))}^2]
+\end{equation}
+\end{definition}
+
+\subsection{Variational Autoencoders}
+
+\begin{definition}[VAE]
+Encoder outputs distribution parameters:
+\begin{equation}
+    \Phi_{\text{VAE}}(p) = (\boldsymbol{\mu}(p), \boldsymbol{\sigma}(p))
+\end{equation}
+with latent $\vz \sim \mathcal{N}(\boldsymbol{\mu}, \diag(\boldsymbol{\sigma}^2))$.
+
+Loss:
+\begin{equation}
+    \mathcal{L}_{\text{VAE}} = \mathcal{L}_{\text{recon}} + \beta D_{\text{KL}}(q(\vz|p) \| p(\vz))
+\end{equation}
+\end{definition}
+
+Benefits: Smooth latent space, principled sampling.
+
+\subsection{Contrastive Learning}
+
+\begin{definition}[Contrastive Embedding]
+Train such that similar pairs are close, dissimilar pairs are far.
+
+InfoNCE loss:
+\begin{equation}
+    \mathcal{L}_{\text{NCE}} = -\log \frac{\exp(\Phi(p)^\top\Phi(p^+)/\tau)}{\sum_{p^-}\exp(\Phi(p)^\top\Phi(p^-)/\tau)}
+\end{equation}
+\end{definition}
+
+% ----------------------------------------------------------------------------
+\section{Dimensionality Reduction}
+% ----------------------------------------------------------------------------
+
+\subsection{PCA}
+
+\begin{definition}[PCA Embedding]
+\begin{equation}
+    \Phi_{\text{PCA}}(\vx) = \mV_m^\top(\vx - \bar{\vx})
+\end{equation}
+where $\mV_m$ contains top $m$ eigenvectors of covariance.
+\end{definition}
+
+Linear, fast, interpretable; may miss nonlinear structure.
+
+\subsection{t-SNE}
+
+\begin{definition}[t-SNE]
+Minimize KL divergence:
+\begin{equation}
+    \mathcal{L} = \sum_{i \neq j} p_{ij} \log\frac{p_{ij}}{q_{ij}}
+\end{equation}
+where $q_{ij}$ uses Student's t-distribution.
+\end{definition}
+
+Good for visualization; not for new points.
+
+\subsection{UMAP}
+
+\begin{definition}[UMAP]
+Based on fuzzy topology:
+\begin{equation}
+    \mathcal{L} = \sum_{i,j}\left[p_{ij}\log\frac{p_{ij}}{q_{ij}} + (1-p_{ij})\log\frac{1-p_{ij}}{1-q_{ij}}\right]
+\end{equation}
+\end{definition}
+
+Preserves local and some global structure; can embed new points.
+
+% ----------------------------------------------------------------------------
+\section{Koopman Operator Methods}
+% ----------------------------------------------------------------------------
+
+\subsection{Koopman Operator}
+
+\begin{definition}[Koopman]
+For dynamics $\vz_{n+1} = F(\vz_n)$:
+\begin{equation}
+    (\mathcal{K}g)(\vz) = g(F(\vz))
+\end{equation}
+\end{definition}
+
+The Koopman operator is linear (on function space), even for nonlinear dynamics.
+
+\subsection{Dynamic Mode Decomposition}
+
+\begin{definition}[DMD]
+From data:
+\begin{equation}
+    \mX' \approx \mA\mX
+\end{equation}
+
+DMD modes provide linear approximation to nonlinear dynamics.
+\end{definition}
+
+Use DMD modes as embedding:
+\begin{equation}
+    \Phi_{\text{DMD}}(\vz) = (\mathbf{v}_1^\top\vz, \ldots, \mathbf{v}_m^\top\vz)
+\end{equation}
+
+% ----------------------------------------------------------------------------
+\section{Classification}
+% ----------------------------------------------------------------------------
+
+\subsection{Stability Classification}
+
+\begin{definition}[Stability Classifier]
+$C: \R^m \to \{\text{stable}, \text{chaotic}, \text{periodic}, \text{divergent}\}$
+
+Train on labeled examples from $\Pcal$.
+\end{definition}
+
+\subsection{Attractor Type Prediction}
+
+Classify:
+\begin{itemize}
+    \item Fixed point
+    \item Limit cycle (with period)
+    \item Quasiperiodic torus
+    \item Strange attractor
+\end{itemize}
+
+\subsection{Boundary Detection}
+
+Binary classifier for proximity to $\partial\Pcal$:
+\begin{equation}
+    C_{\text{boundary}}(p) = \mathbf{1}[d(p, \partial\Pcal) < \epsilon]
+\end{equation}
+
+% ----------------------------------------------------------------------------
+\section{Generative Models}
+% ----------------------------------------------------------------------------
+
+\subsection{Sampling from $\Pcal$}
+
+\begin{enumerate}
+    \item Sample $\vz \sim p(\vz)$ from latent distribution
+    \item Decode: $\hat{p} = \Psi(\vz)$
+    \item Validate: Check $\hat{p} \in \Pcal$
+\end{enumerate}
+
+\subsection{Conditional Generation}
+
+Generate configurations with desired properties:
+\begin{equation}
+    p^* = \arg\min_p \mathcal{L}(\Phi(p), \text{target}) \quad \text{s.t.} \quad p \in \Pcal
+\end{equation}
+
+\subsection{Interpolation}
+
+Smooth interpolation via latent space:
+\begin{equation}
+    p(t) = \Psi((1-t)\Phi(p_1) + t\Phi(p_2))
+\end{equation}
+
+% ----------------------------------------------------------------------------
+\section{Neural Network Architectures}
+% ----------------------------------------------------------------------------
+
+\subsection{Orbit Encoder}
+
+\begin{itemize}
+    \item Input: Trajectory $\{\vz_0, \ldots, \vz_N\}$
+    \item Architecture: LSTM, Transformer, or TCN
+    \item Output: Fixed-size embedding
+\end{itemize}
+
+\subsection{Configuration Encoder}
+
+\begin{itemize}
+    \item Input: $(\vz_0, \vc, \text{rule index})$
+    \item Architecture: MLP with embeddings
+    \item Output: Latent vector
+\end{itemize}
+
+\subsection{Dynamics Predictor}
+
+\begin{itemize}
+    \item Input: Current state embedding
+    \item Output: Next state / Lyapunov exponent / attractor type
+    \item Training: Supervised on simulation data
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{Training Strategies}
+% ----------------------------------------------------------------------------
+
+\subsection{Data Generation}
+
+\begin{algorithm}[H]
+\caption{Generate Training Data}
+\begin{algorithmic}[1]
+\FOR{$i = 1$ to $N_{\text{samples}}$}
+    \STATE Sample $(\vz_0, \vc, F) \in \Pcal$
+    \STATE Simulate orbit
+    \STATE Compute labels: $\lyap$, attractor type, etc.
+    \STATE Store $((\vz_0, \vc, F), \text{orbit}, \text{labels})$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Loss Functions}
+
+\begin{itemize}
+    \item Reconstruction: MSE on orbit or configuration
+    \item Classification: Cross-entropy on labels
+    \item Contrastive: InfoNCE or triplet loss
+    \item Regularization: KL divergence, L2 on weights
+\end{itemize}
+
+\subsection{Curriculum Learning}
+
+Start with simple cases (stable fixed points), gradually add complexity (chaos, boundaries).
+
+% ----------------------------------------------------------------------------
+\section{Applications}
+% ----------------------------------------------------------------------------
+
+\subsection{Anomaly Detection}
+
+Identify unusual configurations:
+\begin{equation}
+    \text{anomaly}(p) = \norm{\Phi(p) - \mu_{\text{typical}}}
+\end{equation}
+
+\subsection{Similarity Search}
+
+Find configurations similar to query:
+\begin{equation}
+    \text{neighbors}(p) = \{p' : \norm{\Phi(p) - \Phi(p')} < \epsilon\}
+\end{equation}
+
+\subsection{Guided Optimization}
+
+Use gradients through embedding for optimization:
+\begin{equation}
+    p \leftarrow p - \alpha \nabla_p \mathcal{L}(\Phi(p))
+\end{equation}
+
+% ----------------------------------------------------------------------------
+\section{Summary}
+% ----------------------------------------------------------------------------
+
+ML embeddings enable:
+\begin{enumerate}
+    \item Dimensionality reduction for visualization
+    \item Classification of dynamical behaviors
+    \item Generation of new configurations
+    \item Navigation through possibility space
+    \item Efficient analysis of high-dimensional dynamics
+\end{enumerate}

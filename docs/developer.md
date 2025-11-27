@@ -602,7 +602,7 @@ Timeline through possibility space:
 
 #### Mathematical Foundations
 
-See [extensions/tenth_dimension_possibility/td_math_reference.md](../extensions/tenth_dimension_possibility/td_math_reference.md) for complete mathematical documentation.
+See the [Mathematical Foundations](math/overview.md) section for complete mathematical documentation.
 
 **Key Concepts:**
 
@@ -883,7 +883,7 @@ extensions/my_extension/
 
 ## Contributing
 
-See [CONTRIBUTING.md](../CONTRIBUTING.md) for detailed guidelines.
+See the [Contributing Guide](developer/contributing.md) for detailed guidelines.
 
 **Quick checklist:**
 - [ ] Fork the repository
