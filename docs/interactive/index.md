@@ -1,99 +1,101 @@
 # Interactive Lab
 
-Welcome to the **MindFractal Interactive Lab** — a browser-based playground for exploring fractal dynamical systems, consciousness modeling, and complex dynamics.
+Welcome to the **MindFractal Interactive Lab** — your portal to exploring the mathematical landscape of consciousness.
 
-!!! info "Browser Requirements"
-    The interactive modules use **Pyodide** (Python in WebAssembly) and require a modern browser with WebAssembly support. Best experienced on desktop Chrome, Firefox, or Safari.
+!!! tip "No Downloads Required"
+    Everything runs directly in your browser. Just click, explore, and discover.
 
-## Available Interactive Tools
+## Choose Your Experience
 
 <div class="grid cards" markdown>
 
--   :material-cube-outline: **2D Fractal Explorer**
+-   :material-chart-scatter-plot:{ .lg .middle } **Fractal Explorer**
 
     ---
 
-    Explore basin of attraction, Lyapunov maps, and orbit dynamics in the 2D fractal parameter space.
+    Dive into a world where tiny parameter changes create dramatically different mental landscapes. Watch colors shift between stability and chaos.
 
-    [:octicons-arrow-right-24: Open Explorer](fractal_explorer.md)
+    [:octicons-arrow-right-24: Start Exploring](fractal_explorer.md)
 
--   :material-rotate-3d: **3D Attractor Explorer**
-
-    ---
-
-    Visualize strange attractors, Poincare sections, and the full 3D dynamics of the fractal consciousness model.
-
-    [:octicons-arrow-right-24: Open Explorer](attractor_explorer.md)
-
--   :material-chart-bubble: **CY Slice Viewer**
+-   :material-rotate-3d:{ .lg .middle } **3D Attractor Viewer**
 
     ---
 
-    Explore Calabi-Yau inspired complex dynamics including Mandelbrot sets, Julia sets, and CY slices.
+    See consciousness states unfold in three dimensions. Discover strange attractors — bounded infinities that never quite repeat.
 
-    [:octicons-arrow-right-24: Open Viewer](cy_slice_viewer.md)
+    [:octicons-arrow-right-24: View Attractors](attractor_explorer.md)
 
--   :material-compass: **Possibility Navigator**
-
-    ---
-
-    Navigate the Possibility Manifold — sample trajectories, scan stability regions, and interpolate timelines.
-
-    [:octicons-arrow-right-24: Open Navigator](possibility_navigator.md)
-
--   :material-brain: **Embeddings Explorer**
+-   :material-star-four-points:{ .lg .middle } **CY Slice Studio**
 
     ---
 
-    Visualize trajectory embeddings in latent space using PCA and t-SNE dimensionality reduction.
+    Explore the beautiful Mandelbrot and Julia sets — windows into infinite complexity at every scale.
 
-    [:octicons-arrow-right-24: Open Explorer](embeddings_explorer.md)
+    [:octicons-arrow-right-24: Open Studio](cy_slice_viewer.md)
+
+-   :material-compass:{ .lg .middle } **Possibility Navigator**
+
+    ---
+
+    Travel through the space of all possible mental configurations. See how stability and chaos intermingle in the landscape of the mind.
+
+    [:octicons-arrow-right-24: Navigate Possibilities](possibility_navigator.md)
+
+-   :material-brain:{ .lg .middle } **Embeddings Explorer**
+
+    ---
+
+    Watch as complex trajectories collapse into revealing 2D maps. Similar dynamics cluster together, revealing hidden structure.
+
+    [:octicons-arrow-right-24: Explore Embeddings](embeddings_explorer.md)
 
 </div>
 
-## Quick Start
+## How It Works
 
-1. **Choose a tool** from the cards above
-2. **Wait for Pyodide** to load (first load may take 10-20 seconds)
-3. **Adjust parameters** using the sliders and controls
-4. **Click Compute** to generate visualizations
-5. **Toggle mode** between Explorer (simplified) and Researcher (code visible)
+1. **Choose an experience** from the cards above
+2. **Wait a moment** while the visualization engine loads
+3. **Adjust the sliders** to change parameters
+4. **Click Compute** to see the results
+5. **Explore** — every combination reveals something new
 
-## Mode Toggle
+## What You'll Discover
 
-Use the floating button in the bottom-right corner to switch between:
+Each tool lets you explore different aspects of the same underlying mathematics:
 
-- **Explorer Mode**: Clean interface focused on visual exploration
-- **Researcher Mode**: Shows Python code for each computation
+| Experience | What You'll See |
+|------------|----------------|
+| **Fractal Explorer** | How parameter changes affect stability |
+| **3D Attractor Viewer** | The shape of consciousness dynamics in space |
+| **CY Slice Studio** | Infinite complexity at every zoom level |
+| **Possibility Navigator** | The boundary between order and chaos |
+| **Embeddings Explorer** | Hidden patterns in trajectory data |
 
-## Mathematical Foundation
+## The Mathematical Heart
 
-The interactive tools visualize the core dynamical system:
+Behind every visualization is this deceptively simple equation:
 
 $$
 \mathbf{x}_{n+1} = A\mathbf{x}_n + B \tanh(W\mathbf{x}_n) + \mathbf{c}
 $$
 
-Where:
+As you explore, you're directly manipulating the parameters in this equation and watching how they change the resulting dynamics. The math isn't abstract — it's visual, interactive, and waiting to be discovered.
 
-- $\mathbf{x} \in \mathbb{R}^d$ is the state vector (consciousness state)
-- $A, B, W$ are system matrices controlling dynamics
-- $\mathbf{c}$ is the parameter vector (personality traits)
+## Two Ways to Explore
 
-Different regions of parameter space exhibit:
+Use the mode toggle button in the bottom-right corner:
 
-- **Stable fixed points**: Converging to equilibrium states
-- **Limit cycles**: Periodic oscillations
-- **Strange attractors**: Chaotic dynamics with sensitive dependence
-- **Divergence**: Unbounded trajectories
+- **Explorer Mode** — Pure visual exploration, clean interface
+- **Researcher Mode** — See the equations and code behind each visualization
 
-## Technical Details
+Both modes produce the same results. Choose whichever feels right for you.
 
-The interactive modules are powered by:
+---
 
-- **Pyodide**: Python running in WebAssembly
-- **NumPy**: Numerical computations
-- **Matplotlib**: Server-side rendering to base64 images
-- **Custom Python cores**: Optimized for browser execution
+<div style="text-align: center; margin-top: 2rem;">
 
-All computation happens locally in your browser — no data is sent to any server.
+**Ready to begin?**
+
+Pick any tool above and start exploring. There's no wrong way to discover.
+
+</div>

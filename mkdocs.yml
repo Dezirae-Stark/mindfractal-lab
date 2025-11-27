@@ -6,14 +6,12 @@ site_name: MindFractal Lab
 site_url: https://dezirae-stark.github.io/mindfractal-lab/
 site_author: MindFractal Lab Contributors
 site_description: >-
-  Fractal Dynamical Consciousness Model — A scientific Python package for
-  simulating and analyzing fractal dynamical systems modeling consciousness
-  states, metastability, and personality traits.
+  An interactive consciousness exploration laboratory — explore fractal dynamics,
+  strange attractors, and the mathematical landscape of the mind, all in your browser.
 
-# Repository
+# Repository (hidden from main nav, shown in footer only)
 repo_name: Dezirae-Stark/mindfractal-lab
 repo_url: https://github.com/Dezirae-Stark/mindfractal-lab
-edit_uri: edit/main/docs/
 
 # Copyright
 copyright: Copyright &copy; 2025 MindFractal Lab Contributors — MIT License
@@ -131,7 +129,7 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
 
-# Math (KaTeX for speed)
+# Math (MathJax)
 extra_javascript:
   - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
@@ -140,53 +138,54 @@ extra_javascript:
 # Extra CSS
 extra_css:
   - stylesheets/extra.css
+  - site/interactive/css/interactive.css
+  - site/interactive/css/interactive-mobile.css
 
-# Navigation
+# Navigation — Visitor-first, developer content at bottom
 nav:
   - Home: index.md
-  - Getting Started:
-    - Installation: getting-started/installation.md
-    - Quick Start: getting-started/quickstart.md
-    - Tutorials: getting-started/tutorials.md
-  - Mathematical Foundations:
+
+  # PRIMARY: Interactive experiences (no code required)
+  - Explore Your Mind:
+    - Interactive Lab: interactive/index.md
+    - Fractal Explorer: interactive/fractal_explorer.md
+    - 3D Attractor Viewer: interactive/attractor_explorer.md
+    - CY Slice Studio: interactive/cy_slice_viewer.md
+    - Possibility Navigator: interactive/possibility_navigator.md
+    - Embeddings Explorer: interactive/embeddings_explorer.md
+
+  # SECONDARY: Conceptual/scientific explanations
+  - The Science:
     - Overview: math/overview.md
     - Base Models: math/base-models.md
     - CY Dynamics: math/cy-dynamics.md
     - Possibility Manifold: math/possibility-manifold.md
-    - Tenth Dimension: math/tenth-dimension.md
-    - Embeddings: math/embeddings.md
-  - Interactive Lab:
-    - Overview: interactive/index.md
-    - 2D Fractal Explorer: interactive/fractal_explorer.md
-    - 3D Attractor Explorer: interactive/attractor_explorer.md
-    - CY Slice Viewer: interactive/cy_slice_viewer.md
-    - Possibility Navigator: interactive/possibility_navigator.md
-    - Embeddings Explorer: interactive/embeddings_explorer.md
-  - Simulation Playground:
-    - 2D/3D Explorer: playground/explorer.md
-    - CY Slice Viewer: playground/cy-viewer.md
-    - Possibility Navigator: playground/navigator.md
-    - Interactive Demo: playground/interactive.md
-  - ML & Embeddings:
-    - Overview: ml/overview.md
-    - Latent Spaces: ml/latent-spaces.md
-    - Classification: ml/classification.md
-  - API Reference:
-    - Overview: api/index.md
-    - Core Module: api/core.md
-    - Simulation: api/simulation.md
-    - Visualization: api/visualization.md
-    - Extensions: api/extensions.md
-  - Developer Guide:
-    - Architecture: developer/architecture.md
-    - Contributing: developer/contributing.md
-    - Testing: developer/testing.md
-    - CI/CD: developer/ci-cd.md
-  - Research & Publications:
+    - The Tenth Dimension: math/tenth-dimension.md
+    - Embeddings & ML: math/embeddings.md
+
+  # TERTIARY: Research publications
+  - Research:
     - Scientific Paper: research/paper.md
-    - LaTeX Book: research/book.md
-    - Supplement: research/supplement.md
-  - Roadmap: roadmap.md
+    - Comprehensive Book: research/book.md
+    - Technical Supplement: research/supplement.md
+
+  # BOTTOM: Developer/contributor content (de-emphasized)
+  - For Contributors:
+    - Getting Started: getting-started/installation.md
+    - Quick Start Guide: getting-started/quickstart.md
+    - Tutorials: getting-started/tutorials.md
+    - API Reference:
+      - Overview: api/index.md
+      - Core Module: api/core.md
+      - Simulation: api/simulation.md
+      - Visualization: api/visualization.md
+      - Extensions: api/extensions.md
+    - Developer Guide:
+      - Architecture: developer/architecture.md
+      - Contributing: developer/contributing.md
+      - Testing: developer/testing.md
+      - CI/CD: developer/ci-cd.md
+    - Roadmap: roadmap.md
 
 # Social links
 extra:
@@ -194,14 +193,6 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/Dezirae-Stark/mindfractal-lab
       name: GitHub Repository
-    - icon: fontawesome/brands/python
-      link: https://pypi.org/project/mindfractal/
-      name: PyPI Package
-
-  # Analytics (optional, fill in tracking ID)
-  # analytics:
-  #   provider: google
-  #   property: G-XXXXXXXXXX
 
   # Version
   version:
