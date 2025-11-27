@@ -1,0 +1,458 @@
+/**
+ * MindFractal Lab — Mobile-First Responsive Styles
+ * Breakpoints: 480px (phone), 768px (tablet), 1024px (desktop)
+ */
+
+/* ============================================
+   Mobile First Base (< 480px)
+   ============================================ */
+.interactive-demo {
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.interactive-demo h3 {
+    font-size: 1.25rem;
+}
+
+.viewer-layout,
+.viewer-layout-reverse {
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.controls-panel {
+    padding: 16px;
+    order: 2;
+}
+
+.display-panel {
+    padding: 16px;
+    order: 1;
+}
+
+/* Mode toggle - bottom position for thumb reach */
+#mode-toggle-container {
+    bottom: 16px;
+    right: 16px;
+}
+
+.mode-toggle-btn {
+    padding: 10px 16px;
+    font-size: 12px;
+    border-radius: 25px;
+}
+
+.mode-tooltip {
+    display: none !important;
+}
+
+/* Buttons stacked on mobile */
+.button-row {
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mode-buttons {
+    flex-wrap: wrap;
+}
+
+.mode-btn {
+    min-width: calc(50% - 4px);
+    padding: 10px 8px;
+    font-size: 11px;
+}
+
+/* Sliders - larger touch targets */
+input[type="range"] {
+    height: 8px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+}
+
+/* Inputs */
+input[type="number"] {
+    width: 70px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+select {
+    padding: 12px;
+    font-size: 14px;
+}
+
+/* Image container */
+.image-container {
+    min-height: 150px;
+}
+
+.result-image {
+    max-height: 300px;
+    object-fit: contain;
+}
+
+/* Code panel */
+.code-panel {
+    padding: 12px;
+}
+
+.code-panel pre {
+    padding: 12px;
+    font-size: 10px;
+}
+
+/* Tab bar scrollable */
+.tab-bar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.tab-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* Control sections */
+.control-section h4 {
+    font-size: 11px;
+}
+
+.control-group label {
+    font-size: 12px;
+}
+
+/* Range inputs layout */
+.range-row {
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.range-row span {
+    font-size: 12px;
+}
+
+/* Endpoint groups */
+.control-row {
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.control-row label {
+    font-size: 11px;
+}
+
+/* Legend */
+.legend-box {
+    padding: 12px;
+}
+
+.legend-item {
+    font-size: 11px;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+}
+
+/* ============================================
+   Small Tablets (>= 480px)
+   ============================================ */
+@media (min-width: 480px) {
+    .interactive-demo {
+        padding: 20px;
+    }
+
+    .interactive-demo h3 {
+        font-size: 1.35rem;
+    }
+
+    .button-row {
+        flex-direction: row;
+    }
+
+    .mode-btn {
+        min-width: auto;
+        flex: 1;
+    }
+
+    .result-image {
+        max-height: 350px;
+    }
+
+    .code-panel pre {
+        font-size: 11px;
+    }
+}
+
+/* ============================================
+   Tablets (>= 768px)
+   ============================================ */
+@media (min-width: 768px) {
+    .interactive-demo {
+        padding: 24px;
+        margin: 20px 0;
+    }
+
+    .interactive-demo h3 {
+        font-size: 1.5rem;
+    }
+
+    .viewer-layout {
+        grid-template-columns: 280px 1fr;
+        gap: 24px;
+    }
+
+    .viewer-layout-reverse {
+        grid-template-columns: 1fr 280px;
+        gap: 24px;
+    }
+
+    .controls-panel {
+        padding: 20px;
+        order: 1;
+    }
+
+    .display-panel {
+        padding: 20px;
+        order: 2;
+    }
+
+    #mode-toggle-container {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .mode-toggle-btn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    #mode-toggle-container:hover .mode-tooltip {
+        display: block;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        width: 18px;
+        height: 18px;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+    }
+
+    .result-image {
+        max-height: none;
+    }
+
+    .code-panel pre {
+        font-size: 12px;
+    }
+
+    .image-container {
+        min-height: 200px;
+    }
+}
+
+/* ============================================
+   Desktop (>= 1024px)
+   ============================================ */
+@media (min-width: 1024px) {
+    .viewer-layout {
+        grid-template-columns: 300px 1fr;
+    }
+
+    .viewer-layout-reverse {
+        grid-template-columns: 1fr 300px;
+    }
+
+    .mode-btn {
+        padding: 10px 16px;
+        font-size: 12px;
+    }
+}
+
+/* ============================================
+   Large Desktop (>= 1280px)
+   ============================================ */
+@media (min-width: 1280px) {
+    .viewer-layout {
+        grid-template-columns: 320px 1fr;
+    }
+
+    .viewer-layout-reverse {
+        grid-template-columns: 1fr 320px;
+    }
+
+    .interactive-demo {
+        padding: 28px;
+    }
+}
+
+/* ============================================
+   Touch Device Optimizations
+   ============================================ */
+@media (hover: none) and (pointer: coarse) {
+    /* Larger touch targets */
+    .primary-btn,
+    .secondary-btn {
+        min-height: 48px;
+    }
+
+    .mode-btn {
+        min-height: 44px;
+    }
+
+    .tab-btn {
+        min-height: 44px;
+    }
+
+    /* Remove hover effects on touch */
+    .primary-btn:hover,
+    .secondary-btn:hover,
+    .mode-btn:hover {
+        transform: none;
+    }
+
+    /* Add active states instead */
+    .primary-btn:active {
+        transform: scale(0.98);
+    }
+
+    .secondary-btn:active {
+        background: rgba(124, 58, 237, 0.3);
+    }
+
+    .mode-btn:active {
+        background: rgba(124, 58, 237, 0.3);
+    }
+
+    /* Disable tooltip on touch */
+    .mode-tooltip {
+        display: none !important;
+    }
+}
+
+/* ============================================
+   Landscape Phone Adjustments
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) {
+    .viewer-layout {
+        grid-template-columns: 220px 1fr;
+    }
+
+    .controls-panel {
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+    }
+
+    .control-section {
+        margin-bottom: 16px;
+    }
+
+    .control-group {
+        margin-bottom: 10px;
+    }
+
+    #mode-toggle-container {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .mode-toggle-btn {
+        padding: 8px 14px;
+        font-size: 11px;
+    }
+}
+
+/* ============================================
+   Dark Mode Adjustments (system preference)
+   ============================================ */
+@media (prefers-color-scheme: light) {
+    /* Override for light mode if needed */
+    /* Currently the app is dark-themed by default */
+}
+
+/* ============================================
+   Reduced Motion Preference
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .loading-spinner {
+        animation: none;
+        border-top-color: var(--mf-accent);
+        border-right-color: var(--mf-accent);
+    }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+    .interactive-demo {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        page-break-inside: avoid;
+    }
+
+    #mode-toggle-container {
+        display: none;
+    }
+
+    .controls-panel {
+        display: none;
+    }
+
+    .code-panel {
+        page-break-inside: avoid;
+    }
+
+    .result-image {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* ============================================
+   High Contrast Mode
+   ============================================ */
+@media (prefers-contrast: high) {
+    .primary-btn {
+        border: 2px solid white;
+    }
+
+    .secondary-btn {
+        border-width: 2px;
+    }
+
+    .mode-btn {
+        border-width: 2px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        border: 2px solid white;
+    }
+}

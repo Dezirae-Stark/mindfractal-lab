@@ -155,6 +155,13 @@ nav:
     - Possibility Manifold: math/possibility-manifold.md
     - Tenth Dimension: math/tenth-dimension.md
     - Embeddings: math/embeddings.md
+  - Interactive Lab:
+    - Overview: interactive/index.md
+    - 2D Fractal Explorer: interactive/fractal_explorer.md
+    - 3D Attractor Explorer: interactive/attractor_explorer.md
+    - CY Slice Viewer: interactive/cy_slice_viewer.md
+    - Possibility Navigator: interactive/possibility_navigator.md
+    - Embeddings Explorer: interactive/embeddings_explorer.md
   - Simulation Playground:
     - 2D/3D Explorer: playground/explorer.md
     - CY Slice Viewer: playground/cy-viewer.md
