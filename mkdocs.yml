@@ -65,10 +65,12 @@ theme:
   # Icons
   icon:
     repo: fontawesome/brands/github
-    logo: material/atom-variant
+
+  # Custom Logo
+  logo: static/images/logo/mindfractal-logo.svg
 
   # Favicon
-  favicon: assets/favicon.png
+  favicon: static/images/logo/mindfractal-logo.svg
 
   # Language
   language: en
@@ -129,13 +131,17 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
 
-# Math (MathJax)
+# Math (MathJax) + Cosmic Theme Scripts
 extra_javascript:
   - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  # Cosmic Neon Theme
+  - site/interactive/js/theme_switcher.js
+  - site/interactive/js/shaders/nebula_shader.js
+  - site/interactive/js/shaders/canvas_glow_shader.js
 
-# Extra CSS
+# Extra CSS — Cosmic Neon Theme
 extra_css:
   - stylesheets/extra.css
   - site/interactive/css/interactive.css

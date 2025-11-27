@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Cosmic gradients -->
+    <linearGradient id="cosmicGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6b6bff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#c45aff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff4fa3;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="cyanGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#39d8ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6b6bff;stop-opacity:1" />
+    </linearGradient>
+
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+      <stop offset="30%" style="stop-color:#c45aff;stop-opacity:0.6" />
+      <stop offset="70%" style="stop-color:#6b6bff;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#0d0e12;stop-opacity:0" />
+    </radialGradient>
+
+    <!-- Glow filters -->
+    <filter id="glowPurple" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="glowCyan" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="strongGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Fractal spiral pattern -->
+    <pattern id="fractalDots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="rgba(107, 107, 255, 0.3)" />
+      <circle cx="12" cy="12" r="0.5" fill="rgba(196, 90, 255, 0.2)" />
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" fill="#0d0e12" />
+
+  <!-- Outer glow ring -->
+  <circle cx="200" cy="175" r="140" fill="none" stroke="url(#cosmicGradient)" stroke-width="1" opacity="0.3" filter="url(#strongGlow)">
+    <animate attributeName="r" values="135;145;135" dur="4s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Mandelbrot-inspired fractal spiral -->
+  <g transform="translate(200, 175)" filter="url(#glowPurple)">
+    <!-- Outer spiral arms -->
+    <path d="M 0,-120 Q 60,-100 80,-60 Q 100,-20 80,20 Q 60,60 0,80 Q -60,60 -80,20 Q -100,-20 -80,-60 Q -60,-100 0,-120"
+          fill="none" stroke="url(#cosmicGradient)" stroke-width="2" opacity="0.6">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="60s" repeatCount="indefinite" />
+    </path>
+
+    <!-- Middle spiral -->
+    <path d="M 0,-90 Q 45,-75 60,-45 Q 75,-15 60,15 Q 45,45 0,60 Q -45,45 -60,15 Q -75,-15 -60,-45 Q -45,-75 0,-90"
+          fill="none" stroke="url(#cyanGradient)" stroke-width="2" opacity="0.7">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="45s" repeatCount="indefinite" />
+    </path>
+
+    <!-- Inner spiral -->
+    <path d="M 0,-60 Q 30,-50 40,-30 Q 50,-10 40,10 Q 30,30 0,40 Q -30,30 -40,10 Q -50,-10 -40,-30 Q -30,-50 0,-60"
+          fill="none" stroke="#c45aff" stroke-width="2" opacity="0.8">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="30s" repeatCount="indefinite" />
+    </path>
+
+    <!-- Calabi-Yau inspired petals -->
+    <g opacity="0.7">
+      <ellipse cx="0" cy="-70" rx="15" ry="30" fill="none" stroke="#6b6bff" stroke-width="1.5" transform="rotate(0)" filter="url(#glowPurple)" />
+      <ellipse cx="0" cy="-70" rx="15" ry="30" fill="none" stroke="#c45aff" stroke-width="1.5" transform="rotate(60)" filter="url(#glowPurple)" />
+      <ellipse cx="0" cy="-70" rx="15" ry="30" fill="none" stroke="#39d8ff" stroke-width="1.5" transform="rotate(120)" filter="url(#glowCyan)" />
+      <ellipse cx="0" cy="-70" rx="15" ry="30" fill="none" stroke="#ff4fa3" stroke-width="1.5" transform="rotate(180)" filter="url(#glowPurple)" />
+      <ellipse cx="0" cy="-70" rx="15" ry="30" fill="none" stroke="#6b6bff" stroke-width="1.5" transform="rotate(240)" filter="url(#glowPurple)" />
+      <ellipse cx="0" cy="-70" rx="15" ry="30" fill="none" stroke="#c45aff" stroke-width="1.5" transform="rotate(300)" filter="url(#glowPurple)" />
+    </g>
+
+    <!-- Neon rings -->
+    <circle cx="0" cy="0" r="100" fill="none" stroke="#6b6bff" stroke-width="1" opacity="0.5" stroke-dasharray="10 5">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite" />
+    </circle>
+
+    <circle cx="0" cy="0" r="75" fill="none" stroke="#c45aff" stroke-width="1" opacity="0.6" stroke-dasharray="8 4">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="15s" repeatCount="indefinite" />
+    </circle>
+
+    <circle cx="0" cy="0" r="50" fill="none" stroke="#39d8ff" stroke-width="1.5" opacity="0.7" stroke-dasharray="6 3">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="10s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Center glow -->
+    <circle cx="0" cy="0" r="30" fill="url(#centerGlow)">
+      <animate attributeName="r" values="28;32;28" dur="3s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Core -->
+    <circle cx="0" cy="0" r="8" fill="#ffffff" filter="url(#strongGlow)">
+      <animate attributeName="r" values="7;9;7" dur="2s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Fractal dots around -->
+    <g opacity="0.5">
+      <circle cx="85" cy="0" r="3" fill="#6b6bff" />
+      <circle cx="-85" cy="0" r="3" fill="#c45aff" />
+      <circle cx="0" cy="85" r="3" fill="#39d8ff" />
+      <circle cx="0" cy="-85" r="3" fill="#ff4fa3" />
+      <circle cx="60" cy="60" r="2" fill="#6b6bff" />
+      <circle cx="-60" cy="60" r="2" fill="#c45aff" />
+      <circle cx="60" cy="-60" r="2" fill="#39d8ff" />
+      <circle cx="-60" cy="-60" r="2" fill="#ff4fa3" />
+    </g>
+  </g>
+
+  <!-- Text: MindFractal Lab -->
+  <g transform="translate(200, 340)">
+    <!-- Text glow -->
+    <text x="0" y="0" text-anchor="middle" font-family="Montserrat, Inter, sans-serif" font-size="32" font-weight="700" fill="url(#cosmicGradient)" filter="url(#glowPurple)">
+      MindFractal
+    </text>
+    <text x="0" y="0" text-anchor="middle" font-family="Montserrat, Inter, sans-serif" font-size="32" font-weight="700" fill="url(#cosmicGradient)">
+      MindFractal
+    </text>
+
+    <!-- Lab subtitle -->
+    <text x="0" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="400" fill="#39d8ff" letter-spacing="8" filter="url(#glowCyan)">
+      LAB
+    </text>
+  </g>
+
+  <!-- Small decorative stars -->
+  <g opacity="0.6">
+    <circle cx="50" cy="50" r="1.5" fill="#ffffff">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="350" cy="80" r="1" fill="#6b6bff">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="320" cy="320" r="1.5" fill="#c45aff">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="80" cy="300" r="1" fill="#39d8ff">
+      <animate attributeName="opacity" values="0.3;0.9;0.3" dur="1.8s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="370" cy="200" r="1" fill="#ff4fa3">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2.2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="30" cy="180" r="1.5" fill="#ffffff">
+      <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3.5s" repeatCount="indefinite" />
+    </circle>
+  </g>
+</svg>
