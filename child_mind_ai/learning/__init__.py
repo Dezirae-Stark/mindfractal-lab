@@ -5,5 +5,6 @@ MindFractal Lab
 Online learning and adaptation systems.
 """
 
-# Learning systems will be implemented in future versions
-# Currently, basic learning happens through memory dynamics (U_memory)
+from .online import OnlineLearner, LearningMetrics
+
+__all__ = ["OnlineLearner", "LearningMetrics"]

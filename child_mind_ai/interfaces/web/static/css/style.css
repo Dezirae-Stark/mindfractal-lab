@@ -1,0 +1,491 @@
+/* Child Mind AI — Web Interface Styles */
+
+:root {
+    --bg-primary: #0a0a1a;
+    --bg-secondary: #12122a;
+    --bg-surface: #1a1a3a;
+    --bg-card: #222244;
+
+    --text-primary: #e8e8ff;
+    --text-secondary: #a0a0c0;
+    --text-dim: #606080;
+
+    --neon-blue: #6b6bff;
+    --neon-purple: #c45aff;
+    --neon-cyan: #39d8ff;
+    --neon-pink: #ff4fa3;
+
+    --coherence-high: #39d8ff;
+    --coherence-mid: #c45aff;
+    --coherence-low: #ff4fa3;
+
+    --border-color: rgba(107, 107, 255, 0.3);
+    --glow-color: rgba(107, 107, 255, 0.4);
+
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+.app-header {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-surface));
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.app-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 20px var(--glow-color);
+}
+
+.app-header .subtitle {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* Main Content */
+.main-content {
+    display: flex;
+    flex: 1;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* Panels */
+.visualization-panel,
+.conversation-panel {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.visualization-panel {
+    flex: 0 0 450px;
+    display: flex;
+    flex-direction: column;
+}
+
+.conversation-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.panel-header h2 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.timestep {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--neon-blue);
+}
+
+/* Canvas */
+.canvas-container {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    background: var(--bg-primary);
+}
+
+#state-canvas {
+    border-radius: 8px;
+    box-shadow: 0 0 30px var(--glow-color);
+}
+
+/* Metrics */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 1rem;
+}
+
+.metric {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 0.75rem;
+}
+
+.metric label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.metric-bar {
+    height: 6px;
+    background: var(--bg-primary);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+}
+
+.metric-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.metric-fill.coherence {
+    background: linear-gradient(90deg, var(--coherence-low), var(--coherence-mid), var(--coherence-high));
+}
+
+.metric-fill.stability {
+    background: var(--neon-blue);
+}
+
+.metric-fill.novelty {
+    background: var(--neon-purple);
+}
+
+.metric-fill.reflection {
+    background: var(--neon-cyan);
+}
+
+.metric-value {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+/* Phenomenal Report */
+.phenomenal-report,
+.intentions {
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.phenomenal-report h3,
+.intentions h3 {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.phenomenal-report p {
+    font-size: 0.875rem;
+    color: var(--neon-purple);
+    font-style: italic;
+}
+
+.intentions ul {
+    list-style: none;
+}
+
+.intentions li {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    padding: 0.25rem 0;
+}
+
+.intentions li::before {
+    content: "→ ";
+    color: var(--neon-cyan);
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.control-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-card);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.control-btn:hover {
+    background: var(--bg-surface);
+    border-color: var(--neon-blue);
+}
+
+/* Messages */
+.messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.message {
+    max-width: 85%;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message.user {
+    align-self: flex-end;
+    background: var(--neon-blue);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.assistant {
+    align-self: flex-start;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: 4px;
+}
+
+.message.system {
+    align-self: center;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.message p {
+    margin-bottom: 0.5rem;
+}
+
+.message p:last-child {
+    margin-bottom: 0;
+}
+
+.message .meta {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.message.assistant .meta {
+    color: var(--neon-purple);
+}
+
+/* Input */
+.input-container {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+}
+
+#user-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    font-size: 0.875rem;
+    resize: none;
+}
+
+#user-input:focus {
+    outline: none;
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 10px var(--glow-color);
+}
+
+#send-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#send-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--glow-color);
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+}
+
+.modal h3 {
+    color: var(--neon-cyan);
+    margin-bottom: 1rem;
+}
+
+.modal p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    white-space: pre-wrap;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.btn-deny,
+.btn-allow {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-deny {
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-allow {
+    background: var(--neon-blue);
+    color: white;
+}
+
+.explicit-confirm {
+    margin-top: 1rem;
+}
+
+.explicit-confirm input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.notification.success {
+    border-color: var(--neon-cyan);
+}
+
+.notification.error {
+    border-color: var(--neon-pink);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .main-content {
+        flex-direction: column;
+    }
+
+    .visualization-panel {
+        flex: 0 0 auto;
+    }
+
+    .canvas-container canvas {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-blue);
+}

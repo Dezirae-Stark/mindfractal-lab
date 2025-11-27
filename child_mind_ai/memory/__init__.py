@@ -2,8 +2,16 @@
 Child Mind AI — Memory Module
 MindFractal Lab
 
-Long-term memory systems: episodic, semantic, and procedural.
+Long-term memory systems: episodic and semantic.
 """
 
-# Basic memory is implemented in core/dynamics.py (U_memory)
-# This module will contain advanced memory systems
+from .episodic import EpisodicMemory, Episode
+from .semantic import SemanticMemory, SemanticConcept, Pattern
+
+__all__ = [
+    "EpisodicMemory",
+    "Episode",
+    "SemanticMemory",
+    "SemanticConcept",
+    "Pattern",
+]
