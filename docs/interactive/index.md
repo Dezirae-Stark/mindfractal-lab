@@ -49,6 +49,46 @@ Welcome to the **MindFractal Interactive Lab** — your portal to exploring the 
 
     [:octicons-arrow-right-24: Explore Embeddings](embeddings_explorer.md)
 
+-   :material-atom-variant:{ .lg .middle } **Spacetime Weave**
+
+    ---
+
+    See spacetime emerge from quantum geometry. Watch nodes and edges form the fabric of reality from quantum foam.
+
+    [:octicons-arrow-right-24: Explore Spacetime](quantum-gravity.md)
+
+-   :material-clock-outline:{ .lg .middle } **Timeline Navigator**
+
+    ---
+
+    Past and future enfold into the present. Explore bidirectional time where the future can influence the past.
+
+    [:octicons-arrow-right-24: Navigate Time](time-enfoldment.md)
+
+-   :material-waves:{ .lg .middle } **Coherence Map**
+
+    ---
+
+    Two oscillators dance toward synchrony. Watch hemispheric coherence emerge — the signature of unified awareness.
+
+    [:octicons-arrow-right-24: Map Coherence](gateway-coherence.md)
+
+-   :material-image-filter-hdr:{ .lg .middle } **Holographic Projector**
+
+    ---
+
+    Paint on the implicate order, watch the explicate reality emerge. See how boundary encodes bulk.
+
+    [:octicons-arrow-right-24: Project Reality](holographic-universe.md)
+
+-   :material-source-branch:{ .lg .middle } **Many-Worlds Explorer**
+
+    ---
+
+    Every measurement splits reality. Navigate the branching tree of quantum possibilities.
+
+    [:octicons-arrow-right-24: Explore Branches](many-worlds.md)
+
 </div>
 
 ## How It Works
@@ -70,6 +110,11 @@ Each tool lets you explore different aspects of the same underlying mathematics:
 | **CY Slice Studio** | Infinite complexity at every zoom level |
 | **Possibility Navigator** | The boundary between order and chaos |
 | **Embeddings Explorer** | Hidden patterns in trajectory data |
+| **Spacetime Weave** | Emergent geometry from quantum fluctuations |
+| **Timeline Navigator** | Bidirectional past-future structures |
+| **Coherence Map** | Phase-locking and hemispheric synchronization |
+| **Holographic Projector** | Boundary-to-bulk information projection |
+| **Many-Worlds Explorer** | Quantum branching and decoherence |
 
 ## The Mathematical Heart
 
