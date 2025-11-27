@@ -16,9 +16,13 @@ matplotlib.use("Agg")  # Non-interactive backend for testing
 import matplotlib.pyplot as plt
 
 from mindfractal.model import FractalDynamicsModel
-from mindfractal.visualize import (plot_basin_of_attraction,
-                                   plot_bifurcation_diagram, plot_fractal_map,
-                                   plot_lyapunov_spectrum, plot_orbit)
+from mindfractal.visualize import (
+    plot_basin_of_attraction,
+    plot_bifurcation_diagram,
+    plot_fractal_map,
+    plot_lyapunov_spectrum,
+    plot_orbit,
+)
 
 
 class TestPlotOrbit:
@@ -97,9 +101,7 @@ class TestPlotFractalMap:
 
         with tempfile.TemporaryDirectory() as tmpdir:
             save_path = os.path.join(tmpdir, "test_fractal.png")
-            fig = plot_fractal_map(
-                fractal_data, c1_range, c2_range, save_path=save_path
-            )
+            fig = plot_fractal_map(fractal_data, c1_range, c2_range, save_path=save_path)
 
             assert os.path.exists(save_path)
             assert os.path.getsize(save_path) > 0
@@ -126,9 +128,7 @@ class TestPlotBasinOfAttraction:
         model = FractalDynamicsModel()
 
         # Use low resolution for fast testing
-        fig = plot_basin_of_attraction(
-            model, resolution=15, x_range=(-1, 1), y_range=(-1, 1)
-        )
+        fig = plot_basin_of_attraction(model, resolution=15, x_range=(-1, 1), y_range=(-1, 1))
 
         assert isinstance(fig, matplotlib.figure.Figure)
         plt.close(fig)
@@ -275,9 +275,7 @@ class TestVisualizationIntegration:
 
         with tempfile.TemporaryDirectory() as tmpdir:
             # Plot orbit
-            fig1 = plot_orbit(
-                model, x0, n_steps=100, save_path=os.path.join(tmpdir, "orbit.png")
-            )
+            fig1 = plot_orbit(model, x0, n_steps=100, save_path=os.path.join(tmpdir, "orbit.png"))
             plt.close(fig1)
 
             # Plot fractal map

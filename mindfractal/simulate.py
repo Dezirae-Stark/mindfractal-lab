@@ -88,9 +88,7 @@ def find_fixed_points(
     if initial_guesses is None:
         # Default grid of initial guesses
         initial_guesses = [
-            np.array([x, y])
-            for x in np.linspace(-2, 2, 5)
-            for y in np.linspace(-2, 2, 5)
+            np.array([x, y]) for x in np.linspace(-2, 2, 5) for y in np.linspace(-2, 2, 5)
         ]
 
     fixed_points = []

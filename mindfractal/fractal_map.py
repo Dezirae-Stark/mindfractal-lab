@@ -90,9 +90,7 @@ def generate_fractal_map(
 
             elif criterion == "final_norm":
                 # Simulate and return final norm
-                trajectory = simulate_orbit(
-                    model, x0, n_steps=max_steps, return_all=False
-                )
+                trajectory = simulate_orbit(model, x0, n_steps=max_steps, return_all=False)
                 fractal_map[j, i] = np.linalg.norm(trajectory)
 
             elif criterion == "lyapunov":
@@ -104,9 +102,7 @@ def generate_fractal_map(
                 # Classify attractor type
                 from .simulate import compute_attractor_type
 
-                atype = compute_attractor_type(
-                    model, x0, n_steps=max_steps, transient=100
-                )
+                atype = compute_attractor_type(model, x0, n_steps=max_steps, transient=100)
                 type_map = {
                     "fixed_point": 0,
                     "limit_cycle": 1,
