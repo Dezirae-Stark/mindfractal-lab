@@ -64,12 +64,15 @@ Thumbs.db
 build/
 cmake-build-*/
 
-# Output files
-*.png
+# Output files (excluding documentation images)
 *.pdf
 *.mp4
 fractal_data/
 output/
+
+# PNG files (but allow docs/images/)
+*.png
+!docs/images/*.png
 
 # Documentation build
 docs/_build/

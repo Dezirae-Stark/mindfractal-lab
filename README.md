@@ -16,16 +16,41 @@ MindFractal Lab implements the discrete-time nonlinear dynamical system:
 
 $$\mathbf{x}_{n+1} = A\mathbf{x}_n + B\tanh(W\mathbf{x}_n) + \mathbf{c}$$
 
-where:
-- **x ∈ ℝ²** (or ℝ³): consciousness state vector
-- **A, B, W**: system matrices encoding feedback, coupling, and weights
-- **c ∈ ℝ²**: external drive / personality parameter vector
+### State Equation Components
+
+| Symbol | Domain | Description |
+|:------:|:------:|:------------|
+| $\mathbf{x}$ | $\mathbb{R}^d$ | State vector ($d = 2$ or $3$) representing consciousness coordinates |
+| $A$ | $\mathbb{R}^{d \times d}$ | Linear feedback matrix (damping/amplification) |
+| $B$ | $\mathbb{R}^{d \times d}$ | Nonlinear coupling matrix |
+| $W$ | $\mathbb{R}^{d \times d}$ | Weight matrix for nonlinear transformation |
+| $\mathbf{c}$ | $\mathbb{R}^d$ | External drive / personality parameter vector |
+
+### System Jacobian
+
+The linearized dynamics around state $\mathbf{x}$ are governed by the Jacobian:
+
+$$J(\mathbf{x}) = A + B \cdot \text{diag}\left(\text{sech}^2(W\mathbf{x})\right) \cdot W$$
+
+where $\text{sech}^2(z) = 1 - \tanh^2(z)$ captures the nonlinear sensitivity.
+
+### Lyapunov Exponent
+
+The maximal Lyapunov exponent $\lambda$ quantifies trajectory divergence:
+
+$$\lambda = \lim_{n \to \infty} \frac{1}{n} \sum_{k=0}^{n-1} \ln \|J(\mathbf{x}_k)\|$$
+
+| $\lambda$ Value | Dynamics | Interpretation |
+|:---------------:|:--------:|:---------------|
+| $\lambda < 0$ | Stable | Trajectories converge to attractor |
+| $\lambda = 0$ | Neutral | Periodic or quasi-periodic motion |
+| $\lambda > 0$ | Chaotic | Sensitive dependence on initial conditions |
 
 This model exhibits:
-- Fixed points, limit cycles, and chaotic attractors
-- Fractal basin boundaries (metastable regions)
-- Rich bifurcation structure in parameter space
-- Trait-to-parameter mappings for personalized modeling
+- **Fixed points**, **limit cycles**, and **chaotic attractors**
+- **Fractal basin boundaries** (metastable regions)
+- **Rich bifurcation structure** in parameter space
+- **Trait-to-parameter mappings** for personalized modeling
 
 ---
 
@@ -189,11 +214,30 @@ This model is grounded in:
 
 ### Key Concepts
 
-| Concept | Description |
-|---------|-------------|
-| **Metastability** | Systems near fractal basin boundaries exhibit prolonged transients |
-| **Fractal dimension** | Parameter-space boundaries have D ≈ 1.3–1.8 |
-| **Lyapunov exponent** | λ > 0: chaotic, λ = 0: periodic, λ < 0: stable |
+| Concept | Mathematical Form | Description |
+|:--------|:-----------------:|:------------|
+| **Metastability** | $\tau \propto \|\mathbf{x} - \partial\mathcal{B}\|^{-\alpha}$ | Dwell time near basin boundaries scales with distance |
+| **Fractal Dimension** | $D_f \approx 1.3 - 1.8$ | Box-counting dimension of basin boundaries |
+| **Lyapunov Spectrum** | $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_d$ | Ordered exponents characterize attractor geometry |
+
+### Attractor Classification
+
+The long-term behavior depends on the spectrum $\{\lambda_i\}$:
+
+$$\text{Attractor Type} = \begin{cases}
+\text{Fixed Point} & \text{if } \lambda_1 < 0 \\
+\text{Limit Cycle} & \text{if } \lambda_1 = 0, \lambda_2 < 0 \\
+\text{Torus} & \text{if } \lambda_1 = \lambda_2 = 0 \\
+\text{Strange Attractor} & \text{if } \lambda_1 > 0
+\end{cases}$$
+
+### Fractal Basin Boundary
+
+The boundary $\partial\mathcal{B}$ between attraction basins exhibits fractal structure when:
+
+$$\dim_H(\partial\mathcal{B}) > d - 1$$
+
+where $\dim_H$ denotes the Hausdorff dimension and $d$ is the state-space dimension.
 
 See [docs/paper.md](docs/paper.md) for the full mathematical treatment.
 
