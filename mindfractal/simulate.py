@@ -8,8 +8,10 @@ This module provides functions for:
 - Computing basin of attraction boundaries
 """
 
+from typing import List, Optional, Tuple
+
 import numpy as np
-from typing import Tuple, List, Optional
+
 from .model import FractalDynamicsModel
 
 
@@ -17,7 +19,7 @@ def simulate_orbit(
     model: FractalDynamicsModel,
     x0: np.ndarray,
     n_steps: int = 1000,
-    return_all: bool = True
+    return_all: bool = True,
 ) -> np.ndarray:
     """
     Simulate an orbit starting from initial condition x0.
@@ -59,7 +61,7 @@ def find_fixed_points(
     model: FractalDynamicsModel,
     initial_guesses: Optional[List[np.ndarray]] = None,
     tolerance: float = 1e-6,
-    max_iter: int = 1000
+    max_iter: int = 1000,
 ) -> List[Tuple[np.ndarray, bool]]:
     """
     Find fixed points of the dynamical system using Newton's method.
@@ -138,7 +140,7 @@ def compute_attractor_type(
     x0: np.ndarray,
     n_steps: int = 5000,
     transient: int = 1000,
-    tolerance: float = 1e-3
+    tolerance: float = 1e-3,
 ) -> str:
     """
     Classify the type of attractor reached from initial condition x0.
@@ -190,7 +192,7 @@ def basin_of_attraction_sample(
     x_range: Tuple[float, float] = (-2.0, 2.0),
     y_range: Tuple[float, float] = (-2.0, 2.0),
     resolution: int = 100,
-    n_steps: int = 1000
+    n_steps: int = 1000,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Sample the basin of attraction on a grid.
@@ -242,7 +244,7 @@ def poincare_section(
     n_steps: int = 10000,
     plane_coord: int = 0,
     plane_value: float = 0.0,
-    direction: int = 1
+    direction: int = 1,
 ) -> np.ndarray:
     """
     Compute Poincaré section for analyzing periodic/chaotic orbits.
@@ -264,7 +266,7 @@ def poincare_section(
     poincare_points = []
 
     for i in range(1, len(trajectory)):
-        x_prev = trajectory[i-1]
+        x_prev = trajectory[i - 1]
         x_curr = trajectory[i]
 
         # Check if crossing occurred

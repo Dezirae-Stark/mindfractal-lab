@@ -4,14 +4,11 @@ Unit tests for mindfractal.simulate
 
 import numpy as np
 import pytest
+
 from mindfractal.model import FractalDynamicsModel
-from mindfractal.simulate import (
-    simulate_orbit,
-    find_fixed_points,
-    compute_attractor_type,
-    basin_of_attraction_sample,
-    poincare_section
-)
+from mindfractal.simulate import (basin_of_attraction_sample,
+                                  compute_attractor_type, find_fixed_points,
+                                  poincare_section, simulate_orbit)
 
 
 class TestSimulateOrbit:
@@ -141,9 +138,11 @@ class TestComputeAttractorType:
         x0 = np.array([0.5, 0.5])
 
         # n_steps must be > transient (default 1000), use 2000
-        attractor_type = compute_attractor_type(model, x0, n_steps=2000, transient=500, tolerance=1e-3)
+        attractor_type = compute_attractor_type(
+            model, x0, n_steps=2000, transient=500, tolerance=1e-3
+        )
 
-        assert attractor_type == 'fixed_point'
+        assert attractor_type == "fixed_point"
 
     def test_compute_attractor_type_unbounded(self):
         """Test classification of unbounded trajectory"""
@@ -159,9 +158,11 @@ class TestComputeAttractorType:
         x0 = np.array([1.0, 1.0])  # Start with larger values
 
         # Use short transient to ensure we catch the divergence
-        attractor_type = compute_attractor_type(model, x0, n_steps=200, transient=10, tolerance=1e-3)
+        attractor_type = compute_attractor_type(
+            model, x0, n_steps=200, transient=10, tolerance=1e-3
+        )
 
-        assert attractor_type == 'unbounded'
+        assert attractor_type == "unbounded"
 
     def test_compute_attractor_type_returns_string(self):
         """Test that function returns a string"""
@@ -172,7 +173,7 @@ class TestComputeAttractorType:
         attractor_type = compute_attractor_type(model, x0, n_steps=2000, transient=500)
 
         assert isinstance(attractor_type, str)
-        assert attractor_type in ['fixed_point', 'limit_cycle', 'chaotic', 'unbounded']
+        assert attractor_type in ["fixed_point", "limit_cycle", "chaotic", "unbounded"]
 
 
 class TestBasinOfAttraction:
@@ -184,10 +185,7 @@ class TestBasinOfAttraction:
         resolution = 20
 
         X, Y, basin_labels = basin_of_attraction_sample(
-            model,
-            x_range=(-1, 1),
-            y_range=(-1, 1),
-            resolution=resolution
+            model, x_range=(-1, 1), y_range=(-1, 1), resolution=resolution
         )
 
         assert X.shape == (resolution, resolution)
@@ -199,10 +197,7 @@ class TestBasinOfAttraction:
         model = FractalDynamicsModel()
 
         X, Y, basin_labels = basin_of_attraction_sample(
-            model,
-            x_range=(-1, 1),
-            y_range=(-1, 1),
-            resolution=15
+            model, x_range=(-1, 1), y_range=(-1, 1), resolution=15
         )
 
         assert np.all(np.isfinite(X))
@@ -215,10 +210,7 @@ class TestBasinOfAttraction:
         resolution = 15
 
         X, Y, basin_labels = basin_of_attraction_sample(
-            model,
-            x_range=(-1, 1),
-            y_range=(-1, 1),
-            resolution=resolution
+            model, x_range=(-1, 1), y_range=(-1, 1), resolution=resolution
         )
 
         # Labels should be non-negative integers
@@ -234,7 +226,9 @@ class TestPoincareSection:
         model = FractalDynamicsModel()
         x0 = np.array([0.5, 0.5])
 
-        crossings = poincare_section(model, x0, n_steps=1000, plane_coord=0, plane_value=0.5)
+        crossings = poincare_section(
+            model, x0, n_steps=1000, plane_coord=0, plane_value=0.5
+        )
 
         assert isinstance(crossings, np.ndarray)
 
@@ -250,7 +244,9 @@ class TestPoincareSection:
         x0 = np.array([1.9, 1.9])  # Start near fixed point
 
         # Section at x=0 (trajectory stays near 2.0)
-        crossings = poincare_section(model, x0, n_steps=500, plane_coord=0, plane_value=0.0)
+        crossings = poincare_section(
+            model, x0, n_steps=500, plane_coord=0, plane_value=0.0
+        )
 
         # Should find no crossings
         assert len(crossings) == 0
@@ -261,8 +257,12 @@ class TestPoincareSection:
         x0 = np.array([0.5, 0.5])
 
         # Test both plane coordinates
-        crossings_0 = poincare_section(model, x0, n_steps=1000, plane_coord=0, plane_value=0.5)
-        crossings_1 = poincare_section(model, x0, n_steps=1000, plane_coord=1, plane_value=0.5)
+        crossings_0 = poincare_section(
+            model, x0, n_steps=1000, plane_coord=0, plane_value=0.5
+        )
+        crossings_1 = poincare_section(
+            model, x0, n_steps=1000, plane_coord=1, plane_value=0.5
+        )
 
         assert isinstance(crossings_0, np.ndarray)
         assert isinstance(crossings_1, np.ndarray)
@@ -285,7 +285,7 @@ class TestIntegration:
 
         # All steps should complete without error
         assert trajectory.shape == (500, 2)
-        assert attractor_type in ['fixed_point', 'limit_cycle', 'chaotic', 'unbounded']
+        assert attractor_type in ["fixed_point", "limit_cycle", "chaotic", "unbounded"]
 
     def test_multiple_initial_conditions(self):
         """Test simulations from multiple initial conditions"""
@@ -295,7 +295,7 @@ class TestIntegration:
             np.array([0.1, 0.1]),
             np.array([0.5, 0.5]),
             np.array([0.9, 0.9]),
-            np.array([-0.5, 0.5])
+            np.array([-0.5, 0.5]),
         ]
 
         for x0 in initial_conditions:
@@ -304,9 +304,11 @@ class TestIntegration:
             assert np.all(np.isfinite(trajectory))
 
             # n_steps must be > transient for compute_attractor_type
-            attractor_type = compute_attractor_type(model, x0, n_steps=1500, transient=500)
+            attractor_type = compute_attractor_type(
+                model, x0, n_steps=1500, transient=500
+            )
             assert isinstance(attractor_type, str)
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

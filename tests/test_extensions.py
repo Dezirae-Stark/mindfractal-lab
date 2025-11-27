@@ -2,13 +2,15 @@
 Unit tests for extensions (3D, psychomapping)
 """
 
+
 import numpy as np
 import pytest
-import json
-import os
+
+from extensions.psychomapping.trait_to_c import (load_trait_profiles,
+                                                 traits_to_parameters)
 from extensions.state3d.model_3d import FractalDynamicsModel3D
-from extensions.state3d.simulate_3d import simulate_orbit_3d, lyapunov_spectrum_3d
-from extensions.psychomapping.trait_to_c import traits_to_parameters, load_trait_profiles
+from extensions.state3d.simulate_3d import (lyapunov_spectrum_3d,
+                                            simulate_orbit_3d)
 
 
 class TestFractalDynamicsModel3D:
@@ -141,12 +143,7 @@ class TestTraitToParameters:
 
     def test_traits_to_parameters_shape(self):
         """Test that trait mapping returns correct shape"""
-        traits = {
-            'openness': 0.8,
-            'volatility': 0.3,
-            'integration': 0.7,
-            'focus': 0.6
-        }
+        traits = {"openness": 0.8, "volatility": 0.3, "integration": 0.7, "focus": 0.6}
 
         c = traits_to_parameters(traits)
 
@@ -155,12 +152,7 @@ class TestTraitToParameters:
 
     def test_traits_to_parameters_finite(self):
         """Test that mapped parameters are finite"""
-        traits = {
-            'openness': 0.5,
-            'volatility': 0.5,
-            'integration': 0.5,
-            'focus': 0.5
-        }
+        traits = {"openness": 0.5, "volatility": 0.5, "integration": 0.5, "focus": 0.5}
 
         c = traits_to_parameters(traits)
 
@@ -168,12 +160,7 @@ class TestTraitToParameters:
 
     def test_traits_to_parameters_range(self):
         """Test that parameters are in reasonable range"""
-        traits = {
-            'openness': 0.5,
-            'volatility': 0.5,
-            'integration': 0.5,
-            'focus': 0.5
-        }
+        traits = {"openness": 0.5, "volatility": 0.5, "integration": 0.5, "focus": 0.5}
 
         c = traits_to_parameters(traits)
 
@@ -185,20 +172,20 @@ class TestTraitToParameters:
         """Test trait mapping at edge values"""
         # All traits at 0
         traits_low = {
-            'openness': 0.0,
-            'volatility': 0.0,
-            'integration': 0.0,
-            'focus': 0.0
+            "openness": 0.0,
+            "volatility": 0.0,
+            "integration": 0.0,
+            "focus": 0.0,
         }
         c_low = traits_to_parameters(traits_low)
         assert c_low.shape == (2,)
 
         # All traits at 1
         traits_high = {
-            'openness': 1.0,
-            'volatility': 1.0,
-            'integration': 1.0,
-            'focus': 1.0
+            "openness": 1.0,
+            "volatility": 1.0,
+            "integration": 1.0,
+            "focus": 1.0,
         }
         c_high = traits_to_parameters(traits_high)
         assert c_high.shape == (2,)
@@ -208,12 +195,7 @@ class TestTraitToParameters:
 
     def test_traits_to_parameters_deterministic(self):
         """Test that trait mapping is deterministic"""
-        traits = {
-            'openness': 0.6,
-            'volatility': 0.4,
-            'integration': 0.7,
-            'focus': 0.5
-        }
+        traits = {"openness": 0.6, "volatility": 0.4, "integration": 0.7, "focus": 0.5}
 
         c1 = traits_to_parameters(traits)
         c2 = traits_to_parameters(traits)
@@ -222,18 +204,8 @@ class TestTraitToParameters:
 
     def test_traits_to_parameters_different_traits(self):
         """Test that different traits give different parameters"""
-        traits1 = {
-            'openness': 0.8,
-            'volatility': 0.2,
-            'integration': 0.7,
-            'focus': 0.6
-        }
-        traits2 = {
-            'openness': 0.2,
-            'volatility': 0.8,
-            'integration': 0.3,
-            'focus': 0.4
-        }
+        traits1 = {"openness": 0.8, "volatility": 0.2, "integration": 0.7, "focus": 0.6}
+        traits2 = {"openness": 0.2, "volatility": 0.8, "integration": 0.3, "focus": 0.4}
 
         c1 = traits_to_parameters(traits1)
         c2 = traits_to_parameters(traits2)
@@ -253,23 +225,23 @@ class TestLoadTraitProfiles:
     def test_load_trait_profiles_contains_balanced(self):
         """Test loading balanced profile"""
         profiles = load_trait_profiles()
-        traits = profiles['balanced']
+        traits = profiles["balanced"]
 
         assert isinstance(traits, dict)
-        assert 'openness' in traits
-        assert 'volatility' in traits
-        assert 'integration' in traits
-        assert 'focus' in traits
+        assert "openness" in traits
+        assert "volatility" in traits
+        assert "integration" in traits
+        assert "focus" in traits
 
     def test_load_trait_profiles_all_profiles(self):
         """Test loading all pre-defined profiles"""
         profiles = load_trait_profiles()
         expected_profiles = [
-            'balanced',
-            'creative_explorer',
-            'stable_focused',
-            'chaotic_fragmented',
-            'meditative'
+            "balanced",
+            "creative_explorer",
+            "stable_focused",
+            "chaotic_fragmented",
+            "meditative",
         ]
 
         for profile_name in expected_profiles:
@@ -287,17 +259,17 @@ class TestLoadTraitProfiles:
         profiles = load_trait_profiles()
 
         with pytest.raises(KeyError):
-            _ = profiles['nonexistent_profile']
+            _ = profiles["nonexistent_profile"]
 
     def test_trait_profiles_produce_valid_parameters(self):
         """Test that all profiles produce valid parameters"""
         profiles = load_trait_profiles()
         profile_names = [
-            'balanced',
-            'creative_explorer',
-            'stable_focused',
-            'chaotic_fragmented',
-            'meditative'
+            "balanced",
+            "creative_explorer",
+            "stable_focused",
+            "chaotic_fragmented",
+            "meditative",
         ]
 
         for profile_name in profile_names:
@@ -315,7 +287,7 @@ class TestExtensionIntegration:
         """Test using trait mapping with 3D model"""
         # Load traits
         profiles = load_trait_profiles()
-        traits = profiles['balanced']
+        traits = profiles["balanced"]
         c_2d = traits_to_parameters(traits)
 
         # Extend to 3D by adding a component
@@ -335,11 +307,11 @@ class TestExtensionIntegration:
         """Test all trait profiles with 3D model"""
         profiles = load_trait_profiles()
         profile_names = [
-            'balanced',
-            'creative_explorer',
-            'stable_focused',
-            'chaotic_fragmented',
-            'meditative'
+            "balanced",
+            "creative_explorer",
+            "stable_focused",
+            "chaotic_fragmented",
+            "meditative",
         ]
 
         for profile_name in profile_names:
@@ -359,8 +331,8 @@ class TestExtensionIntegration:
         profiles = load_trait_profiles()
 
         # Get two different profiles
-        traits1 = profiles['stable_focused']
-        traits2 = profiles['chaotic_fragmented']
+        traits1 = profiles["stable_focused"]
+        traits2 = profiles["chaotic_fragmented"]
 
         c1 = traits_to_parameters(traits1)
         c2 = traits_to_parameters(traits2)
@@ -370,11 +342,13 @@ class TestExtensionIntegration:
 
         # Create models
         from mindfractal.model import FractalDynamicsModel
+
         model1 = FractalDynamicsModel(c=c1)
         model2 = FractalDynamicsModel(c=c2)
 
         # Simulate from same initial condition
         from mindfractal.simulate import simulate_orbit
+
         x0 = np.array([0.5, 0.5])
         traj1 = simulate_orbit(model1, x0, n_steps=100)
         traj2 = simulate_orbit(model2, x0, n_steps=100)
@@ -385,5 +359,5 @@ class TestExtensionIntegration:
         assert final_distance > 1e-6  # Should have some difference
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

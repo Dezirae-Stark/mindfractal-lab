@@ -10,8 +10,10 @@ The fractal map shows:
 - Self-similar structure at multiple scales
 """
 
+from typing import Optional, Tuple
+
 import numpy as np
-from typing import Tuple, Callable, Optional
+
 from .model import FractalDynamicsModel
 from .simulate import simulate_orbit
 
@@ -26,7 +28,7 @@ def generate_fractal_map(
     A: Optional[np.ndarray] = None,
     B: Optional[np.ndarray] = None,
     W: Optional[np.ndarray] = None,
-    criterion: str = 'divergence_time'
+    criterion: str = "divergence_time",
 ) -> np.ndarray:
     """
     Generate a fractal map in (c1, c2) parameter space.
@@ -74,7 +76,7 @@ def generate_fractal_map(
             # Create model with this parameter value
             model = FractalDynamicsModel(A=A, B=B, W=W, c=c)
 
-            if criterion == 'divergence_time':
+            if criterion == "divergence_time":
                 # Compute divergence time
                 x = x0.copy()
                 for step in range(max_steps):
@@ -86,25 +88,30 @@ def generate_fractal_map(
                     # Did not diverge
                     fractal_map[j, i] = max_steps
 
-            elif criterion == 'final_norm':
+            elif criterion == "final_norm":
                 # Simulate and return final norm
-                trajectory = simulate_orbit(model, x0, n_steps=max_steps, return_all=False)
+                trajectory = simulate_orbit(
+                    model, x0, n_steps=max_steps, return_all=False
+                )
                 fractal_map[j, i] = np.linalg.norm(trajectory)
 
-            elif criterion == 'lyapunov':
+            elif criterion == "lyapunov":
                 # Estimate Lyapunov exponent
                 lyap = model.lyapunov_exponent_estimate(x0, n_steps=200, transient=100)
                 fractal_map[j, i] = lyap
 
-            elif criterion == 'attractor_type':
+            elif criterion == "attractor_type":
                 # Classify attractor type
                 from .simulate import compute_attractor_type
-                atype = compute_attractor_type(model, x0, n_steps=max_steps, transient=100)
+
+                atype = compute_attractor_type(
+                    model, x0, n_steps=max_steps, transient=100
+                )
                 type_map = {
-                    'fixed_point': 0,
-                    'limit_cycle': 1,
-                    'chaotic': 2,
-                    'unbounded': 3
+                    "fixed_point": 0,
+                    "limit_cycle": 1,
+                    "chaotic": 2,
+                    "unbounded": 3,
                 }
                 fractal_map[j, i] = type_map.get(atype, -1)
 
@@ -113,10 +120,7 @@ def generate_fractal_map(
 
 
 def zoom_fractal_map(
-    center: Tuple[float, float],
-    zoom_factor: float,
-    base_range: float = 1.0,
-    **kwargs
+    center: Tuple[float, float], zoom_factor: float, base_range: float = 1.0, **kwargs
 ) -> np.ndarray:
     """
     Generate a zoomed-in fractal map around a specific parameter point.
@@ -137,11 +141,7 @@ def zoom_fractal_map(
     c1_range = (center[0] - delta, center[0] + delta)
     c2_range = (center[1] - delta, center[1] + delta)
 
-    return generate_fractal_map(
-        c1_range=c1_range,
-        c2_range=c2_range,
-        **kwargs
-    )
+    return generate_fractal_map(c1_range=c1_range, c2_range=c2_range, **kwargs)
 
 
 def adaptive_fractal_map(
@@ -150,7 +150,7 @@ def adaptive_fractal_map(
     base_resolution: int = 100,
     max_resolution: int = 500,
     variation_threshold: float = 0.5,
-    **kwargs
+    **kwargs,
 ) -> np.ndarray:
     """
     Generate fractal map with adaptive resolution.
@@ -171,10 +171,7 @@ def adaptive_fractal_map(
     """
     print("Phase 1: Generating coarse fractal map...")
     coarse_map = generate_fractal_map(
-        c1_range=c1_range,
-        c2_range=c2_range,
-        resolution=base_resolution,
-        **kwargs
+        c1_range=c1_range, c2_range=c2_range, resolution=base_resolution, **kwargs
     )
 
     # Detect high-variation regions
@@ -195,10 +192,7 @@ def adaptive_fractal_map(
     # For simplicity, regenerate at max resolution
     # (Full adaptive implementation would require quadtree structure)
     refined_map = generate_fractal_map(
-        c1_range=c1_range,
-        c2_range=c2_range,
-        resolution=max_resolution,
-        **kwargs
+        c1_range=c1_range, c2_range=c2_range, resolution=max_resolution, **kwargs
     )
 
     return refined_map

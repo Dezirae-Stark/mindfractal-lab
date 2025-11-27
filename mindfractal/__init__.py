@@ -13,10 +13,10 @@ __version__ = "0.1.0"
 __author__ = "MindFractal Lab Contributors"
 __license__ = "MIT"
 
-from .model import FractalDynamicsModel
-from .simulate import simulate_orbit, find_fixed_points
-from .visualize import plot_orbit, plot_fractal_map
 from .fractal_map import generate_fractal_map
+from .model import FractalDynamicsModel
+from .simulate import find_fixed_points, simulate_orbit
+from .visualize import plot_fractal_map, plot_orbit
 
 __all__ = [
     "FractalDynamicsModel",
