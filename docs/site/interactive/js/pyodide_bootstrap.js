@@ -62,7 +62,9 @@ async function loadCustomModules() {
     const modules = [
         'fractal_core',
         'cy_core',
-        'possibility_core'
+        'possibility_core',
+        'attractor_core',
+        'embeddings_core'
     ];
 
     for (const moduleName of modules) {
