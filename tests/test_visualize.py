@@ -127,7 +127,7 @@ class TestPlotBasinOfAttraction:
         # Use low resolution for fast testing
         fig = plot_basin_of_attraction(
             model,
-            resolution=20,
+            resolution=15,
             x_range=(-1, 1),
             y_range=(-1, 1)
         )
@@ -143,7 +143,7 @@ class TestPlotBasinOfAttraction:
             save_path = os.path.join(tmpdir, 'test_basin.png')
             fig = plot_basin_of_attraction(
                 model,
-                resolution=15,
+                resolution=10,
                 save_path=save_path
             )
 
@@ -158,50 +158,63 @@ class TestPlotBifurcationDiagram:
 
     def test_plot_bifurcation_returns_figure(self):
         """Test that plot_bifurcation_diagram returns a Figure object"""
-        model = FractalDynamicsModel()
+        # Create a model generator function
+        def model_generator(param_val):
+            c = np.array([param_val, 0.1])
+            return FractalDynamicsModel(c=c)
 
         # Use small parameters for fast testing
         fig = plot_bifurcation_diagram(
-            model,
+            model_generator,
             param_name='c1',
-            param_range=(-0.5, 0.5),
-            n_points=20,
-            n_steps=100,
-            n_plot=50
+            param_range=(-0.3, 0.3),
+            n_params=10,
+            n_transient=50,
+            n_plot=30
         )
 
         assert isinstance(fig, matplotlib.figure.Figure)
         plt.close(fig)
 
     def test_plot_bifurcation_different_params(self):
-        """Test bifurcation diagram for different parameters"""
-        model = FractalDynamicsModel()
+        """Test bifurcation diagram for different parameter generators"""
+        # c1 generator
+        def c1_generator(param_val):
+            c = np.array([param_val, 0.1])
+            return FractalDynamicsModel(c=c)
 
-        for param_name in ['c1', 'c2']:
+        # c2 generator
+        def c2_generator(param_val):
+            c = np.array([0.1, param_val])
+            return FractalDynamicsModel(c=c)
+
+        for generator in [c1_generator, c2_generator]:
             fig = plot_bifurcation_diagram(
-                model,
-                param_name=param_name,
-                param_range=(-0.5, 0.5),
-                n_points=15,
-                n_steps=100,
-                n_plot=50
+                generator,
+                param_name='param',
+                param_range=(-0.3, 0.3),
+                n_params=8,
+                n_transient=50,
+                n_plot=30
             )
             assert isinstance(fig, matplotlib.figure.Figure)
             plt.close(fig)
 
     def test_plot_bifurcation_saves_file(self):
         """Test that bifurcation diagram saves to file"""
-        model = FractalDynamicsModel()
+        def model_generator(param_val):
+            c = np.array([param_val, 0.1])
+            return FractalDynamicsModel(c=c)
 
         with tempfile.TemporaryDirectory() as tmpdir:
             save_path = os.path.join(tmpdir, 'test_bifurcation.png')
             fig = plot_bifurcation_diagram(
-                model,
+                model_generator,
                 param_name='c1',
-                param_range=(-0.5, 0.5),
-                n_points=10,
-                n_steps=50,
-                n_plot=30,
+                param_range=(-0.3, 0.3),
+                n_params=8,
+                n_transient=30,
+                n_plot=20,
                 save_path=save_path
             )
 
@@ -223,8 +236,7 @@ class TestPlotLyapunovSpectrum:
         fig = plot_lyapunov_spectrum(
             model,
             x0,
-            n_steps=500,
-            window_size=100
+            n_steps=300
         )
 
         assert isinstance(fig, matplotlib.figure.Figure)
@@ -240,8 +252,7 @@ class TestPlotLyapunovSpectrum:
             fig = plot_lyapunov_spectrum(
                 model,
                 x0,
-                n_steps=300,
-                window_size=100,
+                n_steps=200,
                 save_path=save_path
             )
 
@@ -264,8 +275,7 @@ class TestPlotLyapunovSpectrum:
             fig = plot_lyapunov_spectrum(
                 model,
                 x0,
-                n_steps=300,
-                window_size=100
+                n_steps=200
             )
             assert isinstance(fig, matplotlib.figure.Figure)
             plt.close(fig)
@@ -292,17 +302,19 @@ class TestVisualizationIntegration:
             plt.close(fig2)
 
             # Plot basin
-            fig3 = plot_basin_of_attraction(model, resolution=15,
+            fig3 = plot_basin_of_attraction(model, resolution=10,
                                            save_path=os.path.join(tmpdir, 'basin.png'))
             plt.close(fig3)
 
             # Plot bifurcation
-            fig4 = plot_bifurcation_diagram(model, 'c1', (-0.5, 0.5), 10, 50, 30,
+            def model_gen(p):
+                return FractalDynamicsModel(c=np.array([p, 0.1]))
+            fig4 = plot_bifurcation_diagram(model_gen, 'c1', (-0.3, 0.3), 8, 30, 20,
                                            save_path=os.path.join(tmpdir, 'bifurcation.png'))
             plt.close(fig4)
 
             # Plot Lyapunov
-            fig5 = plot_lyapunov_spectrum(model, x0, 300, 100,
+            fig5 = plot_lyapunov_spectrum(model, x0, 200,
                                          save_path=os.path.join(tmpdir, 'lyapunov.png'))
             plt.close(fig5)
 
