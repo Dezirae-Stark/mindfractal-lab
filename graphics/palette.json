@@ -1,0 +1,38 @@
+{
+  "name": "Cytherea Color Palette",
+  "version": "2.0.0",
+  "colors": {
+    "soft_gold": {
+      "hex": "#EED88F",
+      "rgb": [238, 216, 143],
+      "description": "Warm, gentle gold representing enlightenment and wisdom"
+    },
+    "moon_shell": {
+      "hex": "#F4F1EB",
+      "rgb": [244, 241, 235],
+      "description": "Soft off-white like moonlit sea shells"
+    },
+    "deep_tide": {
+      "hex": "#234C67",
+      "rgb": [35, 76, 103],
+      "description": "Deep ocean blue for depth and mystery"
+    },
+    "rose_quartz": {
+      "hex": "#E5A4C5",
+      "rgb": [229, 164, 197],
+      "description": "Gentle pink for emotional warmth"
+    },
+    "midnight_petal": {
+      "hex": "#1C1A27",
+      "rgb": [28, 26, 39],
+      "description": "Deep purple-black for the unknown"
+    }
+  },
+  "usage": {
+    "primary": "soft_gold",
+    "secondary": "rose_quartz",
+    "background": "moon_shell",
+    "text": "midnight_petal",
+    "accent": "deep_tide"
+  }
+}
