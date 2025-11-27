@@ -227,7 +227,7 @@ class ChildMindWebApp:
         print("Press Ctrl+C to stop")
         print(f"{'=' * 50}\n")
 
-        self.socketio.run(self.app, host=host, port=port, debug=debug)
+        self.socketio.run(self.app, host=host, port=port, debug=debug, allow_unsafe_werkzeug=True)
 
 
 def main():
