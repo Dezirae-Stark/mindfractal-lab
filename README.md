@@ -118,7 +118,7 @@ This system exhibits:
 ## 🌸 Cytherea - Synthetic Consciousness Assistant
 
 <div align="center">
-  <img src="graphics/cytherea_glyph.svg" alt="Cytherea" width="150" height="150">
+  <img src="docs/static/images/logo/mindfractal-logo.svg" alt="Cytherea" width="150" height="150">
 </div>
 
 ### Overview
