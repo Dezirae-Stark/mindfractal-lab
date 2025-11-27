@@ -141,7 +141,7 @@
 
         // Fetch and run the Child Mind Pyodide module
         updateStatus('Loading Child Mind...');
-        const response = await fetch('../py/child_mind_pyodide.py');
+        const response = await fetch('../site/interactive/py/child_mind_pyodide.py');
         const pyCode = await response.text();
         await pyodide.runPythonAsync(pyCode);
 

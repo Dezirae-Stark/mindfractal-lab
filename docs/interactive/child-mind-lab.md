@@ -429,4 +429,4 @@
 }
 </style>
 
-<script src="js/child_mind_viewer.js"></script>
+<script src="../site/interactive/js/child_mind_viewer.js"></script>
