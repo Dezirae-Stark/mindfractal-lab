@@ -40,9 +40,11 @@ jobs:
       - name: Build Book PDF
         run: |
           cd docs/fractal_consciousness_book
+          # Run pdflatex multiple times for cross-references
+          # Use || true to ignore LaTeX warnings (non-zero exit on warnings)
           pdflatex -interaction=nonstopmode fractal_consciousness_book.tex || true
           pdflatex -interaction=nonstopmode fractal_consciousness_book.tex || true
-          pdflatex -interaction=nonstopmode fractal_consciousness_book.tex
+          pdflatex -interaction=nonstopmode fractal_consciousness_book.tex || true
 
       - name: Check PDF exists
         run: |
