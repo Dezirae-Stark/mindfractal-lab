@@ -1,0 +1,331 @@
+/* ============================================================================
+   MindFractal Lab — Custom Styles
+   Cosmic / Fractal / Consciousness Aesthetic
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   Root Variables — Color Palette
+   ---------------------------------------------------------------------------- */
+:root {
+  /* Primary cosmic colors */
+  --md-primary-fg-color: #7c3aed;  /* Deep purple */
+  --md-accent-fg-color: #06b6d4;   /* Cyan */
+
+  /* Fractal gradient colors */
+  --fractal-purple: #8b5cf6;
+  --fractal-blue: #3b82f6;
+  --fractal-cyan: #06b6d4;
+  --fractal-pink: #ec4899;
+
+  /* Cosmic background */
+  --cosmic-dark: #0f0a1e;
+  --cosmic-mid: #1a1333;
+  --cosmic-light: #2d2250;
+
+  /* Glow effects */
+  --glow-purple: rgba(139, 92, 246, 0.4);
+  --glow-cyan: rgba(6, 182, 212, 0.4);
+}
+
+/* Dark theme overrides */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: var(--cosmic-dark);
+  --md-default-bg-color--light: var(--cosmic-mid);
+  --md-default-bg-color--lighter: var(--cosmic-light);
+}
+
+/* ----------------------------------------------------------------------------
+   Header & Navigation
+   ---------------------------------------------------------------------------- */
+.md-header {
+  background: linear-gradient(135deg, var(--cosmic-dark) 0%, var(--cosmic-mid) 100%);
+  border-bottom: 1px solid var(--glow-purple);
+}
+
+.md-tabs {
+  background: var(--cosmic-mid);
+}
+
+.md-tabs__link--active {
+  border-bottom: 2px solid var(--fractal-cyan);
+}
+
+/* Navigation glow on hover */
+.md-nav__link:hover {
+  color: var(--fractal-cyan) !important;
+  text-shadow: 0 0 8px var(--glow-cyan);
+}
+
+/* ----------------------------------------------------------------------------
+   Cards and Containers
+   ---------------------------------------------------------------------------- */
+.md-typeset .admonition,
+.md-typeset details {
+  background: rgba(30, 20, 50, 0.6);
+  border: 1px solid var(--glow-purple);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+}
+
+/* Note admonition with cyan glow */
+.md-typeset .admonition.note {
+  border-left-color: var(--fractal-cyan);
+  box-shadow: 0 0 15px var(--glow-cyan);
+}
+
+/* Warning with pink glow */
+.md-typeset .admonition.warning {
+  border-left-color: var(--fractal-pink);
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+}
+
+/* ----------------------------------------------------------------------------
+   Code Blocks
+   ---------------------------------------------------------------------------- */
+.md-typeset code {
+  background: rgba(30, 20, 50, 0.8);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 4px;
+}
+
+.md-typeset pre > code {
+  border-radius: 8px;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Syntax highlighting adjustments */
+.highlight .k,  /* Keywords */
+.highlight .kd,
+.highlight .kn {
+  color: var(--fractal-purple) !important;
+}
+
+.highlight .s,  /* Strings */
+.highlight .s1,
+.highlight .s2 {
+  color: var(--fractal-cyan) !important;
+}
+
+.highlight .nf, /* Functions */
+.highlight .nc {
+  color: var(--fractal-pink) !important;
+}
+
+/* ----------------------------------------------------------------------------
+   Math Display
+   ---------------------------------------------------------------------------- */
+.MathJax {
+  color: #e0e0e0 !important;
+}
+
+/* Math block container */
+.md-typeset .arithmatex {
+  overflow-x: auto;
+  padding: 1rem;
+  background: rgba(20, 15, 40, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* ----------------------------------------------------------------------------
+   Tables
+   ---------------------------------------------------------------------------- */
+.md-typeset table:not([class]) {
+  background: rgba(30, 20, 50, 0.4);
+  border: 1px solid var(--glow-purple);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.md-typeset table:not([class]) th {
+  background: rgba(139, 92, 246, 0.2);
+  border-bottom: 2px solid var(--fractal-purple);
+}
+
+.md-typeset table:not([class]) tr:hover {
+  background: rgba(6, 182, 212, 0.1);
+}
+
+/* ----------------------------------------------------------------------------
+   Links
+   ---------------------------------------------------------------------------- */
+.md-typeset a {
+  color: var(--fractal-cyan);
+  transition: all 0.2s ease;
+}
+
+.md-typeset a:hover {
+  color: var(--fractal-purple);
+  text-shadow: 0 0 8px var(--glow-purple);
+}
+
+/* ----------------------------------------------------------------------------
+   Hero Section (for home page)
+   ---------------------------------------------------------------------------- */
+.md-typeset .hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(180deg, var(--cosmic-mid) 0%, transparent 100%);
+  border-radius: 16px;
+  margin-bottom: 2rem;
+}
+
+.md-typeset .hero h1 {
+  font-size: 3rem;
+  background: linear-gradient(135deg, var(--fractal-purple) 0%, var(--fractal-cyan) 50%, var(--fractal-pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+}
+
+/* ----------------------------------------------------------------------------
+   Buttons
+   ---------------------------------------------------------------------------- */
+.md-typeset .md-button {
+  background: linear-gradient(135deg, var(--fractal-purple) 0%, var(--fractal-blue) 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px var(--glow-purple);
+}
+
+.md-typeset .md-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px var(--glow-purple);
+}
+
+.md-typeset .md-button--primary {
+  background: linear-gradient(135deg, var(--fractal-cyan) 0%, var(--fractal-blue) 100%);
+  box-shadow: 0 4px 15px var(--glow-cyan);
+}
+
+/* ----------------------------------------------------------------------------
+   Images and Figures
+   ---------------------------------------------------------------------------- */
+.md-typeset img {
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.md-typeset img:hover {
+  transform: scale(1.02);
+}
+
+/* Figure captions */
+.md-typeset figcaption {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* ----------------------------------------------------------------------------
+   Fractal Animation Background (optional)
+   ---------------------------------------------------------------------------- */
+@keyframes fractal-glow {
+  0%, 100% {
+    box-shadow: 0 0 30px var(--glow-purple);
+  }
+  50% {
+    box-shadow: 0 0 50px var(--glow-cyan);
+  }
+}
+
+.fractal-card {
+  animation: fractal-glow 4s ease-in-out infinite;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: rgba(30, 20, 50, 0.6);
+}
+
+/* ----------------------------------------------------------------------------
+   Interactive Demo Containers
+   ---------------------------------------------------------------------------- */
+.demo-container {
+  background: linear-gradient(135deg, var(--cosmic-mid) 0%, var(--cosmic-dark) 100%);
+  border: 1px solid var(--glow-purple);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.demo-canvas {
+  width: 100%;
+  min-height: 400px;
+  background: var(--cosmic-dark);
+  border-radius: 8px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* Slider controls */
+.demo-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: var(--cosmic-light);
+  border-radius: 4px;
+  outline: none;
+}
+
+.demo-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--fractal-cyan);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--glow-cyan);
+}
+
+/* ----------------------------------------------------------------------------
+   Footer
+   ---------------------------------------------------------------------------- */
+.md-footer {
+  background: var(--cosmic-dark);
+  border-top: 1px solid var(--glow-purple);
+}
+
+/* ----------------------------------------------------------------------------
+   Search
+   ---------------------------------------------------------------------------- */
+.md-search__form {
+  background: rgba(30, 20, 50, 0.8);
+  border: 1px solid var(--glow-purple);
+}
+
+.md-search__input {
+  color: #fff;
+}
+
+/* ----------------------------------------------------------------------------
+   Responsive Adjustments
+   ---------------------------------------------------------------------------- */
+@media screen and (max-width: 76.25em) {
+  .md-typeset .hero h1 {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 60em) {
+  .md-typeset .hero {
+    padding: 2rem 1rem;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Print Styles
+   ---------------------------------------------------------------------------- */
+@media print {
+  .md-header,
+  .md-footer,
+  .md-sidebar {
+    display: none !important;
+  }
+
+  .md-content {
+    margin: 0 !important;
+  }
+}
