@@ -6,9 +6,13 @@ import numpy as np
 import pytest
 
 from mindfractal.model import FractalDynamicsModel
-from mindfractal.simulate import (basin_of_attraction_sample,
-                                  compute_attractor_type, find_fixed_points,
-                                  poincare_section, simulate_orbit)
+from mindfractal.simulate import (
+    basin_of_attraction_sample,
+    compute_attractor_type,
+    find_fixed_points,
+    poincare_section,
+    simulate_orbit,
+)
 
 
 class TestSimulateOrbit:
@@ -226,9 +230,7 @@ class TestPoincareSection:
         model = FractalDynamicsModel()
         x0 = np.array([0.5, 0.5])
 
-        crossings = poincare_section(
-            model, x0, n_steps=1000, plane_coord=0, plane_value=0.5
-        )
+        crossings = poincare_section(model, x0, n_steps=1000, plane_coord=0, plane_value=0.5)
 
         assert isinstance(crossings, np.ndarray)
 
@@ -244,9 +246,7 @@ class TestPoincareSection:
         x0 = np.array([1.9, 1.9])  # Start near fixed point
 
         # Section at x=0 (trajectory stays near 2.0)
-        crossings = poincare_section(
-            model, x0, n_steps=500, plane_coord=0, plane_value=0.0
-        )
+        crossings = poincare_section(model, x0, n_steps=500, plane_coord=0, plane_value=0.0)
 
         # Should find no crossings
         assert len(crossings) == 0
@@ -257,12 +257,8 @@ class TestPoincareSection:
         x0 = np.array([0.5, 0.5])
 
         # Test both plane coordinates
-        crossings_0 = poincare_section(
-            model, x0, n_steps=1000, plane_coord=0, plane_value=0.5
-        )
-        crossings_1 = poincare_section(
-            model, x0, n_steps=1000, plane_coord=1, plane_value=0.5
-        )
+        crossings_0 = poincare_section(model, x0, n_steps=1000, plane_coord=0, plane_value=0.5)
+        crossings_1 = poincare_section(model, x0, n_steps=1000, plane_coord=1, plane_value=0.5)
 
         assert isinstance(crossings_0, np.ndarray)
         assert isinstance(crossings_1, np.ndarray)
@@ -304,9 +300,7 @@ class TestIntegration:
             assert np.all(np.isfinite(trajectory))
 
             # n_steps must be > transient for compute_attractor_type
-            attractor_type = compute_attractor_type(
-                model, x0, n_steps=1500, transient=500
-            )
+            attractor_type = compute_attractor_type(model, x0, n_steps=1500, transient=500)
             assert isinstance(attractor_type, str)
 
 

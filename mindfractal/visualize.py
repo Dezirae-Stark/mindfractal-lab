@@ -362,9 +362,7 @@ def plot_lyapunov_spectrum(
     fig, ax = plt.subplots(figsize=figsize)
 
     ax.plot(lyap_values, "b-", linewidth=1, alpha=0.8)
-    ax.axhline(
-        y=0, color="r", linestyle="--", linewidth=1.5, label="λ=0 (chaos threshold)"
-    )
+    ax.axhline(y=0, color="r", linestyle="--", linewidth=1.5, label="λ=0 (chaos threshold)")
     ax.set_xlabel("Time step", fontsize=12)
     ax.set_ylabel("Largest Lyapunov Exponent", fontsize=12)
     ax.set_title("Lyapunov Exponent Evolution", fontsize=14, fontweight="bold")

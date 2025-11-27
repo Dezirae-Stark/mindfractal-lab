@@ -15,16 +15,27 @@ import pytest
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from extensions.qwamos import (CoherenceMetric, CoherenceProtocol,
-                               EntangledMessage, EntanglementConsensus,
-                               EntanglementMatrix, ObservationOperator,
-                               Q0_MetaArchitect, Q1_MathematicalFormalist,
-                               Q2_ComputationalEngineer,
-                               Q3_DocumentationWeaver, Q4_VisualizationArtist,
-                               Q5_SystemsIntegrator, Q6_ConsciousnessModeler,
-                               Q7_FractalAnalyst, QuantumCommunicationProtocol,
-                               QuantumTask, QWAMOSEngine, StateVector,
-                               SuperpositionTaskDistribution)
+from extensions.qwamos import (
+    CoherenceMetric,
+    CoherenceProtocol,
+    EntangledMessage,
+    EntanglementConsensus,
+    EntanglementMatrix,
+    ObservationOperator,
+    Q0_MetaArchitect,
+    Q1_MathematicalFormalist,
+    Q2_ComputationalEngineer,
+    Q3_DocumentationWeaver,
+    Q4_VisualizationArtist,
+    Q5_SystemsIntegrator,
+    Q6_ConsciousnessModeler,
+    Q7_FractalAnalyst,
+    QuantumCommunicationProtocol,
+    QuantumTask,
+    QWAMOSEngine,
+    StateVector,
+    SuperpositionTaskDistribution,
+)
 from extensions.qwamos.mindfractal_integration import MindFractalQWAMOS
 
 
@@ -204,15 +215,9 @@ class TestQuantumProtocols:
         distributor = SuperpositionTaskDistribution()
 
         agents = {
-            "Q1": Mock(
-                state=Mock(GROUND="ground"), coherence=0.9, entangled_agents=set()
-            ),
-            "Q2": Mock(
-                state=Mock(EXCITED="excited"), coherence=0.8, entangled_agents=set()
-            ),
-            "Q3": Mock(
-                state=Mock(GROUND="ground"), coherence=0.95, entangled_agents=set()
-            ),
+            "Q1": Mock(state=Mock(GROUND="ground"), coherence=0.9, entangled_agents=set()),
+            "Q2": Mock(state=Mock(EXCITED="excited"), coherence=0.8, entangled_agents=set()),
+            "Q3": Mock(state=Mock(GROUND="ground"), coherence=0.95, entangled_agents=set()),
         }
 
         # Set agent states
@@ -236,9 +241,7 @@ class TestQuantumProtocols:
         agents = {
             "Q1": Mock(id="Q1", state_vector=np.array([1, 0])),
             "Q2": Mock(id="Q2", state_vector=np.array([0, 1])),
-            "Q3": Mock(
-                id="Q3", state_vector=np.array([1 / np.sqrt(2), 1 / np.sqrt(2)])
-            ),
+            "Q3": Mock(id="Q3", state_vector=np.array([1 / np.sqrt(2), 1 / np.sqrt(2)])),
         }
 
         reached, info = await consensus.achieve_consensus(agents, "test_topic")
@@ -371,9 +374,7 @@ class TestMindFractalIntegration:
             "achieve_consensus",
             return_value=(True, {"decision": {}, "entanglement": 0.8}),
         ):
-            with patch.object(
-                qwamos, "_run_engine_cycle", return_value=asyncio.sleep(0)
-            ):
+            with patch.object(qwamos, "_run_engine_cycle", return_value=asyncio.sleep(0)):
                 result = await qwamos.orchestrate_research_task(task)
 
         assert result["status"] in ["completed", "partial"]
@@ -385,15 +386,11 @@ class TestMindFractalIntegration:
         qwamos = MindFractalQWAMOS()
 
         # Test various task descriptions
-        design_agents = qwamos._determine_primary_agents(
-            "Design a new consciousness architecture"
-        )
+        design_agents = qwamos._determine_primary_agents("Design a new consciousness architecture")
         assert "Q0" in design_agents  # Architect
         assert "Q5" in design_agents  # Integrator
 
-        math_agents = qwamos._determine_primary_agents(
-            "Formalize mathematical framework"
-        )
+        math_agents = qwamos._determine_primary_agents("Formalize mathematical framework")
         assert "Q1" in math_agents  # Mathematician
 
         viz_agents = qwamos._determine_primary_agents("Visualize fractal dynamics")
