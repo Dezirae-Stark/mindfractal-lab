@@ -5,8 +5,11 @@ Unit tests for mindfractal.fractal_map
 import numpy as np
 import pytest
 
-from mindfractal.fractal_map import (adaptive_fractal_map,
-                                     generate_fractal_map, zoom_fractal_map)
+from mindfractal.fractal_map import (
+    adaptive_fractal_map,
+    generate_fractal_map,
+    zoom_fractal_map,
+)
 
 
 class TestGenerateFractalMap:

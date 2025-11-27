@@ -22,13 +22,16 @@ import numpy as np
 from .fractal_map import generate_fractal_map
 from .model import FractalDynamicsModel
 from .simulate import compute_attractor_type, find_fixed_points, simulate_orbit
-from .visualize import (plot_basin_of_attraction, plot_fractal_map,
-                        plot_lyapunov_spectrum, plot_orbit)
+from .visualize import (
+    plot_basin_of_attraction,
+    plot_fractal_map,
+    plot_lyapunov_spectrum,
+    plot_orbit,
+)
 
 # Optional: Tenth Dimension Possibility Module
 try:
-    from extensions.tenth_dimension_possibility import \
-        possibility_cli as td_cli
+    from extensions.tenth_dimension_possibility import possibility_cli as td_cli
 
     TD_AVAILABLE = True
 except ImportError:

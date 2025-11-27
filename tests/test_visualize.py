@@ -16,9 +16,13 @@ matplotlib.use("Agg")  # Non-interactive backend for testing
 import matplotlib.pyplot as plt
 
 from mindfractal.model import FractalDynamicsModel
-from mindfractal.visualize import (plot_basin_of_attraction,
-                                   plot_bifurcation_diagram, plot_fractal_map,
-                                   plot_lyapunov_spectrum, plot_orbit)
+from mindfractal.visualize import (
+    plot_basin_of_attraction,
+    plot_bifurcation_diagram,
+    plot_fractal_map,
+    plot_lyapunov_spectrum,
+    plot_orbit,
+)
 
 
 class TestPlotOrbit:

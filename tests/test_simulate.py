@@ -6,9 +6,13 @@ import numpy as np
 import pytest
 
 from mindfractal.model import FractalDynamicsModel
-from mindfractal.simulate import (basin_of_attraction_sample,
-                                  compute_attractor_type, find_fixed_points,
-                                  poincare_section, simulate_orbit)
+from mindfractal.simulate import (
+    basin_of_attraction_sample,
+    compute_attractor_type,
+    find_fixed_points,
+    poincare_section,
+    simulate_orbit,
+)
 
 
 class TestSimulateOrbit:
