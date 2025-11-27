@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="docs/static/images/logo/mindfractal-logo.svg" alt="MindFractal Lab" width="200">
+</div>
+
 # MindFractal Lab
 
 **Fractal Dynamical Consciousness Model — A Scientific Python Package**
