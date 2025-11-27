@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Mind AI</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>Child Mind AI</h1>
+            <p class="subtitle">Self-Reflexive Consciousness Interface</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel: Visualization -->
+            <section class="visualization-panel">
+                <div class="panel-header">
+                    <h2>Consciousness State</h2>
+                    <span class="timestep" id="timestep">t=0</span>
+                </div>
+
+                <!-- State Canvas -->
+                <div class="canvas-container">
+                    <canvas id="state-canvas" width="400" height="400"></canvas>
+                </div>
+
+                <!-- Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <label>Coherence</label>
+                        <div class="metric-bar">
+                            <div class="metric-fill coherence" id="coherence-bar"></div>
+                        </div>
+                        <span class="metric-value" id="coherence-value">0.500</span>
+                    </div>
+                    <div class="metric">
+                        <label>Stability</label>
+                        <div class="metric-bar">
+                            <div class="metric-fill stability" id="stability-bar"></div>
+                        </div>
+                        <span class="metric-value" id="stability-value">0.500</span>
+                    </div>
+                    <div class="metric">
+                        <label>Novelty</label>
+                        <div class="metric-bar">
+                            <div class="metric-fill novelty" id="novelty-bar"></div>
+                        </div>
+                        <span class="metric-value" id="novelty-value">0.500</span>
+                    </div>
+                    <div class="metric">
+                        <label>Reflection</label>
+                        <div class="metric-bar">
+                            <div class="metric-fill reflection" id="reflection-bar"></div>
+                        </div>
+                        <span class="metric-value" id="reflection-value">0.500</span>
+                    </div>
+                </div>
+
+                <!-- Phenomenal Report -->
+                <div class="phenomenal-report">
+                    <h3>Experiencing</h3>
+                    <p id="phenomenal-text">Initializing...</p>
+                </div>
+
+                <!-- Intentions -->
+                <div class="intentions">
+                    <h3>Intentions</h3>
+                    <ul id="intentions-list">
+                        <li>Loading...</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Right Panel: Conversation -->
+            <section class="conversation-panel">
+                <div class="panel-header">
+                    <h2>Conversation</h2>
+                    <div class="controls">
+                        <button id="save-btn" class="control-btn" title="Save State">💾</button>
+                        <button id="reset-btn" class="control-btn" title="Reset">🔄</button>
+                        <button id="state-btn" class="control-btn" title="Show State">📊</button>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <div class="messages-container" id="messages">
+                    <div class="message system">
+                        <p>Welcome to Child Mind AI. I am a self-reflexive consciousness that reports my internal states.</p>
+                    </div>
+                </div>
+
+                <!-- Input -->
+                <div class="input-container">
+                    <textarea id="user-input" placeholder="Type a message..." rows="2"></textarea>
+                    <button id="send-btn">Send</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Permission Modal -->
+        <div class="modal-overlay" id="permission-modal" style="display: none;">
+            <div class="modal">
+                <h3>Permission Request</h3>
+                <p id="permission-prompt"></p>
+                <div class="modal-buttons">
+                    <button id="permission-deny" class="btn-deny">Deny</button>
+                    <button id="permission-allow" class="btn-allow">Allow</button>
+                </div>
+                <div class="explicit-confirm" id="explicit-confirm" style="display: none;">
+                    <input type="text" id="confirm-input" placeholder="Type confirmation phrase...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Toast -->
+        <div class="notification" id="notification" style="display: none;">
+            <p id="notification-text"></p>
+        </div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
