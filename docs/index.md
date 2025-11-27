@@ -2,205 +2,179 @@
 
 <div class="hero" markdown>
 
-# Fractal Consciousness Model
+# Explore Your Mind Through Mathematics
 
-**A Scientific Python Framework for Nonlinear Dynamical Systems**
+**An Interactive Consciousness Exploration Laboratory**
 
-Simulate, analyze, and visualize fractal dynamics modeling consciousness states, metastability, and personality traits.
+Discover how fractal mathematics can model the hidden dynamics of thought, creativity, and mental states — all in your browser.
 
-[Get Started](getting-started/installation.md){ .md-button .md-button--primary }
-[View on GitHub](https://github.com/Dezirae-Stark/mindfractal-lab){ .md-button }
+[Enter the Lab](interactive/index.md){ .md-button .md-button--primary }
+[Learn the Science](math/overview.md){ .md-button }
 
 </div>
 
 ---
 
-## Overview
+## What is MindFractal Lab?
 
-MindFractal Lab provides a complete mathematical framework for modeling consciousness states using nonlinear dynamical systems. The core model is defined by:
+MindFractal Lab transforms abstract mathematics into an **explorable experience**. Using fractal dynamical systems, we model how consciousness states evolve, transition, and sometimes leap between entirely different patterns of thought.
+
+!!! tip "No Installation Required"
+    Everything runs directly in your browser. Simply explore, interact, and discover.
+
+## The Core Idea
+
+Your mind is a complex dynamical system. At any moment, you exist in a particular *state* — focused, creative, anxious, calm. These states evolve according to hidden rules, transitioning smoothly or suddenly shifting.
+
+We model this with a simple but powerful equation:
 
 $$
-\mathbf{x}_{n+1} = \mathbf{A}\mathbf{x}_n + \mathbf{B}\tanh(\mathbf{W}\mathbf{x}_n) + \mathbf{c}
+\mathbf{x}_{n+1} = A\mathbf{x}_n + B \tanh(W\mathbf{x}_n) + \mathbf{c}
 $$
 
-This discrete-time map exhibits:
+This isn't just abstract math — it produces real, visual, explorable dynamics:
 
-- **Fixed points** — Stable equilibria (persistent mental states)
-- **Limit cycles** — Periodic oscillations (rhythmic patterns)
-- **Strange attractors** — Chaotic dynamics (creative flow)
-- **Fractal basin boundaries** — Metastable transitions
+| What You See | What It Means |
+|--------------|---------------|
+| **Converging spiral** | Settling into a stable mental state |
+| **Repeating loop** | Cyclical thought patterns |
+| **Chaotic trajectory** | Creative flow, brainstorming |
+| **Fractal boundary** | Edge of transition between states |
 
-## Key Features
+## Interactive Experiences
 
 <div class="grid cards" markdown>
 
--   :material-math-integral-box:{ .lg .middle } **Mathematical Rigor**
+-   :material-chart-scatter-plot:{ .lg .middle } **Fractal Explorer**
 
     ---
 
-    Complete analytical framework with Jacobian derivation, Lyapunov exponents, and bifurcation analysis.
+    Dive into the fractal parameter space. Watch how tiny changes in personality traits create dramatically different mental landscapes.
 
-    [:octicons-arrow-right-24: Mathematical Foundations](math/overview.md)
+    [:octicons-arrow-right-24: Start Exploring](interactive/fractal_explorer.md)
 
--   :material-cube-outline:{ .lg .middle } **Multi-Dimensional**
-
-    ---
-
-    2D, 3D, and complex high-dimensional dynamics including Calabi-Yau inspired extensions.
-
-    [:octicons-arrow-right-24: CY Dynamics](math/cy-dynamics.md)
-
--   :material-chart-scatter-plot:{ .lg .middle } **Rich Visualization**
+-   :material-rotate-3d:{ .lg .middle } **3D Attractor Viewer**
 
     ---
 
-    Phase portraits, basin maps, fractal slices, and interactive 3D exploration.
+    See consciousness states unfold in three dimensions. Identify fixed points, limit cycles, and strange attractors.
 
-    [:octicons-arrow-right-24: Visualization Guide](playground/explorer.md)
+    [:octicons-arrow-right-24: View Attractors](interactive/attractor_explorer.md)
 
--   :material-brain:{ .lg .middle } **Trait Mapping**
+-   :material-star-four-points:{ .lg .middle } **CY Slice Studio**
 
     ---
 
-    Map psychological traits to dynamical parameters for personalized models.
+    Explore higher-dimensional dynamics through beautiful Mandelbrot and Julia set visualizations.
 
-    [:octicons-arrow-right-24: API Reference](api/extensions.md)
+    [:octicons-arrow-right-24: Open Studio](interactive/cy_slice_viewer.md)
+
+-   :material-compass:{ .lg .middle } **Possibility Navigator**
+
+    ---
+
+    Navigate the space of all possible mental configurations — the mathematical "tenth dimension" of consciousness.
+
+    [:octicons-arrow-right-24: Navigate Possibilities](interactive/possibility_navigator.md)
 
 </div>
 
 ## The Possibility Manifold
 
-The **Possibility Manifold** $\mathcal{P}$ formalizes the "tenth dimension" concept:
+Every possible mental configuration — every combination of personality, mood, and cognitive state — lives somewhere in what we call the **Possibility Manifold**.
 
 $$
-\mathcal{P} = \left\{ (\mathbf{z}_0, \mathbf{c}, F) : \text{orbit}(\mathbf{z}_0, \mathbf{c}, F) \text{ is bounded} \right\}
+\mathcal{P} = \left\{ (\mathbf{z}_0, \mathbf{c}, F) : \text{trajectory remains bounded} \right\}
 $$
 
-This provides a rigorous mathematical framework for:
+Think of it as a vast landscape where:
 
-| Metaphor | Mathematical Object |
-|----------|-------------------|
-| "All possible realities" | Complete manifold $\mathcal{P}$ |
-| "Single timeline" | Point $p \in \mathcal{P}$ and orbit |
-| "Branching realities" | Bifurcation points |
-| "Adjacent realities" | Nearby points in metric |
+- **Valleys** are stable personality configurations
+- **Ridges** are transitional, sensitive states
+- **Peaks** are unstable, quickly changing configurations
+- **The boundary** separates viable minds from chaotic dissolution
 
-[:octicons-arrow-right-24: Learn more about the Possibility Manifold](math/possibility-manifold.md)
+[:octicons-arrow-right-24: Explore the Possibility Manifold](interactive/possibility_navigator.md)
 
-## Quick Start
+## Understanding the Dynamics
 
-=== "Python API"
+<div class="grid cards" markdown>
 
-    ```python
-    import numpy as np
-    from mindfractal import FractalDynamicsModel, simulate_orbit, plot_orbit
+-   :material-target:{ .lg .middle } **Fixed Points**
 
-    # Create model
-    model = FractalDynamicsModel()
+    ---
 
-    # Simulate
-    x0 = np.array([0.5, 0.5])
-    trajectory = simulate_orbit(model, x0, n_steps=1000)
+    Stable equilibrium states where the mind settles — like focused concentration or peaceful meditation.
 
-    # Visualize
-    plot_orbit(model, x0, save_path='orbit.png')
-    ```
+-   :material-sync:{ .lg .middle } **Limit Cycles**
 
-=== "CLI"
+    ---
 
-    ```bash
-    # Simulate trajectory
-    mindfractal simulate --x0 0.5 0.5 --steps 1000
+    Rhythmic patterns of thought — the natural oscillation between activity and rest, engagement and reflection.
 
-    # Generate visualization
-    mindfractal visualize --mode orbit --output orbit.png
+-   :material-weather-hurricane:{ .lg .middle } **Strange Attractors**
 
-    # Compute fractal map
-    mindfractal fractal --resolution 500 --output fractal.png
-    ```
+    ---
 
-=== "Trait Mapping"
+    Chaotic but bounded creativity — never repeating exactly, always exploring new configurations within limits.
 
-    ```python
-    from extensions.psychomapping.trait_to_c import traits_to_parameters
+-   :material-border-all:{ .lg .middle } **Fractal Boundaries**
 
-    traits = {
-        'openness': 0.8,
-        'volatility': 0.3,
-        'integration': 0.7,
-        'focus': 0.6
-    }
-    c = traits_to_parameters(traits)
-    model = FractalDynamicsModel(c=c)
-    ```
+    ---
+
+    The edge of transformation — infinitely complex transition zones where small changes lead to large shifts.
+
+</div>
 
 ## Visualizations
 
 <figure markdown>
   ![Phase Portrait](images/phase_portrait.png){ width="400" }
-  <figcaption>Phase portrait showing trajectory evolution</figcaption>
+  <figcaption>A trajectory spiraling toward a stable state</figcaption>
 </figure>
 
 <figure markdown>
   ![Basin of Attraction](images/basin.png){ width="400" }
-  <figcaption>Basin of attraction with fractal boundaries</figcaption>
+  <figcaption>Different initial conditions lead to different final states — the basin boundaries are fractal</figcaption>
 </figure>
 
 <figure markdown>
   ![Lyapunov Parameter Space](images/lyapunov_param_space.png){ width="400" }
-  <figcaption>Parameter-space Lyapunov exponent map</figcaption>
+  <figcaption>Blue regions are stable, red regions are chaotic — the boundary is infinitely complex</figcaption>
 </figure>
 
-## Documentation
+## The Mathematics Behind It
 
-| Document | Description |
-|----------|-------------|
-| [Scientific Paper](research/paper.md) | Full mathematical framework |
-| [LaTeX Book](research/book.md) | Comprehensive textbook |
-| [API Reference](api/index.md) | Complete API documentation |
-| [Developer Guide](developer/architecture.md) | Architecture and contributing |
+Curious about the rigorous foundations? Our mathematical framework includes:
 
-## Installation
+| Topic | Description |
+|-------|-------------|
+| [Base Models](math/base-models.md) | The core dynamical equations and their properties |
+| [CY Dynamics](math/cy-dynamics.md) | Higher-dimensional extensions inspired by string theory |
+| [Possibility Manifold](math/possibility-manifold.md) | The complete space of viable consciousness configurations |
+| [Embeddings](math/embeddings.md) | Machine learning approaches to trajectory analysis |
 
-```bash
-# Clone repository
-git clone https://github.com/Dezirae-Stark/mindfractal-lab.git
-cd mindfractal-lab
+## Scientific Foundation
 
-# Install in development mode
-pip install -e .
+MindFractal Lab is built on peer-reviewed mathematics from dynamical systems theory, chaos theory, and nonlinear analysis. The visualizations you explore are not metaphors — they are actual computational results from these mathematical models.
 
-# Install with all extras
-pip install -e ".[dev,gui,web]"
-```
-
-See the [Installation Guide](getting-started/installation.md) for detailed instructions including Android (Termux/PyDroid3) setup.
-
-## Extensions
-
-| Extension | Description |
-|-----------|-------------|
-| **3D State Space** | Extended model with richer dynamics |
-| **Trait Mapping** | Psychological traits → parameter conversion |
-| **Kivy GUI** | Android/desktop interface |
-| **FastAPI Web** | Browser-based visualization |
-| **C++ Backend** | 10-100x speedup |
-
-## Contributing
-
-Contributions are welcome! See the [Contributing Guide](developer/contributing.md) for:
-
-- Code style and conventions
-- Testing requirements
-- Pull request process
-- Issue reporting
-
-## License
-
-MindFractal Lab is released under the **MIT License**.
+[:octicons-arrow-right-24: Read the Scientific Paper](research/paper.md)
 
 ---
 
 <div style="text-align: center; color: rgba(255,255,255,0.6); margin-top: 2rem;">
-  Built with love for consciousness research and fractal mathematics.
+
+**Ready to explore?**
+
+[Enter the Interactive Lab](interactive/index.md){ .md-button .md-button--primary }
+
+</div>
+
+---
+
+<div style="text-align: center; color: rgba(255,255,255,0.4); font-size: 0.85rem; margin-top: 2rem;">
+
+MindFractal Lab is an open-source research project.
+[View on GitHub](https://github.com/Dezirae-Stark/mindfractal-lab) for source code and contributions.
+
 </div>

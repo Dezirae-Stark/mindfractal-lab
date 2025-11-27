@@ -1,0 +1,286 @@
+/**
+ * MindFractal Lab — Extra Styles
+ * Custom overrides for MkDocs Material theme
+ */
+
+/* ============================================
+   Color Scheme & Variables
+   ============================================ */
+:root {
+    --mf-primary: #7c3aed;
+    --mf-primary-light: #a78bfa;
+    --mf-secondary: #3b82f6;
+    --mf-accent: #06b6d4;
+    --mf-bg-dark: #1a1a2e;
+    --mf-bg-card: rgba(26, 26, 46, 0.95);
+    --mf-text-muted: rgba(255, 255, 255, 0.6);
+}
+
+/* Dark mode (default) enhancements */
+[data-md-color-scheme="slate"] {
+    --md-primary-fg-color: #7c3aed;
+    --md-accent-fg-color: #06b6d4;
+    --md-default-bg-color: #1a1a2e;
+    --md-default-bg-color--light: #16213e;
+}
+
+/* ============================================
+   Hero Section
+   ============================================ */
+.hero {
+    text-align: center;
+    padding: 3rem 1rem;
+    margin: 0 -1rem 2rem;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%);
+    border-radius: 16px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #a78bfa, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero p {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+}
+
+/* ============================================
+   Cards Grid Enhancement
+   ============================================ */
+.grid.cards > ul > li {
+    background: var(--mf-bg-card);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.grid.cards > ul > li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.2);
+    border-color: rgba(124, 58, 237, 0.4);
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+.md-button {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.md-button--primary {
+    background: linear-gradient(135deg, #7c3aed, #3b82f6);
+    border: none;
+}
+
+.md-button--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+}
+
+.md-button:not(.md-button--primary) {
+    border: 1px solid rgba(124, 58, 237, 0.5);
+}
+
+.md-button:not(.md-button--primary):hover {
+    background: rgba(124, 58, 237, 0.1);
+}
+
+/* ============================================
+   Navigation Tabs
+   ============================================ */
+.md-tabs {
+    background: rgba(22, 33, 62, 0.95);
+}
+
+.md-tabs__link {
+    font-weight: 500;
+}
+
+.md-tabs__link--active {
+    color: var(--mf-accent);
+}
+
+/* De-emphasize "For Contributors" in nav */
+.md-nav__item:has([href*="getting-started"]),
+.md-nav__item:has([href*="api/"]),
+.md-nav__item:has([href*="developer/"]) {
+    opacity: 0.8;
+}
+
+/* ============================================
+   Tables
+   ============================================ */
+.md-typeset table:not([class]) {
+    background: var(--mf-bg-card);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.md-typeset table:not([class]) th {
+    background: rgba(124, 58, 237, 0.2);
+}
+
+/* ============================================
+   Admonitions
+   ============================================ */
+.md-typeset .admonition {
+    border-radius: 8px;
+    border-left-width: 4px;
+}
+
+.md-typeset .admonition.tip {
+    border-color: var(--mf-accent);
+}
+
+/* ============================================
+   Math Display
+   ============================================ */
+.MathJax {
+    font-size: 1.1em;
+}
+
+.md-typeset .arithmatex {
+    overflow-x: auto;
+    padding: 0.5rem 0;
+}
+
+/* ============================================
+   Figures / Images
+   ============================================ */
+.md-typeset figure {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.md-typeset figure img {
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 100%;
+    height: auto;
+}
+
+.md-typeset figcaption {
+    color: var(--mf-text-muted);
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+/* ============================================
+   Code Blocks (for researcher mode)
+   ============================================ */
+.md-typeset pre {
+    border-radius: 8px;
+}
+
+.md-typeset code {
+    border-radius: 4px;
+}
+
+/* Hide code on conceptual pages by default */
+.hide-code .md-typeset pre,
+.hide-code .md-typeset .highlight {
+    display: none;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.md-footer {
+    background: var(--mf-bg-dark);
+}
+
+.md-footer-meta {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+@media (max-width: 768px) {
+    .hero {
+        padding: 2rem 1rem;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .md-typeset figure img {
+        max-width: 100%;
+    }
+
+    /* Stack buttons on mobile */
+    .hero .md-button {
+        display: block;
+        margin: 0.5rem auto;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .grid.cards > ul > li {
+        margin-bottom: 1rem;
+    }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+    .hero {
+        background: none;
+        border: 1px solid #ccc;
+    }
+
+    .md-button {
+        border: 1px solid #000;
+    }
+}
+
+/* ============================================
+   Accessibility - Reduced Motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    .grid.cards > ul > li,
+    .md-button {
+        transition: none;
+    }
+
+    .grid.cards > ul > li:hover {
+        transform: none;
+    }
+
+    .md-button:hover {
+        transform: none;
+    }
+}
+
+/* ============================================
+   High Contrast Mode
+   ============================================ */
+@media (prefers-contrast: high) {
+    .md-button {
+        border: 2px solid currentColor;
+    }
+
+    .grid.cards > ul > li {
+        border-width: 2px;
+    }
+}
