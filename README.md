@@ -10,43 +10,63 @@ A complete scientific software system for simulating and analyzing 2D and 3D fra
 
 ---
 
-## Overview
+## Mathematical Framework
 
-MindFractal Lab implements the discrete-time nonlinear dynamical system:
+### The Discrete-Time Dynamical System
 
-$$\mathbf{x}_{n+1} = A\mathbf{x}_n + B\tanh(W\mathbf{x}_n) + \mathbf{c}$$
+MindFractal Lab implements the following nonlinear map:
 
-### State Equation Components
+<p align="center">
+  <img src="docs/images/equations/state_equation.png" alt="State Equation" width="550">
+</p>
 
-| Symbol | Domain | Description |
-|:------:|:------:|:------------|
-| $\mathbf{x}$ | $\mathbb{R}^d$ | State vector ($d = 2$ or $3$) representing consciousness coordinates |
-| $A$ | $\mathbb{R}^{d \times d}$ | Linear feedback matrix (damping/amplification) |
-| $B$ | $\mathbb{R}^{d \times d}$ | Nonlinear coupling matrix |
-| $W$ | $\mathbb{R}^{d \times d}$ | Weight matrix for nonlinear transformation |
-| $\mathbf{c}$ | $\mathbb{R}^d$ | External drive / personality parameter vector |
+where the state vector and parameters are defined as:
+
+<p align="center">
+  <img src="docs/images/equations/state_vector.png" alt="State Vector" width="280">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="docs/images/equations/matrix_domains.png" alt="Matrix Domains" width="350">
+</p>
+
+| Symbol | Description |
+|:------:|:------------|
+| **x** | State vector representing consciousness coordinates |
+| **A** | Linear feedback matrix (damping/amplification) |
+| **B** | Nonlinear coupling matrix |
+| **W** | Weight matrix for nonlinear transformation |
+| **c** | External drive / personality parameter vector |
 
 ### System Jacobian
 
-The linearized dynamics around state $\mathbf{x}$ are governed by the Jacobian:
+The linearized dynamics around state **x** are governed by:
 
-$$J(\mathbf{x}) = A + B \cdot \text{diag}\left(\text{sech}^2(W\mathbf{x})\right) \cdot W$$
+<p align="center">
+  <img src="docs/images/equations/jacobian.png" alt="Jacobian" width="500">
+</p>
 
-where $\text{sech}^2(z) = 1 - \tanh^2(z)$ captures the nonlinear sensitivity.
+where the hyperbolic secant satisfies:
+
+<p align="center">
+  <img src="docs/images/equations/sech_identity.png" alt="Sech Identity" width="250">
+</p>
 
 ### Lyapunov Exponent
 
-The maximal Lyapunov exponent $\lambda$ quantifies trajectory divergence:
+The maximal Lyapunov exponent quantifies trajectory divergence:
 
-$$\lambda = \lim_{n \to \infty} \frac{1}{n} \sum_{k=0}^{n-1} \ln \|J(\mathbf{x}_k)\|$$
+<p align="center">
+  <img src="docs/images/equations/lyapunov_exponent.png" alt="Lyapunov Exponent" width="400">
+</p>
 
-| $\lambda$ Value | Dynamics | Interpretation |
-|:---------------:|:--------:|:---------------|
-| $\lambda < 0$ | Stable | Trajectories converge to attractor |
-| $\lambda = 0$ | Neutral | Periodic or quasi-periodic motion |
-| $\lambda > 0$ | Chaotic | Sensitive dependence on initial conditions |
+| Condition | Dynamics | Behavior |
+|:---------:|:--------:|:---------|
+| λ < 0 | Stable | Trajectories converge to attractor |
+| λ = 0 | Neutral | Periodic or quasi-periodic motion |
+| λ > 0 | Chaotic | Sensitive dependence on initial conditions |
 
-This model exhibits:
+### Model Properties
+
+This system exhibits:
 - **Fixed points**, **limit cycles**, and **chaotic attractors**
 - **Fractal basin boundaries** (metastable regions)
 - **Rich bifurcation structure** in parameter space
@@ -212,32 +232,46 @@ This model is grounded in:
 - **Computational neuroscience**: metastability, attractor dynamics
 - **Complexity science**: self-similarity, criticality
 
-### Key Concepts
+### Lyapunov Spectrum
 
-| Concept | Mathematical Form | Description |
-|:--------|:-----------------:|:------------|
-| **Metastability** | $\tau \propto \|\mathbf{x} - \partial\mathcal{B}\|^{-\alpha}$ | Dwell time near basin boundaries scales with distance |
-| **Fractal Dimension** | $D_f \approx 1.3 - 1.8$ | Box-counting dimension of basin boundaries |
-| **Lyapunov Spectrum** | $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_d$ | Ordered exponents characterize attractor geometry |
+The ordered Lyapunov spectrum characterizes attractor geometry:
+
+<p align="center">
+  <img src="docs/images/equations/lyapunov_spectrum.png" alt="Lyapunov Spectrum" width="280">
+</p>
 
 ### Attractor Classification
 
-The long-term behavior depends on the spectrum $\{\lambda_i\}$:
+The long-term behavior depends on the spectrum {λᵢ}:
 
-$$\text{Attractor Type} = \begin{cases}
-\text{Fixed Point} & \text{if } \lambda_1 < 0 \\
-\text{Limit Cycle} & \text{if } \lambda_1 = 0, \lambda_2 < 0 \\
-\text{Torus} & \text{if } \lambda_1 = \lambda_2 = 0 \\
-\text{Strange Attractor} & \text{if } \lambda_1 > 0
-\end{cases}$$
+<p align="center">
+  <img src="docs/images/equations/attractor_fixed.png" alt="Fixed Point" width="320"><br>
+  <img src="docs/images/equations/attractor_cycle.png" alt="Limit Cycle" width="400"><br>
+  <img src="docs/images/equations/attractor_torus.png" alt="Torus" width="320"><br>
+  <img src="docs/images/equations/attractor_strange.png" alt="Strange Attractor" width="420">
+</p>
 
-### Fractal Basin Boundary
+### Fractal Basin Boundaries
 
-The boundary $\partial\mathcal{B}$ between attraction basins exhibits fractal structure when:
+The box-counting dimension of basin boundaries is computed as:
 
-$$\dim_H(\partial\mathcal{B}) > d - 1$$
+<p align="center">
+  <img src="docs/images/equations/fractal_dimension.png" alt="Fractal Dimension" width="350">
+</p>
 
-where $\dim_H$ denotes the Hausdorff dimension and $d$ is the state-space dimension.
+The boundary ∂𝓑 exhibits fractal structure when the Hausdorff dimension satisfies:
+
+<p align="center">
+  <img src="docs/images/equations/hausdorff_condition.png" alt="Hausdorff Condition" width="220">
+</p>
+
+### Metastability
+
+Dwell time near basin boundaries scales with distance:
+
+<p align="center">
+  <img src="docs/images/equations/metastability.png" alt="Metastability" width="250">
+</p>
 
 See [docs/paper.md](docs/paper.md) for the full mathematical treatment.
 
@@ -258,6 +292,9 @@ python examples/attractor_3d_script.py
 
 # Generate animated GIF
 python examples/trajectory_gif_script.py
+
+# Generate equation images
+python examples/generate_equation_images.py
 ```
 
 Output files are saved to `docs/images/`.

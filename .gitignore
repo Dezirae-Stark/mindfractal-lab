@@ -70,9 +70,10 @@ cmake-build-*/
 fractal_data/
 output/
 
-# PNG files (but allow docs/images/)
+# PNG files (but allow docs/images/ and subdirectories)
 *.png
 !docs/images/*.png
+!docs/images/**/*.png
 
 # Documentation build
 docs/_build/
