@@ -15,17 +15,27 @@ import pytest
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from extensions.qwamos import (CoherenceMetric, CoherenceProtocol,
-                               EntangledMessage, EntanglementConsensus,
-                               EntanglementMatrix, ObservationOperator,
-                               Q0_MetaArchitect, Q1_MathematicalFormalist,
-                               Q2_ComputationalEngineer,
-                               Q3_DocumentationWeaver, Q4_VisualizationArtist,
-                               Q5_SystemsIntegrator, Q6_ConsciousnessModeler,
-                               Q7_FractalAnalyst,
-                               QuantumCommunicationProtocol, QuantumTask,
-                               QWAMOSEngine, StateVector,
-                               SuperpositionTaskDistribution)
+from extensions.qwamos import (
+    CoherenceMetric,
+    CoherenceProtocol,
+    EntangledMessage,
+    EntanglementConsensus,
+    EntanglementMatrix,
+    ObservationOperator,
+    Q0_MetaArchitect,
+    Q1_MathematicalFormalist,
+    Q2_ComputationalEngineer,
+    Q3_DocumentationWeaver,
+    Q4_VisualizationArtist,
+    Q5_SystemsIntegrator,
+    Q6_ConsciousnessModeler,
+    Q7_FractalAnalyst,
+    QuantumCommunicationProtocol,
+    QuantumTask,
+    QWAMOSEngine,
+    StateVector,
+    SuperpositionTaskDistribution,
+)
 from extensions.qwamos.mindfractal_integration import MindFractalQWAMOS
 
 
