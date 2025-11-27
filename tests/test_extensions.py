@@ -8,7 +8,7 @@ import json
 import os
 from extensions.state3d.model_3d import FractalDynamicsModel3D
 from extensions.state3d.simulate_3d import simulate_orbit_3d, lyapunov_spectrum_3d
-from extensions.psychomapping.trait_to_c import traits_to_parameters, load_trait_profiles
+from extensions.psychomapping.trait_to_c import traits_to_parameters, load_trait_profiles as load_trait_profile
 
 
 class TestFractalDynamicsModel3D:
