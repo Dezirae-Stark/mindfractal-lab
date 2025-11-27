@@ -5,12 +5,11 @@ Unit tests for extensions (3D, psychomapping)
 import numpy as np
 import pytest
 
-from extensions.psychomapping.trait_to_c import (
-    load_trait_profiles,
-    traits_to_parameters,
-)
+from extensions.psychomapping.trait_to_c import (load_trait_profiles,
+                                                 traits_to_parameters)
 from extensions.state3d.model_3d import FractalDynamicsModel3D
-from extensions.state3d.simulate_3d import lyapunov_spectrum_3d, simulate_orbit_3d
+from extensions.state3d.simulate_3d import (lyapunov_spectrum_3d,
+                                            simulate_orbit_3d)
 
 
 class TestFractalDynamicsModel3D:
