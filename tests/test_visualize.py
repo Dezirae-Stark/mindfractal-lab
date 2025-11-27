@@ -5,21 +5,20 @@ Note: Visualization tests focus on execution without errors
 rather than pixel-perfect output validation.
 """
 
+import os
+import tempfile
+
+import matplotlib
 import numpy as np
 import pytest
-import matplotlib
-matplotlib.use('Agg')  # Non-interactive backend for testing
+
+matplotlib.use("Agg")  # Non-interactive backend for testing
 import matplotlib.pyplot as plt
+
 from mindfractal.model import FractalDynamicsModel
-from mindfractal.visualize import (
-    plot_orbit,
-    plot_fractal_map,
-    plot_basin_of_attraction,
-    plot_bifurcation_diagram,
-    plot_lyapunov_spectrum
-)
-import tempfile
-import os
+from mindfractal.visualize import (plot_basin_of_attraction,
+                                   plot_bifurcation_diagram, plot_fractal_map,
+                                   plot_lyapunov_spectrum, plot_orbit)
 
 
 class TestPlotOrbit:
@@ -41,7 +40,7 @@ class TestPlotOrbit:
         x0 = np.array([0.5, 0.5])
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            save_path = os.path.join(tmpdir, 'test_orbit.png')
+            save_path = os.path.join(tmpdir, "test_orbit.png")
             fig = plot_orbit(model, x0, n_steps=100, save_path=save_path)
 
             assert os.path.exists(save_path)
@@ -56,7 +55,7 @@ class TestPlotOrbit:
         initial_conditions = [
             np.array([0.1, 0.1]),
             np.array([0.9, 0.9]),
-            np.array([-0.5, 0.5])
+            np.array([-0.5, 0.5]),
         ]
 
         for x0 in initial_conditions:
@@ -97,8 +96,10 @@ class TestPlotFractalMap:
         c2_range = (-1.0, 1.0)
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            save_path = os.path.join(tmpdir, 'test_fractal.png')
-            fig = plot_fractal_map(fractal_data, c1_range, c2_range, save_path=save_path)
+            save_path = os.path.join(tmpdir, "test_fractal.png")
+            fig = plot_fractal_map(
+                fractal_data, c1_range, c2_range, save_path=save_path
+            )
 
             assert os.path.exists(save_path)
             assert os.path.getsize(save_path) > 0
@@ -126,10 +127,7 @@ class TestPlotBasinOfAttraction:
 
         # Use low resolution for fast testing
         fig = plot_basin_of_attraction(
-            model,
-            resolution=15,
-            x_range=(-1, 1),
-            y_range=(-1, 1)
+            model, resolution=15, x_range=(-1, 1), y_range=(-1, 1)
         )
 
         assert isinstance(fig, matplotlib.figure.Figure)
@@ -140,12 +138,8 @@ class TestPlotBasinOfAttraction:
         model = FractalDynamicsModel()
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            save_path = os.path.join(tmpdir, 'test_basin.png')
-            fig = plot_basin_of_attraction(
-                model,
-                resolution=10,
-                save_path=save_path
-            )
+            save_path = os.path.join(tmpdir, "test_basin.png")
+            fig = plot_basin_of_attraction(model, resolution=10, save_path=save_path)
 
             assert os.path.exists(save_path)
             assert os.path.getsize(save_path) > 0
@@ -158,6 +152,7 @@ class TestPlotBifurcationDiagram:
 
     def test_plot_bifurcation_returns_figure(self):
         """Test that plot_bifurcation_diagram returns a Figure object"""
+
         # Create a model generator function
         def model_generator(param_val):
             c = np.array([param_val, 0.1])
@@ -166,11 +161,11 @@ class TestPlotBifurcationDiagram:
         # Use small parameters for fast testing
         fig = plot_bifurcation_diagram(
             model_generator,
-            param_name='c1',
+            param_name="c1",
             param_range=(-0.3, 0.3),
             n_params=10,
             n_transient=50,
-            n_plot=30
+            n_plot=30,
         )
 
         assert isinstance(fig, matplotlib.figure.Figure)
@@ -178,6 +173,7 @@ class TestPlotBifurcationDiagram:
 
     def test_plot_bifurcation_different_params(self):
         """Test bifurcation diagram for different parameter generators"""
+
         # c1 generator
         def c1_generator(param_val):
             c = np.array([param_val, 0.1])
@@ -191,31 +187,32 @@ class TestPlotBifurcationDiagram:
         for generator in [c1_generator, c2_generator]:
             fig = plot_bifurcation_diagram(
                 generator,
-                param_name='param',
+                param_name="param",
                 param_range=(-0.3, 0.3),
                 n_params=8,
                 n_transient=50,
-                n_plot=30
+                n_plot=30,
             )
             assert isinstance(fig, matplotlib.figure.Figure)
             plt.close(fig)
 
     def test_plot_bifurcation_saves_file(self):
         """Test that bifurcation diagram saves to file"""
+
         def model_generator(param_val):
             c = np.array([param_val, 0.1])
             return FractalDynamicsModel(c=c)
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            save_path = os.path.join(tmpdir, 'test_bifurcation.png')
+            save_path = os.path.join(tmpdir, "test_bifurcation.png")
             fig = plot_bifurcation_diagram(
                 model_generator,
-                param_name='c1',
+                param_name="c1",
                 param_range=(-0.3, 0.3),
                 n_params=8,
                 n_transient=30,
                 n_plot=20,
-                save_path=save_path
+                save_path=save_path,
             )
 
             assert os.path.exists(save_path)
@@ -233,11 +230,7 @@ class TestPlotLyapunovSpectrum:
         x0 = np.array([0.5, 0.5])
 
         # Use small parameters for fast testing
-        fig = plot_lyapunov_spectrum(
-            model,
-            x0,
-            n_steps=300
-        )
+        fig = plot_lyapunov_spectrum(model, x0, n_steps=300)
 
         assert isinstance(fig, matplotlib.figure.Figure)
         plt.close(fig)
@@ -248,13 +241,8 @@ class TestPlotLyapunovSpectrum:
         x0 = np.array([0.5, 0.5])
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            save_path = os.path.join(tmpdir, 'test_lyapunov.png')
-            fig = plot_lyapunov_spectrum(
-                model,
-                x0,
-                n_steps=200,
-                save_path=save_path
-            )
+            save_path = os.path.join(tmpdir, "test_lyapunov.png")
+            fig = plot_lyapunov_spectrum(model, x0, n_steps=200, save_path=save_path)
 
             assert os.path.exists(save_path)
             assert os.path.getsize(save_path) > 0
@@ -268,15 +256,11 @@ class TestPlotLyapunovSpectrum:
         initial_conditions = [
             np.array([0.1, 0.1]),
             np.array([0.5, 0.5]),
-            np.array([0.9, 0.9])
+            np.array([0.9, 0.9]),
         ]
 
         for x0 in initial_conditions:
-            fig = plot_lyapunov_spectrum(
-                model,
-                x0,
-                n_steps=200
-            )
+            fig = plot_lyapunov_spectrum(model, x0, n_steps=200)
             assert isinstance(fig, matplotlib.figure.Figure)
             plt.close(fig)
 
@@ -291,40 +275,60 @@ class TestVisualizationIntegration:
 
         with tempfile.TemporaryDirectory() as tmpdir:
             # Plot orbit
-            fig1 = plot_orbit(model, x0, n_steps=100,
-                             save_path=os.path.join(tmpdir, 'orbit.png'))
+            fig1 = plot_orbit(
+                model, x0, n_steps=100, save_path=os.path.join(tmpdir, "orbit.png")
+            )
             plt.close(fig1)
 
             # Plot fractal map
             fractal_data = np.random.rand(30, 30)
-            fig2 = plot_fractal_map(fractal_data, (-1, 1), (-1, 1),
-                                    save_path=os.path.join(tmpdir, 'fractal.png'))
+            fig2 = plot_fractal_map(
+                fractal_data,
+                (-1, 1),
+                (-1, 1),
+                save_path=os.path.join(tmpdir, "fractal.png"),
+            )
             plt.close(fig2)
 
             # Plot basin
-            fig3 = plot_basin_of_attraction(model, resolution=10,
-                                           save_path=os.path.join(tmpdir, 'basin.png'))
+            fig3 = plot_basin_of_attraction(
+                model, resolution=10, save_path=os.path.join(tmpdir, "basin.png")
+            )
             plt.close(fig3)
 
             # Plot bifurcation
             def model_gen(p):
                 return FractalDynamicsModel(c=np.array([p, 0.1]))
-            fig4 = plot_bifurcation_diagram(model_gen, 'c1', (-0.3, 0.3), 8, 30, 20,
-                                           save_path=os.path.join(tmpdir, 'bifurcation.png'))
+
+            fig4 = plot_bifurcation_diagram(
+                model_gen,
+                "c1",
+                (-0.3, 0.3),
+                8,
+                30,
+                20,
+                save_path=os.path.join(tmpdir, "bifurcation.png"),
+            )
             plt.close(fig4)
 
             # Plot Lyapunov
-            fig5 = plot_lyapunov_spectrum(model, x0, 200,
-                                         save_path=os.path.join(tmpdir, 'lyapunov.png'))
+            fig5 = plot_lyapunov_spectrum(
+                model, x0, 200, save_path=os.path.join(tmpdir, "lyapunov.png")
+            )
             plt.close(fig5)
 
             # Verify all files created
-            for filename in ['orbit.png', 'fractal.png', 'basin.png',
-                           'bifurcation.png', 'lyapunov.png']:
+            for filename in [
+                "orbit.png",
+                "fractal.png",
+                "basin.png",
+                "bifurcation.png",
+                "lyapunov.png",
+            ]:
                 filepath = os.path.join(tmpdir, filename)
                 assert os.path.exists(filepath)
                 assert os.path.getsize(filepath) > 0
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

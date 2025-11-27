@@ -19,8 +19,9 @@ The model exhibits:
 - Fractal basin boundaries (metastability regions)
 """
 
+from typing import Optional
+
 import numpy as np
-from typing import Tuple, Optional
 
 
 class FractalDynamicsModel:
@@ -44,7 +45,7 @@ class FractalDynamicsModel:
         A: Optional[np.ndarray] = None,
         B: Optional[np.ndarray] = None,
         W: Optional[np.ndarray] = None,
-        c: Optional[np.ndarray] = None
+        c: Optional[np.ndarray] = None,
     ):
         """
         Initialize the 2D fractal dynamics model.
@@ -65,30 +66,21 @@ class FractalDynamicsModel:
 
         # Default A: weak damping
         if A is None:
-            self.A = np.array([
-                [0.9, 0.0],
-                [0.0, 0.9]
-            ], dtype=np.float64)
+            self.A = np.array([[0.9, 0.0], [0.0, 0.9]], dtype=np.float64)
         else:
             self.A = np.array(A, dtype=np.float64)
             assert self.A.shape == (2, 2), "A must be 2x2"
 
         # Default B: off-diagonal coupling
         if B is None:
-            self.B = np.array([
-                [0.2, 0.3],
-                [0.3, 0.2]
-            ], dtype=np.float64)
+            self.B = np.array([[0.2, 0.3], [0.3, 0.2]], dtype=np.float64)
         else:
             self.B = np.array(B, dtype=np.float64)
             assert self.B.shape == (2, 2), "B must be 2x2"
 
         # Default W: near-identity with perturbation
         if W is None:
-            self.W = np.array([
-                [1.0, 0.1],
-                [0.1, 1.0]
-            ], dtype=np.float64)
+            self.W = np.array([[1.0, 0.1], [0.1, 1.0]], dtype=np.float64)
         else:
             self.W = np.array(W, dtype=np.float64)
             assert self.W.shape == (2, 2), "W must be 2x2"
@@ -158,10 +150,7 @@ class FractalDynamicsModel:
         return J
 
     def lyapunov_exponent_estimate(
-        self,
-        x0: np.ndarray,
-        n_steps: int = 5000,
-        transient: int = 1000
+        self, x0: np.ndarray, n_steps: int = 5000, transient: int = 1000
     ) -> float:
         """
         Estimate the largest Lyapunov exponent using the Jacobian method.

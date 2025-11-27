@@ -4,6 +4,7 @@ Unit tests for mindfractal.model
 
 import numpy as np
 import pytest
+
 from mindfractal.model import FractalDynamicsModel
 
 
@@ -203,5 +204,5 @@ class TestModelEdgeCases:
         assert np.all(np.abs(J - model.A) < 1.0)
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

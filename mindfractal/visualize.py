@@ -11,14 +11,17 @@ This module provides matplotlib-based visualization functions for:
 All visualizations use pure CPU matplotlib backend (Android/Termux compatible).
 """
 
-import numpy as np
+from typing import Optional, Tuple
+
 import matplotlib
-matplotlib.use('Agg')  # Use non-interactive backend for Android compatibility
+import numpy as np
+
+matplotlib.use("Agg")  # Use non-interactive backend for Android compatibility
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-from typing import Optional, Tuple
+
 from .model import FractalDynamicsModel
-from .simulate import simulate_orbit, basin_of_attraction_sample
+from .simulate import basin_of_attraction_sample, simulate_orbit
 
 
 def plot_orbit(
@@ -27,7 +30,7 @@ def plot_orbit(
     n_steps: int = 1000,
     figsize: Tuple[int, int] = (10, 8),
     save_path: Optional[str] = None,
-    show_fixed_points: bool = True
+    show_fixed_points: bool = True,
 ) -> plt.Figure:
     """
     Plot an orbit in 2D phase space.
@@ -49,54 +52,62 @@ def plot_orbit(
 
     # Phase portrait
     ax = axes[0, 0]
-    ax.plot(trajectory[:, 0], trajectory[:, 1], 'b-', alpha=0.6, linewidth=0.5)
-    ax.plot(trajectory[0, 0], trajectory[0, 1], 'go', markersize=8, label='Start')
-    ax.plot(trajectory[-1, 0], trajectory[-1, 1], 'ro', markersize=8, label='End')
+    ax.plot(trajectory[:, 0], trajectory[:, 1], "b-", alpha=0.6, linewidth=0.5)
+    ax.plot(trajectory[0, 0], trajectory[0, 1], "go", markersize=8, label="Start")
+    ax.plot(trajectory[-1, 0], trajectory[-1, 1], "ro", markersize=8, label="End")
 
     if show_fixed_points:
         from .simulate import find_fixed_points
+
         fixed_points_data = find_fixed_points(model)
         for fp, stable in fixed_points_data:
-            color = 'blue' if stable else 'red'
-            marker = 'o' if stable else 'x'
-            ax.plot(fp[0], fp[1], marker, color=color, markersize=10,
-                   markeredgewidth=2, label=f'FP ({"stable" if stable else "unstable"})')
+            color = "blue" if stable else "red"
+            marker = "o" if stable else "x"
+            ax.plot(
+                fp[0],
+                fp[1],
+                marker,
+                color=color,
+                markersize=10,
+                markeredgewidth=2,
+                label=f'FP ({"stable" if stable else "unstable"})',
+            )
 
-    ax.set_xlabel('$x_1$')
-    ax.set_ylabel('$x_2$')
-    ax.set_title('Phase Portrait')
+    ax.set_xlabel("$x_1$")
+    ax.set_ylabel("$x_2$")
+    ax.set_title("Phase Portrait")
     ax.grid(True, alpha=0.3)
     ax.legend()
 
     # Time series for x1
     ax = axes[0, 1]
-    ax.plot(trajectory[:, 0], 'b-', linewidth=1)
-    ax.set_xlabel('Time step')
-    ax.set_ylabel('$x_1$')
-    ax.set_title('$x_1$ vs Time')
+    ax.plot(trajectory[:, 0], "b-", linewidth=1)
+    ax.set_xlabel("Time step")
+    ax.set_ylabel("$x_1$")
+    ax.set_title("$x_1$ vs Time")
     ax.grid(True, alpha=0.3)
 
     # Time series for x2
     ax = axes[1, 0]
-    ax.plot(trajectory[:, 1], 'r-', linewidth=1)
-    ax.set_xlabel('Time step')
-    ax.set_ylabel('$x_2$')
-    ax.set_title('$x_2$ vs Time')
+    ax.plot(trajectory[:, 1], "r-", linewidth=1)
+    ax.set_xlabel("Time step")
+    ax.set_ylabel("$x_2$")
+    ax.set_title("$x_2$ vs Time")
     ax.grid(True, alpha=0.3)
 
     # Trajectory norm
     ax = axes[1, 1]
     norms = np.linalg.norm(trajectory, axis=1)
-    ax.plot(norms, 'g-', linewidth=1)
-    ax.set_xlabel('Time step')
-    ax.set_ylabel('$||x||$')
-    ax.set_title('State Norm vs Time')
+    ax.plot(norms, "g-", linewidth=1)
+    ax.set_xlabel("Time step")
+    ax.set_ylabel("$||x||$")
+    ax.set_title("State Norm vs Time")
     ax.grid(True, alpha=0.3)
 
     plt.tight_layout()
 
     if save_path:
-        plt.savefig(save_path, dpi=150, bbox_inches='tight')
+        plt.savefig(save_path, dpi=150, bbox_inches="tight")
         print(f"Figure saved to {save_path}")
 
     return fig
@@ -107,8 +118,8 @@ def plot_fractal_map(
     c1_range: Tuple[float, float],
     c2_range: Tuple[float, float],
     figsize: Tuple[int, int] = (12, 10),
-    cmap: str = 'hot',
-    save_path: Optional[str] = None
+    cmap: str = "hot",
+    save_path: Optional[str] = None,
 ) -> plt.Figure:
     """
     Plot the fractal map in parameter space (c1, c2).
@@ -134,26 +145,29 @@ def plot_fractal_map(
     im = ax.imshow(
         fractal_data,
         extent=extent,
-        origin='lower',
-        aspect='auto',
+        origin="lower",
+        aspect="auto",
         cmap=cmap,
-        interpolation='bilinear'
+        interpolation="bilinear",
     )
 
-    ax.set_xlabel('$c_1$', fontsize=14)
-    ax.set_ylabel('$c_2$', fontsize=14)
-    ax.set_title('Fractal Parameter-Space Map\n(Attractor Type vs Control Parameters)',
-                fontsize=16, fontweight='bold')
+    ax.set_xlabel("$c_1$", fontsize=14)
+    ax.set_ylabel("$c_2$", fontsize=14)
+    ax.set_title(
+        "Fractal Parameter-Space Map\n(Attractor Type vs Control Parameters)",
+        fontsize=16,
+        fontweight="bold",
+    )
 
     cbar = plt.colorbar(im, ax=ax)
-    cbar.set_label('Divergence Time / Attractor Type', fontsize=12)
+    cbar.set_label("Divergence Time / Attractor Type", fontsize=12)
 
-    ax.grid(True, alpha=0.2, color='white', linewidth=0.5)
+    ax.grid(True, alpha=0.2, color="white", linewidth=0.5)
 
     plt.tight_layout()
 
     if save_path:
-        plt.savefig(save_path, dpi=200, bbox_inches='tight')
+        plt.savefig(save_path, dpi=200, bbox_inches="tight")
         print(f"Fractal map saved to {save_path}")
 
     return fig
@@ -165,7 +179,7 @@ def plot_basin_of_attraction(
     x_range: Tuple[float, float] = (-2.0, 2.0),
     y_range: Tuple[float, float] = (-2.0, 2.0),
     figsize: Tuple[int, int] = (10, 10),
-    save_path: Optional[str] = None
+    save_path: Optional[str] = None,
 ) -> plt.Figure:
     """
     Plot the basin of attraction diagram.
@@ -186,11 +200,7 @@ def plot_basin_of_attraction(
     print(f"Computing basin of attraction (resolution={resolution})...")
 
     X, Y, basin_labels = basin_of_attraction_sample(
-        model,
-        x_range=x_range,
-        y_range=y_range,
-        resolution=resolution,
-        n_steps=500
+        model, x_range=x_range, y_range=y_range, resolution=resolution, n_steps=500
     )
 
     fig, ax = plt.subplots(figsize=figsize)
@@ -203,26 +213,29 @@ def plot_basin_of_attraction(
     im = ax.imshow(
         basin_labels,
         extent=[x_range[0], x_range[1], y_range[0], y_range[1]],
-        origin='lower',
-        aspect='auto',
+        origin="lower",
+        aspect="auto",
         cmap=cmap,
-        interpolation='nearest'
+        interpolation="nearest",
     )
 
-    ax.set_xlabel('$x_1$', fontsize=14)
-    ax.set_ylabel('$x_2$', fontsize=14)
-    ax.set_title('Basin of Attraction\n(Fractal Boundary Structure)',
-                fontsize=16, fontweight='bold')
+    ax.set_xlabel("$x_1$", fontsize=14)
+    ax.set_ylabel("$x_2$", fontsize=14)
+    ax.set_title(
+        "Basin of Attraction\n(Fractal Boundary Structure)",
+        fontsize=16,
+        fontweight="bold",
+    )
 
     cbar = plt.colorbar(im, ax=ax, ticks=range(n_basins))
-    cbar.set_label('Attractor Basin', fontsize=12)
+    cbar.set_label("Attractor Basin", fontsize=12)
 
-    ax.grid(True, alpha=0.3, color='white', linewidth=0.5)
+    ax.grid(True, alpha=0.3, color="white", linewidth=0.5)
 
     plt.tight_layout()
 
     if save_path:
-        plt.savefig(save_path, dpi=200, bbox_inches='tight')
+        plt.savefig(save_path, dpi=200, bbox_inches="tight")
         print(f"Basin of attraction plot saved to {save_path}")
 
     return fig
@@ -237,7 +250,7 @@ def plot_bifurcation_diagram(
     n_plot: int = 100,
     x0: Optional[np.ndarray] = None,
     figsize: Tuple[int, int] = (14, 8),
-    save_path: Optional[str] = None
+    save_path: Optional[str] = None,
 ) -> plt.Figure:
     """
     Plot a bifurcation diagram by varying a parameter.
@@ -273,26 +286,36 @@ def plot_bifurcation_diagram(
         trajectory_plot = trajectory[n_transient:]
 
         # Plot x1 component
-        ax1.plot([param_val] * len(trajectory_plot), trajectory_plot[:, 0],
-                'k,', markersize=0.5, alpha=0.5)
+        ax1.plot(
+            [param_val] * len(trajectory_plot),
+            trajectory_plot[:, 0],
+            "k,",
+            markersize=0.5,
+            alpha=0.5,
+        )
 
         # Plot x2 component
-        ax2.plot([param_val] * len(trajectory_plot), trajectory_plot[:, 1],
-                'k,', markersize=0.5, alpha=0.5)
+        ax2.plot(
+            [param_val] * len(trajectory_plot),
+            trajectory_plot[:, 1],
+            "k,",
+            markersize=0.5,
+            alpha=0.5,
+        )
 
-    ax1.set_ylabel('$x_1$', fontsize=12)
-    ax1.set_title(f'Bifurcation Diagram: $x_1$ vs {param_name}', fontsize=14)
+    ax1.set_ylabel("$x_1$", fontsize=12)
+    ax1.set_title(f"Bifurcation Diagram: $x_1$ vs {param_name}", fontsize=14)
     ax1.grid(True, alpha=0.3)
 
     ax2.set_xlabel(param_name, fontsize=12)
-    ax2.set_ylabel('$x_2$', fontsize=12)
-    ax2.set_title(f'Bifurcation Diagram: $x_2$ vs {param_name}', fontsize=14)
+    ax2.set_ylabel("$x_2$", fontsize=12)
+    ax2.set_title(f"Bifurcation Diagram: $x_2$ vs {param_name}", fontsize=14)
     ax2.grid(True, alpha=0.3)
 
     plt.tight_layout()
 
     if save_path:
-        plt.savefig(save_path, dpi=150, bbox_inches='tight')
+        plt.savefig(save_path, dpi=150, bbox_inches="tight")
         print(f"Bifurcation diagram saved to {save_path}")
 
     return fig
@@ -303,7 +326,7 @@ def plot_lyapunov_spectrum(
     x0: np.ndarray,
     n_steps: int = 5000,
     figsize: Tuple[int, int] = (10, 6),
-    save_path: Optional[str] = None
+    save_path: Optional[str] = None,
 ) -> plt.Figure:
     """
     Plot the Lyapunov exponent evolution over time.
@@ -338,18 +361,20 @@ def plot_lyapunov_spectrum(
 
     fig, ax = plt.subplots(figsize=figsize)
 
-    ax.plot(lyap_values, 'b-', linewidth=1, alpha=0.8)
-    ax.axhline(y=0, color='r', linestyle='--', linewidth=1.5, label='λ=0 (chaos threshold)')
-    ax.set_xlabel('Time step', fontsize=12)
-    ax.set_ylabel('Largest Lyapunov Exponent', fontsize=12)
-    ax.set_title('Lyapunov Exponent Evolution', fontsize=14, fontweight='bold')
+    ax.plot(lyap_values, "b-", linewidth=1, alpha=0.8)
+    ax.axhline(
+        y=0, color="r", linestyle="--", linewidth=1.5, label="λ=0 (chaos threshold)"
+    )
+    ax.set_xlabel("Time step", fontsize=12)
+    ax.set_ylabel("Largest Lyapunov Exponent", fontsize=12)
+    ax.set_title("Lyapunov Exponent Evolution", fontsize=14, fontweight="bold")
     ax.grid(True, alpha=0.3)
     ax.legend()
 
     plt.tight_layout()
 
     if save_path:
-        plt.savefig(save_path, dpi=150, bbox_inches='tight')
+        plt.savefig(save_path, dpi=150, bbox_inches="tight")
         print(f"Lyapunov spectrum plot saved to {save_path}")
 
     return fig
