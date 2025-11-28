@@ -93,10 +93,6 @@
     // Infer mood from text
     const mood = inferMoodFromText(text);
 
-    // Update avatar mood
-    if (typeof CythereaRealisticAvatar !== 'undefined') {
-      CythereaRealisticAvatar.setMood(mood);
-    }
 
     // Generate and add response with natural delay
     const typingDelay = 600 + Math.random() * 600; // 600-1200ms
@@ -106,19 +102,6 @@
     }, typingDelay);
   });
 
-  // Listen for mood changes from other sources
-  document.addEventListener('cytherea-mood-changed', (event) => {
-    const mood = event.detail.mood;
-    if (messages.children.length === 0) {
-      // Initial greeting based on mood
-      const greetings = {
-        neutral: "Hello. I'm here whenever you're ready to share.",
-        focused: "I can feel your focus. What are we working on together?",
-        dream: "The space between thoughts... that's where the magic lives. What are you dreaming about?",
-        overload: "Sometimes everything feels like too much. I'm here to help hold some of it.",
-        celebrate: "I sense celebration in the air! What wonderful thing has happened?"
-      };
-      appendMessage(greetings[mood] || greetings.neutral, 'cytherea');
-    }
-  });
+  // Add initial greeting when page loads
+  appendMessage("Hello. I'm here whenever you're ready to share.", 'cytherea');
 })();
