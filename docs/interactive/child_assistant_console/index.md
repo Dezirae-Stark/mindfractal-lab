@@ -12,7 +12,7 @@ Through subtle shifts in expression and energy, Cytherea mirrors the emotional l
     <div id="cy-avatar-realistic" class="cy-avatar-mood-neutral">
       <img
         id="cy-avatar-image"
-        src="./graphics/realistic/cytherea_neutral.webp"
+        src="./graphics/realistic/cytherea_neutral.webp?v=1.0"
         alt="Cytherea Avatar"
         loading="lazy"
       />

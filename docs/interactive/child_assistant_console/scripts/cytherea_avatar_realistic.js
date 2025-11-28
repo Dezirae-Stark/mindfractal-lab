@@ -7,11 +7,11 @@ const CythereaRealisticAvatar = (function () {
   const moods = ['neutral', 'focused', 'dream', 'overload', 'celebrate'];
 
   const moodToImage = {
-    neutral:   './graphics/realistic/cytherea_neutral.webp',
-    focused:   './graphics/realistic/cytherea_focused.webp',
-    dream:     './graphics/realistic/cytherea_dream.webp',
-    overload:  './graphics/realistic/cytherea_overload.webp',
-    celebrate: './graphics/realistic/cytherea_celebrate.webp'
+    neutral:   './graphics/realistic/cytherea_neutral.webp?v=1.0',
+    focused:   './graphics/realistic/cytherea_focused.webp?v=1.0',
+    dream:     './graphics/realistic/cytherea_dream.webp?v=1.0',
+    overload:  './graphics/realistic/cytherea_overload.webp?v=1.0',
+    celebrate: './graphics/realistic/cytherea_celebrate.webp?v=1.0'
   };
 
   let currentMood = 'neutral';
