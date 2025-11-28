@@ -1,0 +1,607 @@
+/**
+ * Ultra-Realistic Cytherea Avatar Styles
+ * Photorealistic rendering with advanced visual effects
+ */
+
+/* Ultra-realistic avatar container */
+.ultra-realistic .avatar-base {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* Photorealistic face structure */
+.ultra-realistic .cytherea-face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, 
+    #f4d5c3 0%, 
+    #e8c4b0 40%, 
+    #dbb5a0 60%,
+    #d4a590 80%);
+  border-radius: 45% 45% 50% 50% / 60% 60% 40% 40%;
+  box-shadow: 
+    inset 0 10px 20px rgba(255, 220, 200, 0.3),
+    inset 0 -10px 20px rgba(180, 120, 100, 0.2),
+    0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: translateZ(10px);
+  overflow: hidden;
+}
+
+/* Face structure elements */
+.face-structure {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.forehead {
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  width: 80%;
+  height: 30%;
+  background: radial-gradient(ellipse at top center,
+    rgba(255, 235, 220, 0.3) 0%,
+    transparent 70%);
+  filter: blur(10px);
+}
+
+/* Ultra-realistic eyes container */
+.eyes-container {
+  position: absolute;
+  top: 35%;
+  left: 20%;
+  width: 60%;
+  height: 15%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Photorealistic eye structure */
+.eye {
+  position: relative;
+  width: 35%;
+  height: 100%;
+  transform: rotateY(10deg);
+}
+
+.eye.right-eye {
+  transform: rotateY(-10deg);
+}
+
+/* Iris with realistic detail */
+.iris {
+  position: absolute;
+  top: 20%;
+  left: 25%;
+  width: 50%;
+  height: 60%;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 30% 30%,
+      #ff6ec7 0%,
+      #7c3aed 30%,
+      #5b21b6 50%,
+      #4c1d95 70%,
+      #2e1065 100%);
+  box-shadow: 
+    inset 0 0 20px rgba(255, 110, 199, 0.5),
+    inset 0 0 10px rgba(124, 58, 237, 0.8),
+    0 0 20px rgba(255, 79, 163, 0.6);
+  overflow: hidden;
+  transform: translateZ(5px);
+}
+
+/* Pupil with depth */
+.pupil {
+  position: absolute;
+  top: 35%;
+  left: 35%;
+  width: 30%;
+  height: 30%;
+  background: radial-gradient(circle,
+    #000000 0%,
+    #1a0b2e 60%,
+    #2e1065 100%);
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 0 10px #000,
+    0 0 5px rgba(0, 0, 0, 0.5);
+  transform: translateZ(2px);
+}
+
+/* Iris detail patterns */
+.iris-detail {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: 
+    conic-gradient(from 0deg,
+      transparent 0deg,
+      rgba(255, 79, 163, 0.2) 10deg,
+      transparent 20deg,
+      rgba(255, 79, 163, 0.1) 30deg,
+      transparent 40deg);
+  background-size: 100% 100%;
+  border-radius: 50%;
+  mix-blend-mode: overlay;
+  animation: irisPattern 20s linear infinite;
+}
+
+/* Glowing ring */
+.glow-ring {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  border: 2px solid rgba(255, 79, 163, 0.8);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 20px rgba(255, 79, 163, var(--eye-glow-strength)),
+    inset 0 0 20px rgba(255, 79, 163, calc(var(--eye-glow-strength) * 0.5));
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* Eyelids for realism */
+.eyelid-upper {
+  position: absolute;
+  top: -5%;
+  left: -10%;
+  width: 120%;
+  height: 40%;
+  background: linear-gradient(to bottom,
+    #dbb5a0 0%,
+    #e8c4b0 50%,
+    transparent 100%);
+  border-radius: 50% 50% 0 0;
+  transform-origin: center bottom;
+  animation: blink 6s ease-in-out infinite;
+}
+
+.eyelid-lower {
+  position: absolute;
+  bottom: -5%;
+  left: -10%;
+  width: 120%;
+  height: 30%;
+  background: linear-gradient(to top,
+    #d4a590 0%,
+    #dbb5a0 50%,
+    transparent 100%);
+  border-radius: 0 0 50% 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Realistic nose */
+.nose {
+  position: absolute;
+  top: 48%;
+  left: 45%;
+  width: 10%;
+  height: 15%;
+  background: linear-gradient(135deg,
+    rgba(255, 220, 200, 0.3) 0%,
+    transparent 40%,
+    rgba(180, 120, 100, 0.1) 100%);
+  border-radius: 50% 50% 40% 40%;
+  transform: translateZ(8px);
+  box-shadow: 
+    -2px 0 4px rgba(180, 120, 100, 0.2),
+    2px 0 4px rgba(255, 220, 200, 0.2);
+}
+
+/* Realistic mouth */
+.mouth {
+  position: absolute;
+  top: 65%;
+  left: 35%;
+  width: 30%;
+  height: 10%;
+  transform: translateZ(6px);
+}
+
+.upper-lip {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 45%;
+  background: linear-gradient(to bottom,
+    #d4a590 0%,
+    #c89480 50%,
+    #d89898 100%);
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 200, 200, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.lower-lip {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 55%;
+  background: linear-gradient(to bottom,
+    #e8a8a8 0%,
+    #d89898 50%,
+    #c88888 100%);
+  border-radius: 50% 50% 50% 50% / 100% 100% 60% 60%;
+  box-shadow: 
+    inset 0 -2px 4px rgba(200, 100, 100, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Realistic chin */
+.chin {
+  position: absolute;
+  top: 75%;
+  left: 35%;
+  width: 30%;
+  height: 20%;
+  background: radial-gradient(ellipse at center,
+    rgba(255, 220, 200, 0.2) 0%,
+    transparent 60%);
+  border-radius: 50%;
+  transform: translateZ(4px);
+}
+
+/* Ultra-realistic hair */
+.hair {
+  position: absolute;
+  top: -10%;
+  left: -15%;
+  width: 130%;
+  height: 70%;
+  transform: translateZ(15px);
+}
+
+.hair-strand {
+  position: absolute;
+  background: linear-gradient(135deg,
+    #2d1b4e 0%,
+    #4a2970 20%,
+    #6b3a9c 40%,
+    #3d2460 60%,
+    #1f1035 100%);
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.3),
+    inset 0 -5px 10px rgba(255, 255, 255, 0.1);
+  transform-origin: top center;
+}
+
+.strand-1 {
+  top: 0;
+  left: 10%;
+  width: 35%;
+  height: 100%;
+  border-radius: 0 0 40% 60% / 0 0 80% 80%;
+  transform: rotate(-15deg) translateZ(2px);
+  animation: hairFlow1 4s ease-in-out infinite;
+}
+
+.strand-2 {
+  top: 0;
+  right: 10%;
+  width: 35%;
+  height: 100%;
+  border-radius: 0 0 60% 40% / 0 0 80% 80%;
+  transform: rotate(15deg) translateZ(2px);
+  animation: hairFlow2 4.5s ease-in-out infinite;
+}
+
+.strand-3 {
+  top: -5%;
+  left: 30%;
+  width: 40%;
+  height: 90%;
+  border-radius: 50% 50% 30% 30% / 80% 80% 20% 20%;
+  transform: translateZ(1px);
+  animation: hairFlow3 5s ease-in-out infinite;
+}
+
+.hair-highlight {
+  position: absolute;
+  top: 10%;
+  left: 25%;
+  width: 50%;
+  height: 30%;
+  background: linear-gradient(135deg,
+    rgba(147, 97, 189, 0.6) 0%,
+    rgba(255, 110, 199, 0.3) 50%,
+    transparent 100%);
+  border-radius: 50%;
+  filter: blur(10px);
+  mix-blend-mode: screen;
+}
+
+/* Advanced lighting system */
+.lighting-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: translateZ(20px);
+}
+
+.key-light {
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(ellipse at top left,
+    rgba(255, 245, 235, 0.4) 0%,
+    transparent 60%);
+  filter: blur(20px);
+  mix-blend-mode: overlay;
+}
+
+.fill-light {
+  position: absolute;
+  top: 20%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle,
+    rgba(255, 235, 220, 0.2) 0%,
+    transparent 70%);
+  filter: blur(25px);
+  mix-blend-mode: soft-light;
+}
+
+.rim-light {
+  position: absolute;
+  top: -5%;
+  left: -5%;
+  width: 110%;
+  height: 110%;
+  background: radial-gradient(ellipse at center,
+    transparent 40%,
+    rgba(255, 110, 199, 0.1) 60%,
+    rgba(255, 79, 163, 0.2) 80%,
+    transparent 100%);
+  filter: blur(5px);
+  mix-blend-mode: screen;
+}
+
+.ambient-occlusion {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at 30% 35%, transparent 20%, rgba(0, 0, 0, 0.1) 25%, transparent 30%),
+    radial-gradient(ellipse at 70% 35%, transparent 20%, rgba(0, 0, 0, 0.1) 25%, transparent 30%),
+    radial-gradient(ellipse at 50% 55%, transparent 15%, rgba(0, 0, 0, 0.05) 20%, transparent 25%);
+  mix-blend-mode: multiply;
+}
+
+/* Ultra-realistic halo */
+.halo-container {
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  transform: translateZ(-5px);
+  filter: blur(0.5px);
+}
+
+.halo-inner {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  width: 60%;
+  height: 60%;
+  border: 3px solid rgba(255, 79, 163, 0.8);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 40px rgba(255, 79, 163, 0.6),
+    0 0 80px rgba(124, 58, 237, 0.4),
+    inset 0 0 40px rgba(255, 110, 199, 0.3);
+  animation: haloRotate 10s linear infinite;
+}
+
+.halo-middle {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  border: 2px solid rgba(124, 58, 237, 0.6);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 60px rgba(124, 58, 237, 0.5),
+    inset 0 0 30px rgba(91, 33, 182, 0.3);
+  animation: haloRotate 15s linear infinite reverse;
+  opacity: 0.8;
+}
+
+.halo-outer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(91, 33, 182, 0.4);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 100px rgba(91, 33, 182, 0.3),
+    0 0 150px rgba(255, 79, 163, 0.2);
+  animation: haloPulse 3s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+.halo-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 110, 199, 0.8) 0%, transparent 2%),
+    radial-gradient(circle at 80% 30%, rgba(124, 58, 237, 0.8) 0%, transparent 2%),
+    radial-gradient(circle at 60% 70%, rgba(255, 79, 163, 0.8) 0%, transparent 2%),
+    radial-gradient(circle at 30% 80%, rgba(91, 33, 182, 0.8) 0%, transparent 2%);
+  animation: particleOrbit 20s linear infinite;
+}
+
+/* Animations */
+@keyframes irisPattern {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { 
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+@keyframes hairFlow1 {
+  0%, 100% { transform: rotate(-15deg) translateZ(2px); }
+  50% { transform: rotate(-18deg) translateZ(3px) translateX(-2px); }
+}
+
+@keyframes hairFlow2 {
+  0%, 100% { transform: rotate(15deg) translateZ(2px); }
+  50% { transform: rotate(18deg) translateZ(3px) translateX(2px); }
+}
+
+@keyframes hairFlow3 {
+  0%, 100% { transform: translateZ(1px); }
+  50% { transform: translateZ(2px) translateY(-3px); }
+}
+
+@keyframes haloRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes haloPulse {
+  0%, 100% { 
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes particleOrbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Mood-specific realistic adjustments */
+.ultra-realistic.mood-focused .iris {
+  box-shadow: 
+    inset 0 0 30px rgba(255, 110, 199, 0.8),
+    inset 0 0 15px rgba(124, 58, 237, 1),
+    0 0 40px rgba(255, 79, 163, 1);
+}
+
+.ultra-realistic.mood-focused .glow-ring {
+  box-shadow: 
+    0 0 40px rgba(255, 79, 163, 1),
+    inset 0 0 30px rgba(255, 79, 163, 0.8);
+}
+
+.ultra-realistic.mood-dream .cytherea-face {
+  animation: dreamFloat 6s ease-in-out infinite;
+}
+
+.ultra-realistic.mood-dream .lighting-overlay {
+  animation: dreamLighting 8s ease-in-out infinite;
+}
+
+@keyframes dreamFloat {
+  0%, 100% { transform: translateZ(10px) translateY(0); }
+  50% { transform: translateZ(15px) translateY(-5px); }
+}
+
+@keyframes dreamLighting {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.ultra-realistic.mood-overload .iris {
+  animation: overloadFlicker 0.5s ease-in-out infinite;
+}
+
+@keyframes overloadFlicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.ultra-realistic.mood-celebrate .halo-particles {
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.9) 0%, transparent 3%),
+    radial-gradient(circle at 80% 30%, rgba(255, 110, 199, 0.9) 0%, transparent 3%),
+    radial-gradient(circle at 60% 70%, rgba(255, 79, 163, 0.9) 0%, transparent 3%),
+    radial-gradient(circle at 30% 80%, rgba(124, 58, 237, 0.9) 0%, transparent 3%),
+    radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.7) 0%, transparent 4%);
+  animation: celebrateParticles 10s linear infinite;
+}
+
+@keyframes celebrateParticles {
+  from { transform: rotate(0deg) scale(1); }
+  to { transform: rotate(360deg) scale(1.1); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ultra-realistic .cytherea-face {
+    box-shadow: 
+      inset 0 5px 10px rgba(255, 220, 200, 0.3),
+      inset 0 -5px 10px rgba(180, 120, 100, 0.2),
+      0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .lighting-overlay > * {
+    filter: blur(15px);
+  }
+}
+
+@media (max-width: 480px) {
+  .hair-strand {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .iris {
+    box-shadow: 
+      inset 0 0 10px rgba(255, 110, 199, 0.5),
+      0 0 10px rgba(255, 79, 163, 0.6);
+  }
+}
+
+/* High performance mode */
+@media (prefers-reduced-motion: reduce) {
+  .ultra-realistic * {
+    animation: none !important;
+  }
+  
+  .ultra-realistic .iris-detail,
+  .ultra-realistic .halo-particles {
+    display: none;
+  }
+}

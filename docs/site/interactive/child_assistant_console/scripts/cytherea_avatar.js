@@ -51,18 +51,28 @@ const cythereaAvatar = {
     
     // Update DOM
     const container = document.getElementById('cytherea-avatar-container');
-    const halo = document.getElementById('cytherea-halo');
     
-    if (container && halo) {
+    if (container) {
+      // Check if ultra-realistic mode
+      const isUltraRealistic = container.classList.contains('ultra-realistic');
+      
       // Remove all mood classes
       this.moods.forEach(m => container.classList.remove(`mood-${m}`));
       
       // Add new mood class
       container.classList.add(`mood-${mood}`);
       
-      // Update halo image
-      halo.src = this.haloFiles[mood];
-      halo.alt = `Cytherea ${mood} halo`;
+      // Update SVG halo for non-realistic mode
+      const halo = document.getElementById('cytherea-halo');
+      if (halo && !isUltraRealistic) {
+        halo.src = this.haloFiles[mood];
+        halo.alt = `Cytherea ${mood} halo`;
+      }
+      
+      // Update realistic effects
+      if (isUltraRealistic) {
+        this.updateRealisticEffects(mood);
+      }
       
       // Dispatch custom event
       const event = new CustomEvent('cytherea-mood-changed', {
@@ -70,6 +80,24 @@ const cythereaAvatar = {
       });
       document.dispatchEvent(event);
     }
+  },
+  
+  /**
+   * Update realistic visual effects based on mood
+   * @param {string} mood 
+   */
+  updateRealisticEffects(mood) {
+    const moodSettings = {
+      calm: { glowStrength: 0.4, pupilSize: 0.3 },
+      focused: { glowStrength: 1.0, pupilSize: 0.25 },
+      dream: { glowStrength: 0.5, pupilSize: 0.35 },
+      overload: { glowStrength: 0.3, pupilSize: 0.4 },
+      celebrate: { glowStrength: 1.2, pupilSize: 0.28 }
+    };
+    
+    const settings = moodSettings[mood] || moodSettings.calm;
+    document.documentElement.style.setProperty('--eye-glow-strength', settings.glowStrength);
+    document.documentElement.style.setProperty('--pupil-scale', settings.pupilSize);
   },
   
   /**
