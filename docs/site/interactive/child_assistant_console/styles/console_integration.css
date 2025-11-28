@@ -11,6 +11,8 @@
   border-radius: 15px;
   margin-bottom: 20px;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .header-content {

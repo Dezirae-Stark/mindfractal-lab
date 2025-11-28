@@ -21,8 +21,9 @@
 /* Main avatar container */
 #cytherea-avatar-container {
   position: relative;
-  width: 300px;
-  height: 375px;
+  width: clamp(200px, 40vw, 320px);
+  height: clamp(250px, 50vw, 400px);
+  max-width: 100%;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -37,7 +38,7 @@
   z-index: 2;
   position: relative;
   filter: drop-shadow(0 0 calc(var(--eye-glow-strength) * 10px) var(--rose-quartz));
-  transition: filter 0.8s ease-in-out;
+  transition: filter 0.4s ease-in-out;
 }
 
 /* Halo layer (behind face) */
@@ -49,7 +50,7 @@
   height: 125%;
   z-index: 1;
   opacity: 0.8;
-  transition: opacity 0.8s ease-in-out, filter 0.8s ease-in-out;
+  transition: opacity 0.4s ease-in-out, filter 0.4s ease-in-out;
 }
 
 /* Base animation classes */
@@ -312,15 +313,44 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   #cytherea-avatar-container {
-    width: 200px;
-    height: 250px;
+    width: clamp(180px, 35vw, 250px);
+    height: clamp(225px, 44vw, 313px);
   }
 }
 
 @media (max-width: 480px) {
   #cytherea-avatar-container {
-    width: 150px;
-    height: 188px;
+    width: clamp(150px, 40vw, 200px);
+    height: clamp(188px, 50vw, 250px);
+    margin-bottom: 10px;
+  }
+  
+  /* Reduce animation complexity on small screens */
+  .particle-float-1,
+  .particle-float-2,
+  .particle-float-3 {
+    animation-duration: 6s;
+  }
+  
+  /* Ensure halo doesn't overflow */
+  #cytherea-halo {
+    width: 120%;
+    height: 120%;
+    top: -10%;
+    left: -10%;
+  }
+}
+
+@media (max-width: 320px) {
+  #cytherea-avatar-container {
+    width: 140px;
+    height: 175px;
+  }
+  
+  /* Simplify effects on very small screens */
+  .mood-focused #cytherea-face,
+  .mood-celebrate #cytherea-face {
+    filter: drop-shadow(0 0 calc(var(--eye-glow-strength) * 5px) var(--rose-quartz));
   }
 }
 
