@@ -10,9 +10,10 @@ Traits:
 - focus: attention stability
 """
 
-import numpy as np
 import json
 from pathlib import Path
+
+import numpy as np
 
 
 def traits_to_parameters(traits: dict) -> np.ndarray:
@@ -25,10 +26,10 @@ def traits_to_parameters(traits: dict) -> np.ndarray:
     Returns:
         c parameter vector (2D)
     """
-    openness = traits.get('openness', 0.5)
-    volatility = traits.get('volatility', 0.5)
-    integration = traits.get('integration', 0.5)
-    focus = traits.get('focus', 0.5)
+    openness = traits.get("openness", 0.5)
+    volatility = traits.get("volatility", 0.5)
+    integration = traits.get("integration", 0.5)
+    focus = traits.get("focus", 0.5)
 
     # Map to c1, c2
     # c1: driven by openness and volatility
@@ -46,16 +47,16 @@ def traits_to_parameters(traits: dict) -> np.ndarray:
 def load_trait_profiles(json_path: str = None) -> dict:
     """Load pre-defined trait profiles from JSON"""
     if json_path is None:
-        json_path = Path(__file__).parent / 'traits.json'
+        json_path = Path(__file__).parent / "traits.json"
 
-    with open(json_path, 'r') as f:
+    with open(json_path, "r") as f:
         return json.load(f)
 
 
 def save_trait_profile(profile_name: str, traits: dict, json_path: str = None):
     """Save a trait profile"""
     if json_path is None:
-        json_path = Path(__file__).parent / 'traits.json'
+        json_path = Path(__file__).parent / "traits.json"
 
     try:
         profiles = load_trait_profiles(json_path)
@@ -64,7 +65,7 @@ def save_trait_profile(profile_name: str, traits: dict, json_path: str = None):
 
     profiles[profile_name] = traits
 
-    with open(json_path, 'w') as f:
+    with open(json_path, "w") as f:
         json.dump(profiles, f, indent=2)
 
     print(f"Saved profile '{profile_name}' to {json_path}")

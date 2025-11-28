@@ -12,20 +12,18 @@ Metrics include:
 - Information-theoretic divergence
 """
 
-import numpy as np
-from typing import List, Tuple, Optional, Dict
 from dataclasses import dataclass
+from typing import Dict, List, Optional, Tuple
 
-from .possibility_manifold import (
-    ParameterPoint,
-    StabilityRegion,
-    PossibilityManifold
-)
+import numpy as np
+
+from .possibility_manifold import ParameterPoint, PossibilityManifold, StabilityRegion
 
 
 @dataclass
 class StabilityMetrics:
     """Container for stability analysis results"""
+
     lyapunov_exponent: float
     attractor_dimension: float
     basin_volume_estimate: float
@@ -71,11 +69,11 @@ class ManifoldMetrics:
         dist_sq = 0.0
 
         if p1.A is not None and p2.A is not None:
-            dist_sq += np.linalg.norm(p1.A - p2.A, 'fro')**2
+            dist_sq += np.linalg.norm(p1.A - p2.A, "fro") ** 2
         if p1.B is not None and p2.B is not None:
-            dist_sq += np.linalg.norm(p1.B - p2.B, 'fro')**2
+            dist_sq += np.linalg.norm(p1.B - p2.B, "fro") ** 2
         if p1.W is not None and p2.W is not None:
-            dist_sq += np.linalg.norm(p1.W - p2.W, 'fro')**2
+            dist_sq += np.linalg.norm(p1.W - p2.W, "fro") ** 2
 
         return np.sqrt(dist_sq)
 
@@ -115,8 +113,12 @@ class ManifoldMetrics:
         """
         return np.linalg.norm(p1.z0 - p2.z0)
 
-    def manifold_distance(self, p1: ParameterPoint, p2: ParameterPoint,
-                         weights: Optional[Tuple[float, float, float]] = None) -> float:
+    def manifold_distance(
+        self,
+        p1: ParameterPoint,
+        p2: ParameterPoint,
+        weights: Optional[Tuple[float, float, float]] = None,
+    ) -> float:
         """
         Combined distance metric on 𝒫
 
@@ -146,8 +148,7 @@ class ManifoldMetrics:
 
         return np.sqrt(w_state * d_z**2 + w_param * d_c**2 + w_matrix * d_F**2)
 
-    def lyapunov_exponent(self, orbit: np.ndarray,
-                         method: str = 'tangent') -> float:
+    def lyapunov_exponent(self, orbit: np.ndarray, method: str = "tangent") -> float:
         """
         Estimate largest Lyapunov exponent
 
@@ -165,9 +166,9 @@ class ManifoldMetrics:
         lambda : float
             Estimated largest Lyapunov exponent
         """
-        if method == 'tangent':
+        if method == "tangent":
             return self._lyapunov_tangent(orbit)
-        elif method == 'nearby':
+        elif method == "nearby":
             return self._lyapunov_nearby(orbit)
         else:
             raise ValueError(f"Unknown method: {method}")
@@ -225,7 +226,7 @@ class ManifoldMetrics:
         # Compute pairwise distances
         dists = []
         for i in range(len(points)):
-            for j in range(i+1, len(points)):
+            for j in range(i + 1, len(points)):
                 d = np.linalg.norm(points[i] - points[j])
                 if d > 1e-12:  # Avoid identical points
                     dists.append(d)
@@ -275,8 +276,7 @@ class StabilityClassifier:
         self.manifold = manifold
         self.metrics = ManifoldMetrics(manifold)
 
-    def classify_point(self, point: ParameterPoint,
-                      steps: int = 500) -> StabilityMetrics:
+    def classify_point(self, point: ParameterPoint, steps: int = 500) -> StabilityMetrics:
         """
         Full stability classification of a manifold point
 
@@ -313,11 +313,10 @@ class StabilityClassifier:
             attractor_dimension=dim,
             basin_volume_estimate=basin_volume,
             bifurcation_distance=bif_dist,
-            region=region
+            region=region,
         )
 
-    def _estimate_basin_volume(self, point: ParameterPoint,
-                               region: StabilityRegion) -> float:
+    def _estimate_basin_volume(self, point: ParameterPoint, region: StabilityRegion) -> float:
         """
         Rough estimate of basin of attraction volume
 
@@ -350,14 +349,15 @@ class StabilityClassifier:
 
             # Check if converges to same attractor
             test_attractor = orbit[-50:]
-            dist = np.mean([np.linalg.norm(ref_attractor[i] - test_attractor[i])
-                           for i in range(50)])
+            dist = np.mean(
+                [np.linalg.norm(ref_attractor[i] - test_attractor[i]) for i in range(50)]
+            )
 
             if dist < epsilon:
                 converge_count += 1
 
         # Basin volume estimate (very rough)
-        return (converge_count / n_samples) * (epsilon ** self.manifold.dim)
+        return (converge_count / n_samples) * (epsilon**self.manifold.dim)
 
     def _bifurcation_distance(self, point: ParameterPoint, lyap: float) -> float:
         """
@@ -373,8 +373,9 @@ class StabilityClassifier:
         v = np.random.randn(n) + 1j * np.random.randn(n)
         return v / np.linalg.norm(v)
 
-    def map_stability_landscape(self, param_range: Tuple[float, float],
-                               resolution: int = 50) -> Dict:
+    def map_stability_landscape(
+        self, param_range: Tuple[float, float], resolution: int = 50
+    ) -> Dict:
         """
         Create a 2D slice of the stability landscape
 
@@ -416,7 +417,7 @@ class StabilityClassifier:
             "c1_vals": c1_vals,
             "c2_vals": c2_vals,
             "stability_grid": stability_grid,
-            "lyapunov_grid": lyap_grid
+            "lyapunov_grid": lyap_grid,
         }
 
     @staticmethod
@@ -427,6 +428,6 @@ class StabilityClassifier:
             StabilityRegion.CHAOTIC: 1,
             StabilityRegion.DIVERGENT: 2,
             StabilityRegion.BOUNDARY: 3,
-            StabilityRegion.UNKNOWN: 4
+            StabilityRegion.UNKNOWN: 4,
         }
         return mapping.get(region, 4)

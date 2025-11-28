@@ -12,30 +12,32 @@ Or in Termux: python -m uvicorn extensions.webapp.app:app --host 0.0.0.0 --port 
 """
 
 try:
+    import uvicorn
     from fastapi import FastAPI, Request
-    from fastapi.responses import HTMLResponse, FileResponse
+    from fastapi.responses import FileResponse, HTMLResponse
     from fastapi.staticfiles import StaticFiles
     from fastapi.templating import Jinja2Templates
-    import uvicorn
+
     FASTAPI_AVAILABLE = True
 except ImportError:
     FASTAPI_AVAILABLE = False
     print("WARNING: FastAPI not available. Install with: pip install fastapi uvicorn")
 
+import base64
+import io
 import sys
 from pathlib import Path
+
 import numpy as np
-import io
-import base64
 
 # Add parent to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
+from extensions.psychomapping.trait_to_c import traits_to_parameters
+from mindfractal.fractal_map import generate_fractal_map, plot_fractal_map
 from mindfractal.model import FractalDynamicsModel
 from mindfractal.simulate import simulate_orbit
 from mindfractal.visualize import plot_orbit
-from mindfractal.fractal_map import generate_fractal_map, plot_fractal_map
-from extensions.psychomapping.trait_to_c import traits_to_parameters
 
 if FASTAPI_AVAILABLE:
     app = FastAPI(title="MindFractal Lab", version="0.1.0")
@@ -58,7 +60,7 @@ if FASTAPI_AVAILABLE:
 
         # Convert to base64
         buf = io.BytesIO()
-        fig.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+        fig.savefig(buf, format="png", dpi=100, bbox_inches="tight")
         buf.seek(0)
         img_base64 = base64.b64encode(buf.read()).decode()
 
@@ -68,22 +70,16 @@ if FASTAPI_AVAILABLE:
     async def fractal(resolution: int = 200):
         """Generate fractal map"""
         fractal_data = generate_fractal_map(
-            c1_range=(-1.0, 1.0),
-            c2_range=(-1.0, 1.0),
-            resolution=resolution,
-            max_steps=200
+            c1_range=(-1.0, 1.0), c2_range=(-1.0, 1.0), resolution=resolution, max_steps=200
         )
 
         fig = plot_fractal_map(
-            fractal_data,
-            c1_range=(-1.0, 1.0),
-            c2_range=(-1.0, 1.0),
-            save_path=None
+            fractal_data, c1_range=(-1.0, 1.0), c2_range=(-1.0, 1.0), save_path=None
         )
 
         # Convert to base64
         buf = io.BytesIO()
-        fig.savefig(buf, format='png', dpi=150, bbox_inches='tight')
+        fig.savefig(buf, format="png", dpi=150, bbox_inches="tight")
         buf.seek(0)
         img_base64 = base64.b64encode(buf.read()).decode()
 
@@ -91,26 +87,19 @@ if FASTAPI_AVAILABLE:
 
     @app.get("/traits_to_params")
     async def traits(
-        openness: float = 0.5,
-        volatility: float = 0.5,
-        integration: float = 0.5,
-        focus: float = 0.5
+        openness: float = 0.5, volatility: float = 0.5, integration: float = 0.5, focus: float = 0.5
     ):
         """Map traits to parameters"""
         traits_dict = {
-            'openness': openness,
-            'volatility': volatility,
-            'integration': integration,
-            'focus': focus
+            "openness": openness,
+            "volatility": volatility,
+            "integration": integration,
+            "focus": focus,
         }
 
         c = traits_to_parameters(traits_dict)
 
-        return {
-            "c1": float(c[0]),
-            "c2": float(c[1]),
-            "traits": traits_dict
-        }
+        return {"c1": float(c[0]), "c2": float(c[1]), "traits": traits_dict}
 
 
 def main():
@@ -130,5 +119,5 @@ def main():
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

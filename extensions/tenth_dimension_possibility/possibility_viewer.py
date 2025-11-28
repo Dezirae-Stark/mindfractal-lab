@@ -5,14 +5,15 @@ Tools for visualizing the high-dimensional Possibility Manifold
 through projections, slices, and interactive plots.
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
-from typing import Optional, List
+from typing import List, Optional
 
-from .possibility_manifold import PossibilityManifold, ParameterPoint, StabilityRegion
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.colors import ListedColormap
+
+from .possibility_manifold import ParameterPoint, PossibilityManifold, StabilityRegion
 from .possibility_metrics import StabilityClassifier
-from .possibility_slicer import TimelineSlicer, OrbitBranch
+from .possibility_slicer import OrbitBranch, TimelineSlicer
 
 
 class PossibilityVisualizer:
@@ -28,8 +29,7 @@ class PossibilityVisualizer:
         self.classifier = StabilityClassifier(manifold)
         self.slicer = TimelineSlicer(manifold)
 
-    def plot_stability_landscape(self, param_range=(-2, 2), resolution=50,
-                                figsize=(12, 5)):
+    def plot_stability_landscape(self, param_range=(-2, 2), resolution=50, figsize=(12, 5)):
         """
         Plot 2D stability landscape
 
@@ -48,25 +48,35 @@ class PossibilityVisualizer:
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
 
         # Plot stability regions
-        cmap = ListedColormap(['green', 'orange', 'red', 'yellow', 'gray'])
-        im1 = ax1.imshow(landscape['stability_grid'].T, origin='lower',
-                        extent=[param_range[0], param_range[1]]*2,
-                        cmap=cmap, aspect='auto')
-        ax1.set_xlabel('Parameter c₁')
-        ax1.set_ylabel('Parameter c₂')
-        ax1.set_title('Stability Regions')
+        cmap = ListedColormap(["green", "orange", "red", "yellow", "gray"])
+        im1 = ax1.imshow(
+            landscape["stability_grid"].T,
+            origin="lower",
+            extent=[param_range[0], param_range[1]] * 2,
+            cmap=cmap,
+            aspect="auto",
+        )
+        ax1.set_xlabel("Parameter c₁")
+        ax1.set_ylabel("Parameter c₂")
+        ax1.set_title("Stability Regions")
         cbar1 = plt.colorbar(im1, ax=ax1)
         cbar1.set_ticks([0, 1, 2, 3, 4])
-        cbar1.set_ticklabels(['Stable', 'Chaotic', 'Divergent', 'Boundary', 'Unknown'])
+        cbar1.set_ticklabels(["Stable", "Chaotic", "Divergent", "Boundary", "Unknown"])
 
         # Plot Lyapunov exponents
-        im2 = ax2.imshow(landscape['lyapunov_grid'].T, origin='lower',
-                        extent=[param_range[0], param_range[1]]*2,
-                        cmap='RdBu_r', aspect='auto', vmin=-0.5, vmax=0.5)
-        ax2.set_xlabel('Parameter c₁')
-        ax2.set_ylabel('Parameter c₂')
-        ax2.set_title('Lyapunov Exponents')
-        plt.colorbar(im2, ax=ax2, label='λ')
+        im2 = ax2.imshow(
+            landscape["lyapunov_grid"].T,
+            origin="lower",
+            extent=[param_range[0], param_range[1]] * 2,
+            cmap="RdBu_r",
+            aspect="auto",
+            vmin=-0.5,
+            vmax=0.5,
+        )
+        ax2.set_xlabel("Parameter c₁")
+        ax2.set_ylabel("Parameter c₂")
+        ax2.set_title("Lyapunov Exponents")
+        plt.colorbar(im2, ax=ax2, label="λ")
 
         plt.tight_layout()
         return fig
@@ -89,42 +99,45 @@ class PossibilityVisualizer:
         # Plot parameter evolution
         params = np.array([p.c for p in branch.points])
         for i in range(min(2, self.manifold.dim)):
-            axes[0].plot(params[:, i].real, label=f'Re(c_{i})')
-            axes[0].plot(params[:, i].imag, '--', label=f'Im(c_{i})')
-        axes[0].set_xlabel('Timeline Step')
-        axes[0].set_ylabel('Parameter Value')
-        axes[0].set_title('Parameter Evolution')
+            axes[0].plot(params[:, i].real, label=f"Re(c_{i})")
+            axes[0].plot(params[:, i].imag, "--", label=f"Im(c_{i})")
+        axes[0].set_xlabel("Timeline Step")
+        axes[0].set_ylabel("Parameter Value")
+        axes[0].set_title("Parameter Evolution")
         axes[0].legend()
         axes[0].grid(True, alpha=0.3)
 
         # Plot orbit endpoints
-        endpoints = np.array([orbit[-1] if not np.isnan(orbit[-1]).any()
-                            else orbit[0] for orbit in branch.orbits])
-        axes[1].plot(endpoints[:, 0].real, endpoints[:, 0].imag, 'o-')
-        axes[1].set_xlabel('Re(z₀)')
-        axes[1].set_ylabel('Im(z₀)')
-        axes[1].set_title('Orbit Endpoints')
+        endpoints = np.array(
+            [orbit[-1] if not np.isnan(orbit[-1]).any() else orbit[0] for orbit in branch.orbits]
+        )
+        axes[1].plot(endpoints[:, 0].real, endpoints[:, 0].imag, "o-")
+        axes[1].set_xlabel("Re(z₀)")
+        axes[1].set_ylabel("Im(z₀)")
+        axes[1].set_title("Orbit Endpoints")
         axes[1].grid(True, alpha=0.3)
 
         # Plot sample orbits
-        sample_indices = [0, n_points//2, n_points-1]
-        colors = ['blue', 'green', 'red']
+        sample_indices = [0, n_points // 2, n_points - 1]
+        colors = ["blue", "green", "red"]
         for idx, color in zip(sample_indices, colors):
             orbit = branch.orbits[idx]
             if not np.isnan(orbit).any():
-                axes[2].plot(orbit[:, 0].real, orbit[:, 0].imag,
-                           alpha=0.6, color=color, label=f'Step {idx}')
-        axes[2].set_xlabel('Re(z)')
-        axes[2].set_ylabel('Im(z)')
-        axes[2].set_title('Sample Orbits')
+                axes[2].plot(
+                    orbit[:, 0].real, orbit[:, 0].imag, alpha=0.6, color=color, label=f"Step {idx}"
+                )
+        axes[2].set_xlabel("Re(z)")
+        axes[2].set_ylabel("Im(z)")
+        axes[2].set_title("Sample Orbits")
         axes[2].legend()
         axes[2].grid(True, alpha=0.3)
 
         plt.tight_layout()
         return fig
 
-    def plot_manifold_slice_3d(self, points: List[ParameterPoint],
-                              orbits: List[np.ndarray], figsize=(10, 8)):
+    def plot_manifold_slice_3d(
+        self, points: List[ParameterPoint], orbits: List[np.ndarray], figsize=(10, 8)
+    ):
         """
         3D visualization of manifold slice
 
@@ -140,20 +153,26 @@ class PossibilityVisualizer:
         from mpl_toolkits.mplot3d import Axes3D
 
         fig = plt.figure(figsize=figsize)
-        ax = fig.add_subplot(111, projection='3d')
+        ax = fig.add_subplot(111, projection="3d")
 
         # Plot points colored by stability
         for point, orbit in zip(points, orbits):
             region = self.manifold.classify_stability(orbit)
 
             color = self._region_to_color(region)
-            ax.scatter(point.c[0].real, point.c[1].real if self.manifold.dim > 1 else 0,
-                      point.z0[0].real, c=color, s=50, alpha=0.6)
+            ax.scatter(
+                point.c[0].real,
+                point.c[1].real if self.manifold.dim > 1 else 0,
+                point.z0[0].real,
+                c=color,
+                s=50,
+                alpha=0.6,
+            )
 
-        ax.set_xlabel('Re(c₀)')
-        ax.set_ylabel('Re(c₁)')
-        ax.set_zlabel('Re(z₀)')
-        ax.set_title('3D Manifold Slice')
+        ax.set_xlabel("Re(c₀)")
+        ax.set_ylabel("Re(c₁)")
+        ax.set_zlabel("Re(z₀)")
+        ax.set_title("3D Manifold Slice")
 
         plt.tight_layout()
         return fig
@@ -162,10 +181,10 @@ class PossibilityVisualizer:
     def _region_to_color(region: StabilityRegion) -> str:
         """Map stability region to color"""
         mapping = {
-            StabilityRegion.STABLE_ATTRACTOR: 'green',
-            StabilityRegion.CHAOTIC: 'orange',
-            StabilityRegion.DIVERGENT: 'red',
-            StabilityRegion.BOUNDARY: 'yellow',
-            StabilityRegion.UNKNOWN: 'gray'
+            StabilityRegion.STABLE_ATTRACTOR: "green",
+            StabilityRegion.CHAOTIC: "orange",
+            StabilityRegion.DIVERGENT: "red",
+            StabilityRegion.BOUNDARY: "yellow",
+            StabilityRegion.UNKNOWN: "gray",
         }
-        return mapping.get(region, 'gray')
+        return mapping.get(region, "gray")
