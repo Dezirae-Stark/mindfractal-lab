@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Calm halo gradients -->
+    <radialGradient id="calmHaloGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FF4FA3;stop-opacity:0.1" />
+      <stop offset="60%" style="stop-color:#7C3AED;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#1A1B3E;stop-opacity:0.8" />
+    </radialGradient>
+    
+    <linearGradient id="calmRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7C3AED;stop-opacity:0.6" />
+      <stop offset="50%" style="stop-color:#FF4FA3;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#5B21B6;stop-opacity:0.6" />
+    </linearGradient>
+    
+    <!-- Soft glow filter -->
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Outer halo ring -->
+  <circle cx="200" cy="200" r="180" fill="url(#calmHaloGrad)" opacity="0.3"/>
+  
+  <!-- Main halo structure -->
+  <g id="calmHalo" transform-origin="200 200" class="halo-rotation">
+    <!-- Fractal branches -->
+    <g fill="none" stroke="url(#calmRingGrad)" stroke-width="2" opacity="0.7" filter="url(#softGlow)">
+      <!-- Primary branches -->
+      <path d="M 200 50 Q 220 80 200 110 Q 180 80 200 50 Z"/>
+      <path d="M 350 200 Q 320 220 290 200 Q 320 180 350 200 Z"/>
+      <path d="M 200 350 Q 180 320 200 290 Q 220 320 200 350 Z"/>
+      <path d="M 50 200 Q 80 180 110 200 Q 80 220 50 200 Z"/>
+      
+      <!-- Secondary branches -->
+      <path d="M 271 129 Q 285 145 271 161 Q 257 145 271 129 Z"/>
+      <path d="M 271 271 Q 257 285 241 271 Q 257 257 271 271 Z"/>
+      <path d="M 129 271 Q 115 257 129 241 Q 143 257 129 271 Z"/>
+      <path d="M 129 129 Q 143 115 129 99 Q 115 115 129 129 Z"/>
+      
+      <!-- Tertiary delicate branches -->
+      <g stroke-width="1" opacity="0.5">
+        <path d="M 200 80 Q 210 95 200 110"/>
+        <path d="M 320 200 Q 305 210 290 200"/>
+        <path d="M 200 320 Q 190 305 200 290"/>
+        <path d="M 80 200 Q 95 190 110 200"/>
+      </g>
+    </g>
+    
+    <!-- Central ring -->
+    <circle cx="200" cy="200" r="30" fill="none" stroke="url(#calmRingGrad)" stroke-width="3" opacity="0.4"/>
+    
+    <!-- Floating particles -->
+    <g opacity="0.6">
+      <circle cx="160" cy="120" r="2" fill="#FF4FA3" class="particle-float-1"/>
+      <circle cx="280" cy="180" r="1.5" fill="#7C3AED" class="particle-float-2"/>
+      <circle cx="140" cy="280" r="1" fill="#FF4FA3" class="particle-float-3"/>
+      <circle cx="300" cy="300" r="2" fill="#5B21B6" class="particle-float-1"/>
+    </g>
+  </g>
+</svg>

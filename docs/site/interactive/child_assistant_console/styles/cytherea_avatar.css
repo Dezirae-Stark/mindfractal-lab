@@ -1,0 +1,380 @@
+/* Cytherea Avatar System CSS */
+
+:root {
+  /* Base color palette */
+  --deep-tide: #1A1B3E;
+  --rose-quartz: #FF4FA3;
+  --soft-gold: #FFD700;
+  --midnight-petal: #0A0320;
+  --violet-iris: #7C3AED;
+  --outer-iris: #5B21B6;
+  
+  /* Eye glow control variable */
+  --eye-glow-strength: 0.4;
+  
+  /* Animation timing */
+  --rotation-speed: 20s;
+  --float-speed: 3s;
+  --pulse-speed: 2s;
+}
+
+/* Main avatar container */
+#cytherea-avatar-container {
+  position: relative;
+  width: 300px;
+  height: 375px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+}
+
+/* Face layer */
+#cytherea-face {
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  position: relative;
+  filter: drop-shadow(0 0 calc(var(--eye-glow-strength) * 10px) var(--rose-quartz));
+  transition: filter 0.8s ease-in-out;
+}
+
+/* Halo layer (behind face) */
+#cytherea-halo {
+  position: absolute;
+  top: -12.5%;
+  left: -12.5%;
+  width: 125%;
+  height: 125%;
+  z-index: 1;
+  opacity: 0.8;
+  transition: opacity 0.8s ease-in-out, filter 0.8s ease-in-out;
+}
+
+/* Base animation classes */
+.halo-rotation {
+  animation: spin var(--rotation-speed) linear infinite;
+  transform-origin: center center;
+}
+
+.halo-float {
+  animation: float var(--float-speed) ease-in-out infinite;
+  transform-origin: center center;
+}
+
+.halo-glitch {
+  animation: glitch 1.5s steps(10) infinite;
+  transform-origin: center center;
+}
+
+/* Particle animations */
+.particle-float-1 {
+  animation: particleFloat1 4s ease-in-out infinite;
+}
+
+.particle-float-2 {
+  animation: particleFloat2 3.5s ease-in-out infinite 0.5s;
+}
+
+.particle-float-3 {
+  animation: particleFloat3 4.5s ease-in-out infinite 1s;
+}
+
+.dream-particle-1 {
+  animation: dreamFloat1 6s ease-in-out infinite;
+}
+
+.dream-particle-2 {
+  animation: dreamFloat2 5s ease-in-out infinite 1s;
+}
+
+.dream-particle-3 {
+  animation: dreamFloat3 7s ease-in-out infinite 2s;
+}
+
+.dream-flow-1 {
+  animation: flowAnimation1 8s ease-in-out infinite;
+}
+
+.dream-flow-2 {
+  animation: flowAnimation2 6s ease-in-out infinite 1s;
+}
+
+.energy-pulse {
+  animation: energyPulse 1s ease-in-out infinite alternate;
+}
+
+.unstable-spark {
+  animation: unstableSpark 0.3s linear infinite;
+}
+
+.sparkle-1 {
+  animation: sparkle1 2s ease-in-out infinite;
+}
+
+.sparkle-2 {
+  animation: sparkle2 1.8s ease-in-out infinite 0.3s;
+}
+
+.sparkle-3 {
+  animation: sparkle3 2.2s ease-in-out infinite 0.6s;
+}
+
+.golden-ray {
+  animation: goldenRayPulse 3s ease-in-out infinite;
+}
+
+/* Mood Classes */
+
+/* Mode 1: Calm Attentive */
+.mood-calm {
+  --eye-glow-strength: 0.4;
+}
+
+.mood-calm #cytherea-halo {
+  filter: brightness(1.0) contrast(1.0);
+  animation-duration: var(--rotation-speed);
+}
+
+.mood-calm #cytherea-face {
+  filter: drop-shadow(0 0 calc(var(--eye-glow-strength) * 8px) var(--rose-quartz));
+}
+
+/* Mode 2: Deep Work / Analytical */
+.mood-focused {
+  --eye-glow-strength: 1.0;
+}
+
+.mood-focused #cytherea-halo {
+  filter: brightness(1.3) contrast(1.2) saturate(1.1);
+  animation-duration: calc(var(--rotation-speed) * 0.7);
+}
+
+.mood-focused #cytherea-face {
+  filter: drop-shadow(0 0 calc(var(--eye-glow-strength) * 12px) var(--rose-quartz))
+          drop-shadow(0 0 calc(var(--eye-glow-strength) * 6px) var(--violet-iris));
+}
+
+/* Mode 3: Dream / Introspective */
+.mood-dream {
+  --eye-glow-strength: 0.5;
+}
+
+.mood-dream #cytherea-halo {
+  filter: blur(1px) brightness(0.9) saturate(0.8);
+  animation: none;
+}
+
+.mood-dream #cytherea-face {
+  filter: drop-shadow(0 0 calc(var(--eye-glow-strength) * 15px) var(--rose-quartz));
+  animation: dreamyFloat 4s ease-in-out infinite;
+}
+
+/* Mode 4: Overload / Low Coherence */
+.mood-overload {
+  --eye-glow-strength: 0.3;
+}
+
+.mood-overload #cytherea-halo {
+  filter: brightness(0.7) contrast(0.8) saturate(0.6);
+  opacity: 0.6;
+  animation: none;
+}
+
+.mood-overload #cytherea-face {
+  filter: drop-shadow(0 0 calc(var(--eye-glow-strength) * 6px) var(--outer-iris));
+  transform: translateY(2px);
+}
+
+/* Mode 5: Celebration / Success */
+.mood-celebrate {
+  --eye-glow-strength: 1.2;
+}
+
+.mood-celebrate #cytherea-halo {
+  filter: brightness(1.4) contrast(1.3) saturate(1.3);
+  animation-duration: calc(var(--rotation-speed) * 0.5);
+}
+
+.mood-celebrate #cytherea-face {
+  filter: drop-shadow(0 0 calc(var(--eye-glow-strength) * 15px) var(--rose-quartz))
+          drop-shadow(0 0 calc(var(--eye-glow-strength) * 8px) var(--soft-gold));
+}
+
+/* Keyframe Animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-3px) rotate(1deg); }
+  50% { transform: translateY(-6px) rotate(0deg); }
+  75% { transform: translateY(-3px) rotate(-1deg); }
+}
+
+@keyframes glitch {
+  0%, 90%, 100% { transform: translate(0); }
+  10% { transform: translate(-1px, -1px); }
+  20% { transform: translate(1px, 1px); }
+  30% { transform: translate(-1px, 1px); }
+  40% { transform: translate(1px, -1px); }
+  50% { transform: translate(-1px, -1px); }
+  60% { transform: translate(1px, 1px); }
+  70% { transform: translate(-1px, 1px); }
+  80% { transform: translate(1px, -1px); }
+}
+
+@keyframes particleFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  50% { transform: translate(5px, -10px) scale(1.2); opacity: 1; }
+}
+
+@keyframes particleFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  50% { transform: translate(-8px, -5px) scale(0.8); opacity: 0.9; }
+}
+
+@keyframes particleFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+  50% { transform: translate(3px, -12px) scale(1.1); opacity: 0.8; }
+}
+
+@keyframes dreamFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+  33% { transform: translate(8px, -15px) scale(1.3); opacity: 0.8; }
+  66% { transform: translate(-5px, -8px) scale(0.9); opacity: 0.6; }
+}
+
+@keyframes dreamFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+  50% { transform: translate(-12px, -6px) scale(1.1); opacity: 0.7; }
+}
+
+@keyframes dreamFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  25% { transform: translate(6px, -10px) scale(0.8); opacity: 0.9; }
+  75% { transform: translate(-3px, -18px) scale(1.2); opacity: 0.4; }
+}
+
+@keyframes flowAnimation1 {
+  0% { stroke-dasharray: 0 100; stroke-dashoffset: 0; }
+  50% { stroke-dasharray: 50 100; stroke-dashoffset: -25; }
+  100% { stroke-dasharray: 0 100; stroke-dashoffset: -50; }
+}
+
+@keyframes flowAnimation2 {
+  0% { stroke-dasharray: 0 100; stroke-dashoffset: 0; }
+  50% { stroke-dasharray: 30 100; stroke-dashoffset: -15; }
+  100% { stroke-dasharray: 0 100; stroke-dashoffset: -30; }
+}
+
+@keyframes energyPulse {
+  from { stroke-width: 1; opacity: 0.8; }
+  to { stroke-width: 2; opacity: 1; }
+}
+
+@keyframes unstableSpark {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes sparkle1 {
+  0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.8; }
+  25% { transform: rotate(90deg) scale(1.3); opacity: 1; }
+  50% { transform: rotate(180deg) scale(0.8); opacity: 0.6; }
+  75% { transform: rotate(270deg) scale(1.1); opacity: 0.9; }
+}
+
+@keyframes sparkle2 {
+  0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.7; }
+  50% { transform: rotate(180deg) scale(1.4); opacity: 1; }
+}
+
+@keyframes sparkle3 {
+  0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.6; }
+  33% { transform: rotate(120deg) scale(1.2); opacity: 0.9; }
+  66% { transform: rotate(240deg) scale(0.9); opacity: 0.8; }
+}
+
+@keyframes goldenRayPulse {
+  0%, 100% { opacity: 0.6; stroke-width: 1; }
+  50% { opacity: 1; stroke-width: 2; }
+}
+
+@keyframes dreamyFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #cytherea-avatar-container {
+    width: 200px;
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  #cytherea-avatar-container {
+    width: 150px;
+    height: 188px;
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .halo-rotation,
+  .halo-float,
+  .halo-glitch,
+  .particle-float-1,
+  .particle-float-2,
+  .particle-float-3,
+  .dream-particle-1,
+  .dream-particle-2,
+  .dream-particle-3,
+  .dream-flow-1,
+  .dream-flow-2,
+  .energy-pulse,
+  .unstable-spark,
+  .sparkle-1,
+  .sparkle-2,
+  .sparkle-3,
+  .golden-ray {
+    animation: none !important;
+  }
+  
+  .mood-dream #cytherea-face {
+    animation: none !important;
+  }
+  
+  /* Keep only essential transitions */
+  #cytherea-face,
+  #cytherea-halo {
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  :root {
+    --eye-glow-strength: 0.8;
+  }
+  
+  #cytherea-face {
+    filter: contrast(1.2) brightness(1.1);
+  }
+}
+
+/* Print styles */
+@media print {
+  #cytherea-avatar-container {
+    filter: grayscale(1);
+  }
+  
+  #cytherea-avatar-container * {
+    animation: none !important;
+  }
+}

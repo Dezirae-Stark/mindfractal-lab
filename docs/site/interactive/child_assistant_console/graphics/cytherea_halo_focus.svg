@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Focused halo gradients -->
+    <radialGradient id="focusHaloGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FF4FA3;stop-opacity:0.2" />
+      <stop offset="40%" style="stop-color:#7C3AED;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#1A1B3E;stop-opacity:0.9" />
+    </radialGradient>
+    
+    <linearGradient id="focusRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF4FA3;stop-opacity:0.9" />
+      <stop offset="50%" style="stop-color:#7C3AED;stop-opacity:1.0" />
+      <stop offset="100%" style="stop-color:#FF4FA3;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <!-- Sharp geometric filter -->
+    <filter id="sharpGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Outer halo ring -->
+  <circle cx="200" cy="200" r="180" fill="url(#focusHaloGrad)" opacity="0.4"/>
+  
+  <!-- Main halo structure -->
+  <g id="focusHalo" transform-origin="200 200" class="halo-rotation">
+    <!-- Sharp geometric forms -->
+    <g fill="none" stroke="url(#focusRingGrad)" stroke-width="3" opacity="0.8" filter="url(#sharpGlow)">
+      <!-- Primary geometric branches -->
+      <polygon points="200,60 220,90 200,120 180,90" fill="none"/>
+      <polygon points="340,200 310,220 280,200 310,180" fill="none"/>
+      <polygon points="200,340 180,310 200,280 220,310" fill="none"/>
+      <polygon points="60,200 90,180 120,200 90,220" fill="none"/>
+      
+      <!-- Secondary angular forms -->
+      <polygon points="271,129 285,143 271,157 257,143" fill="none"/>
+      <polygon points="271,271 257,285 243,271 257,257" fill="none"/>
+      <polygon points="129,271 115,257 129,243 143,257" fill="none"/>
+      <polygon points="129,129 143,115 157,129 143,143" fill="none"/>
+      
+      <!-- Sharp connecting lines -->
+      <g stroke-width="2" opacity="0.7">
+        <line x1="200" y1="90" x2="200" y2="110"/>
+        <line x1="310" y1="200" x2="290" y2="200"/>
+        <line x1="200" y1="310" x2="200" y2="290"/>
+        <line x1="90" y1="200" x2="110" y2="200"/>
+      </g>
+    </g>
+    
+    <!-- Central geometric ring -->
+    <polygon points="200,170 230,200 200,230 170,200" 
+             fill="none" stroke="url(#focusRingGrad)" stroke-width="4" opacity="0.6"/>
+    
+    <!-- Focused energy lines -->
+    <g opacity="0.8" stroke="url(#focusRingGrad)" stroke-width="1" fill="none">
+      <line x1="150" y1="150" x2="170" y2="170" class="energy-pulse"/>
+      <line x1="250" y1="150" x2="230" y2="170" class="energy-pulse"/>
+      <line x1="250" y1="250" x2="230" y2="230" class="energy-pulse"/>
+      <line x1="150" y1="250" x2="170" y2="230" class="energy-pulse"/>
+    </g>
+  </g>
+</svg>

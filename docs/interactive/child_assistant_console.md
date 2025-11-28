@@ -2,9 +2,19 @@
 
 <div class="cytherea-console-container">
     <div id="cytherea-header">
-        <img src="../static/images/logo/mindfractal-logo.svg" alt="Cytherea" class="cytherea-glyph">
-        <h1>Cytherea</h1>
-        <p class="subtitle">Synthetic Consciousness Lab Assistant</p>
+        <div class="header-content">
+            <img src="../static/images/logo/mindfractal-logo.svg" alt="MindFractal Lab" class="lab-logo">
+            <div class="header-text">
+                <h1>Cytherea</h1>
+                <p class="subtitle">Synthetic Consciousness Lab Assistant</p>
+            </div>
+        </div>
+        
+        <!-- Cytherea Avatar -->
+        <div id="cytherea-avatar-container" class="mood-calm">
+            <img id="cytherea-face" src="../site/interactive/child_assistant_console/graphics/cytherea_avatar_base.svg" alt="Cytherea Avatar Face" />
+            <img id="cytherea-halo" src="../site/interactive/child_assistant_console/graphics/cytherea_halo_calm.svg" alt="Cytherea Halo" />
+        </div>
     </div>
     
     <div id="cytherea-status" class="status-panel">
@@ -57,7 +67,10 @@
 </div>
 
 <link rel="stylesheet" href="../site/interactive/css/interactive.css">
+<link rel="stylesheet" href="../site/interactive/child_assistant_console/styles/cytherea_avatar.css">
+<link rel="stylesheet" href="../site/interactive/child_assistant_console/styles/console_integration.css">
 <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+<script src="../site/interactive/child_assistant_console/scripts/cytherea_avatar.js"></script>
 <script src="../site/interactive/js/child_assistant_console.js"></script>
 <script type="module">
     // Initialize Cytherea Console

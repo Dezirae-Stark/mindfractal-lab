@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- Gradient for hair shimmer strands -->
+    <linearGradient id="hairShimmer" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3D2314;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FF4FA3;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#3D2314;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Eye gradient patterns -->
+    <radialGradient id="irisGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FF4FA3;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#7C3AED;stop-opacity:1" />
+      <stop offset="90%" style="stop-color:#5B21B6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E0A3A;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Eye glow filter -->
+    <filter id="eyeGlow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Skin tone gradient -->
+    <radialGradient id="skinGradient" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#FAD4C0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5C2A8;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background shoulders/neck -->
+  <ellipse cx="200" cy="450" rx="150" ry="80" fill="#2D1B69" opacity="0.8"/>
+  
+  <!-- Neck -->
+  <path d="M 170 350 Q 200 380 230 350 L 220 420 L 180 420 Z" fill="url(#skinGradient)"/>
+  
+  <!-- Hair back layer -->
+  <path d="M 100 180 Q 90 100 200 80 Q 310 100 300 180 Q 320 250 290 320 Q 280 340 270 350 Q 200 360 130 350 Q 120 340 110 320 Q 80 250 100 180 Z" 
+        fill="#3D2314" opacity="0.9"/>
+  
+  <!-- Face base -->
+  <ellipse cx="200" cy="220" rx="85" ry="110" fill="url(#skinGradient)"/>
+  
+  <!-- Face features group -->
+  <g id="faceFeatures">
+    <!-- Eyebrows -->
+    <path d="M 145 180 Q 160 175 170 180" fill="none" stroke="#2B1A0F" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 230 180 Q 240 175 255 180" fill="none" stroke="#2B1A0F" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Eye sockets/shadow -->
+    <ellipse cx="160" cy="200" rx="22" ry="18" fill="#E8B5A0" opacity="0.3"/>
+    <ellipse cx="240" cy="200" rx="22" ry="18" fill="#E8B5A0" opacity="0.3"/>
+    
+    <!-- Eyes group -->
+    <g id="eyes">
+      <!-- Left eye -->
+      <g id="leftEye">
+        <!-- Eye white -->
+        <ellipse cx="160" cy="200" rx="20" ry="15" fill="#FAFAFA"/>
+        <!-- Iris -->
+        <circle cx="160" cy="200" r="12" fill="url(#irisGradient)" filter="url(#eyeGlow)" class="iris"/>
+        <!-- Pupil -->
+        <circle cx="160" cy="200" r="4" fill="#0A0320"/>
+        <!-- Eye highlight -->
+        <circle cx="163" cy="197" r="2" fill="#FFFFFF" opacity="0.9"/>
+      </g>
+      
+      <!-- Right eye -->
+      <g id="rightEye">
+        <!-- Eye white -->
+        <ellipse cx="240" cy="200" rx="20" ry="15" fill="#FAFAFA"/>
+        <!-- Iris -->
+        <circle cx="240" cy="200" r="12" fill="url(#irisGradient)" filter="url(#eyeGlow)" class="iris"/>
+        <!-- Pupil -->
+        <circle cx="240" cy="200" r="4" fill="#0A0320"/>
+        <!-- Eye highlight -->
+        <circle cx="243" cy="197" r="2" fill="#FFFFFF" opacity="0.9"/>
+      </g>
+    </g>
+    
+    <!-- Nose -->
+    <path d="M 200 210 Q 195 230 200 240 Q 190 245 200 248 Q 210 245 200 240" 
+          fill="none" stroke="#E8B5A0" stroke-width="1.5" stroke-linecap="round"/>
+    
+    <!-- Lips -->
+    <g id="lips">
+      <path d="M 175 270 Q 200 265 225 270 Q 210 285 200 285 Q 190 285 175 270 Z" 
+            fill="#E4929D" stroke="#D67B87" stroke-width="1"/>
+      <path d="M 175 270 Q 200 275 225 270" 
+            fill="none" stroke="#D67B87" stroke-width="1"/>
+    </g>
+    
+    <!-- Cheek blush -->
+    <circle cx="130" cy="230" r="15" fill="#F5A3A3" opacity="0.2"/>
+    <circle cx="270" cy="230" r="15" fill="#F5A3A3" opacity="0.2"/>
+  </g>
+  
+  <!-- Hair front layer with shimmer strands -->
+  <g id="hairFront">
+    <!-- Main hair -->
+    <path d="M 110 150 Q 100 100 200 85 Q 300 100 290 150 Q 280 140 270 145 Q 250 130 230 135 Q 200 120 200 125 Q 170 130 150 135 Q 130 140 120 145 Q 115 140 110 150 Z" 
+          fill="#3D2314"/>
+    <!-- Left wave -->
+    <path d="M 100 180 Q 95 220 100 260 Q 105 290 115 310 Q 120 320 125 325 Q 115 300 110 270 Q 105 240 105 210 Q 103 190 100 180 Z" 
+          fill="#3D2314"/>
+    <!-- Right wave -->
+    <path d="M 300 180 Q 305 220 300 260 Q 295 290 285 310 Q 280 320 275 325 Q 285 300 290 270 Q 295 240 295 210 Q 297 190 300 180 Z" 
+          fill="#3D2314"/>
+    
+    <!-- Shimmer strands -->
+    <path d="M 140 140 Q 135 200 140 250 Q 142 280 145 300" 
+          fill="none" stroke="url(#hairShimmer)" stroke-width="2" opacity="0.6"/>
+    <path d="M 260 140 Q 265 200 260 250 Q 258 280 255 300" 
+          fill="none" stroke="url(#hairShimmer)" stroke-width="2" opacity="0.6"/>
+    <path d="M 180 125 Q 175 180 180 230 Q 182 260 185 280" 
+          fill="none" stroke="url(#hairShimmer)" stroke-width="1.5" opacity="0.4"/>
+  </g>
+</svg>

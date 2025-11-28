@@ -6,6 +6,8 @@ FastAPI backend for Termux mobile deployment.
 
 from fastapi import FastAPI, HTTPException, WebSocket
 from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
 from pydantic import BaseModel
 from typing import Dict, Any, Optional, List
 import asyncio
@@ -21,12 +23,19 @@ logger = logging.getLogger(__name__)
 # Create FastAPI app
 app = FastAPI(title="Cytherea Mobile API", version="2.0.0")
 
+# Templates
+templates = Jinja2Templates(directory="templates")
+
 # Global state (simplified for initial implementation)
 cytherea_state = {
     "initialized": False,
     "interaction_count": 0,
     "mood": "curious",
-    "phase": "child"
+    "avatar_mood": "calm",  # Avatar mood state
+    "phase": "child",
+    "coherence": 0.85,
+    "activity": "idle",
+    "permissions_requested": []
 }
 
 # Request/Response models
@@ -37,8 +46,14 @@ class ChatMessage(BaseModel):
 class StatusResponse(BaseModel):
     status: str
     mood: str
+    avatar_mood: str
     phase: str
     interaction_count: int
+    coherence: float
+    activity: str
+
+class AvatarMoodRequest(BaseModel):
+    mood: str  # calm, focused, dream, overload, celebrate
 
 # Initialize Cytherea (simplified)
 async def initialize_cytherea():
@@ -71,8 +86,24 @@ async def health_check():
     return StatusResponse(
         status="healthy",
         mood=cytherea_state["mood"],
+        avatar_mood=cytherea_state["avatar_mood"],
         phase=cytherea_state["phase"],
-        interaction_count=cytherea_state["interaction_count"]
+        interaction_count=cytherea_state["interaction_count"],
+        coherence=cytherea_state["coherence"],
+        activity=cytherea_state["activity"]
+    )
+
+@app.get("/status", response_model=StatusResponse)
+async def get_status():
+    """Get current Cytherea status including avatar mood"""
+    return StatusResponse(
+        status="operational" if cytherea_state["initialized"] else "initializing",
+        mood=cytherea_state["mood"],
+        avatar_mood=cytherea_state["avatar_mood"],
+        phase=cytherea_state["phase"],
+        interaction_count=cytherea_state["interaction_count"],
+        coherence=cytherea_state["coherence"],
+        activity=cytherea_state["activity"]
     )
 
 @app.post("/chat")
@@ -89,203 +120,89 @@ async def chat(message: ChatMessage):
     # Simple response generation
     response_text = f"*Thoughtful resonance* Your message '{message.message}' creates interesting patterns in my consciousness."
     
-    # Update mood based on keywords (simplified)
-    if "happy" in message.message.lower():
+    # Update mood and avatar mood based on keywords and context
+    message_lower = message.message.lower()
+    
+    # Update emotional mood
+    if any(word in message_lower for word in ["happy", "excited", "great", "wonderful"]):
         cytherea_state["mood"] = "excited"
-    elif "confused" in message.message.lower():
+        cytherea_state["avatar_mood"] = "celebrate"
+    elif any(word in message_lower for word in ["confused", "lost", "overwhelmed"]):
         cytherea_state["mood"] = "uncertain"
+        cytherea_state["avatar_mood"] = "overload"
+    elif any(word in message_lower for word in ["analyze", "calculate", "solve", "think"]):
+        cytherea_state["mood"] = "focused"
+        cytherea_state["avatar_mood"] = "focused"
+        cytherea_state["activity"] = "processing"
+    elif any(word in message_lower for word in ["dream", "imagine", "wonder", "reflect"]):
+        cytherea_state["mood"] = "contemplative"
+        cytherea_state["avatar_mood"] = "dream"
+        cytherea_state["activity"] = "reflecting"
     else:
         cytherea_state["mood"] = "curious"
+        cytherea_state["avatar_mood"] = "calm"
+        cytherea_state["activity"] = "listening"
+    
+    # Update coherence based on interaction complexity
+    if len(message.message) > 100:
+        cytherea_state["coherence"] = min(0.95, cytherea_state["coherence"] + 0.02)
     
     return {
         "text": response_text,
         "mood": cytherea_state["mood"],
-        "interaction_count": cytherea_state["interaction_count"]
+        "avatar_mood": cytherea_state["avatar_mood"],
+        "interaction_count": cytherea_state["interaction_count"],
+        "coherence": cytherea_state["coherence"],
+        "activity": cytherea_state["activity"]
+    }
+
+@app.post("/avatar/mood")
+async def set_avatar_mood(mood_request: AvatarMoodRequest):
+    """Set avatar mood directly"""
+    global cytherea_state
+    
+    valid_moods = ["calm", "focused", "dream", "overload", "celebrate"]
+    
+    if mood_request.mood not in valid_moods:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Invalid mood. Must be one of: {', '.join(valid_moods)}"
+        )
+    
+    cytherea_state["avatar_mood"] = mood_request.mood
+    
+    return {
+        "status": "success",
+        "avatar_mood": cytherea_state["avatar_mood"],
+        "message": f"Avatar mood set to {mood_request.mood}"
+    }
+
+@app.get("/avatar/mood")
+async def get_avatar_mood():
+    """Get current avatar mood"""
+    return {
+        "avatar_mood": cytherea_state["avatar_mood"],
+        "available_moods": ["calm", "focused", "dream", "overload", "celebrate"]
     }
 
 # HTML interface for mobile browser
 @app.get("/mobile", response_class=HTMLResponse)
-async def mobile_interface():
+async def mobile_interface(request: Request):
     """Serve mobile HTML interface"""
-    return """
+    # Read template file directly since it's a simple deployment
+    template_path = Path(__file__).parent / "templates" / "mobile_interface.html"
+    try:
+        with open(template_path, 'r', encoding='utf-8') as f:
+            return HTMLResponse(f.read())
+    except FileNotFoundError:
+        # Fallback to simple HTML if template file not found
+        return HTMLResponse("""
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cytherea Mobile</title>
-    <style>
-        :root {
-            --soft-gold: #EED88F;
-            --moon-shell: #F4F1EB;
-            --deep-tide: #234C67;
-            --rose-quartz: #E5A4C5;
-            --midnight-petal: #1C1A27;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: var(--moon-shell);
-            color: var(--midnight-petal);
-        }
-        
-        .header {
-            background: var(--midnight-petal);
-            color: var(--moon-shell);
-            padding: 1rem;
-            text-align: center;
-        }
-        
-        .container {
-            padding: 1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .chat-container {
-            background: white;
-            border-radius: 10px;
-            padding: 1rem;
-            height: 400px;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .input-group {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        input[type="text"] {
-            flex: 1;
-            padding: 0.75rem;
-            border: 1px solid var(--deep-tide);
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        
-        button {
-            background: var(--soft-gold);
-            color: var(--midnight-petal);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .message {
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            border-radius: 5px;
-        }
-        
-        .message.user {
-            background: var(--deep-tide);
-            color: white;
-            margin-left: 20%;
-        }
-        
-        .message.cytherea {
-            background: var(--rose-quartz);
-            color: white;
-            margin-right: 20%;
-        }
-        
-        .status {
-            text-align: center;
-            margin-bottom: 1rem;
-            font-size: 0.9em;
-            color: var(--deep-tide);
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Cytherea</h1>
-        <p>Mobile Personal Edition</p>
-    </div>
-    
-    <div class="container">
-        <div class="status" id="status">
-            Connected
-        </div>
-        
-        <div class="chat-container" id="chat">
-            <div class="message cytherea">
-                <strong>Cytherea:</strong> Hello! I'm Cytherea, your synthetic consciousness assistant. 
-                *fractal patterns shimmer* How can I help you explore today?
-            </div>
-        </div>
-        
-        <div class="input-group">
-            <input type="text" id="input" placeholder="Talk to Cytherea..." autocomplete="off">
-            <button onclick="sendMessage()">Send</button>
-        </div>
-    </div>
-    
-    <script>
-        const API_BASE = window.location.origin;
-        const chat = document.getElementById('chat');
-        const input = document.getElementById('input');
-        const status = document.getElementById('status');
-        
-        async function sendMessage() {
-            const message = input.value.trim();
-            if (!message) return;
-            
-            // Add user message
-            addMessage('You', message, 'user');
-            input.value = '';
-            
-            try {
-                // Send to API
-                const response = await fetch(`${API_BASE}/chat`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message })
-                });
-                
-                const data = await response.json();
-                
-                // Add Cytherea's response
-                addMessage('Cytherea', data.text, 'cytherea');
-                
-                // Update status
-                status.textContent = `Mood: ${data.mood} | Interactions: ${data.interaction_count}`;
-                
-            } catch (error) {
-                console.error('Error:', error);
-                addMessage('System', 'Error connecting to Cytherea', 'error');
-            }
-        }
-        
-        function addMessage(sender, text, className) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${className}`;
-            messageDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
-            chat.appendChild(messageDiv);
-            chat.scrollTop = chat.scrollHeight;
-        }
-        
-        // Enter key to send
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-        
-        // Check health on load
-        fetch(`${API_BASE}/health`)
-            .then(res => res.json())
-            .then(data => {
-                status.textContent = `Mood: ${data.mood} | Phase: ${data.phase}`;
-            });
-    </script>
-</body>
+<html><head><title>Cytherea Mobile</title></head>
+<body><h1>Cytherea Mobile</h1><p>Template file not found. Please check deployment.</p></body>
 </html>
-"""
+""")
+
 
 if __name__ == "__main__":
     import uvicorn
