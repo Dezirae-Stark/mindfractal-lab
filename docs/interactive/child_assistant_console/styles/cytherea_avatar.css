@@ -1,21 +1,18 @@
-/* Cytherea Avatar System CSS */
+/**
+ * Cytherea Avatar Styles
+ * Mood-responsive visual states and animations
+ */
 
+/* Color Palette */
 :root {
-  /* Base color palette */
   --deep-tide: #1A1B3E;
   --rose-quartz: #FF4FA3;
   --soft-gold: #FFD700;
   --midnight-petal: #0A0320;
   --violet-iris: #7C3AED;
   --outer-iris: #5B21B6;
-  
-  /* Eye glow control variable */
+  --moon-shell: #F4F1EB;
   --eye-glow-strength: 0.4;
-  
-  /* Animation timing */
-  --rotation-speed: 20s;
-  --float-speed: 3s;
-  --pulse-speed: 2s;
 }
 
 /* Main avatar container */
