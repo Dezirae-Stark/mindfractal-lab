@@ -12,8 +12,8 @@
         
         <!-- Cytherea Avatar -->
         <div id="cytherea-avatar-container" class="mood-calm">
-            <img id="cytherea-face" src="../site/interactive/child_assistant_console/graphics/cytherea_avatar_base.svg" alt="Cytherea Avatar Face" />
-            <img id="cytherea-halo" src="../site/interactive/child_assistant_console/graphics/cytherea_halo_calm.svg" alt="Cytherea Halo" />
+            <img id="cytherea-face" src="child_assistant_console/graphics/cytherea_avatar_base.svg" alt="Cytherea Avatar Face" />
+            <img id="cytherea-halo" src="child_assistant_console/graphics/cytherea_halo_calm.svg" alt="Cytherea Halo" />
         </div>
     </div>
     
@@ -66,12 +66,12 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="../site/interactive/css/interactive.css">
-<link rel="stylesheet" href="../site/interactive/child_assistant_console/styles/cytherea_avatar.css">
-<link rel="stylesheet" href="../site/interactive/child_assistant_console/styles/console_integration.css">
+<link rel="stylesheet" href="../interactive/css/interactive.css">
+<link rel="stylesheet" href="child_assistant_console/styles/cytherea_avatar.css">
+<link rel="stylesheet" href="child_assistant_console/styles/console_integration.css">
 <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
-<script src="../site/interactive/child_assistant_console/scripts/cytherea_avatar.js" defer></script>
-<script src="../site/interactive/js/child_assistant_console.js"></script>
+<script src="child_assistant_console/scripts/cytherea_avatar.js" defer></script>
+<script src="../interactive/js/child_assistant_console.js"></script>
 <script type="module">
     // Initialize Cytherea Console
     window.addEventListener('load', async () => {

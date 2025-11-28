@@ -1,0 +1,410 @@
+/* Console Integration Styles for Cytherea Avatar */
+
+/* Header layout adjustments */
+#cytherea-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(26, 27, 62, 0.9), rgba(91, 33, 182, 0.1));
+  border-radius: 15px;
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  z-index: 3;
+}
+
+.lab-logo {
+  width: 50px;
+  height: 50px;
+  filter: drop-shadow(0 0 10px rgba(255, 79, 163, 0.3));
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: 2.2em;
+  background: linear-gradient(45deg, #FF4FA3, #7C3AED, #FFD700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+  text-shadow: 0 0 30px rgba(255, 79, 163, 0.5);
+}
+
+.header-text .subtitle {
+  margin: 5px 0 0 0;
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
+
+/* Avatar positioning in header */
+#cytherea-avatar-container {
+  position: relative;
+  z-index: 2;
+  margin-top: 10px;
+}
+
+/* Status panel adjustments */
+#cytherea-status {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  background: rgba(26, 27, 62, 0.7);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.status-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-item .label {
+  font-size: 0.8em;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-item .value {
+  font-size: 1.1em;
+  color: #FF4FA3;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 79, 163, 0.3);
+}
+
+/* Chat panel adjustments for avatar presence */
+#chat-container {
+  background: rgba(26, 27, 62, 0.8);
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 79, 163, 0.1);
+}
+
+#chat-history {
+  min-height: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+#input-container {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+#user-input {
+  flex: 1;
+  min-height: 40px;
+  max-height: 120px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+#user-input:focus {
+  outline: none;
+  border-color: #FF4FA3;
+  box-shadow: 0 0 10px rgba(255, 79, 163, 0.2);
+}
+
+#send-button {
+  padding: 10px 20px;
+  background: linear-gradient(45deg, #FF4FA3, #7C3AED);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#send-button:hover {
+  background: linear-gradient(45deg, #FF6BB5, #8B47ED);
+  box-shadow: 0 0 20px rgba(255, 79, 163, 0.4);
+  transform: translateY(-1px);
+}
+
+#send-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  #cytherea-header {
+    padding: 15px;
+    gap: 15px;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .header-text h1 {
+    font-size: 1.8em;
+  }
+  
+  #cytherea-status {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .status-item {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  #cytherea-header {
+    padding: 10px;
+  }
+  
+  .header-text h1 {
+    font-size: 1.5em;
+  }
+  
+  #input-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  #send-button {
+    align-self: flex-end;
+    min-width: 80px;
+  }
+}
+
+/* Chat message styling */
+.chat-message {
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 10px;
+  max-width: 85%;
+  word-wrap: break-word;
+  animation: messageAppear 0.3s ease-out;
+}
+
+.chat-message.user {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(91, 33, 182, 0.2));
+  border: 1px solid rgba(124, 58, 237, 0.4);
+  margin-left: auto;
+  text-align: right;
+}
+
+.chat-message.cytherea {
+  background: linear-gradient(135deg, rgba(255, 79, 163, 0.2), rgba(255, 215, 0, 0.1));
+  border: 1px solid rgba(255, 79, 163, 0.3);
+  margin-right: auto;
+}
+
+.chat-message .sender {
+  font-size: 0.8em;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chat-message .content {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.4;
+}
+
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Visualization panel adjustments */
+#cytherea-visualization {
+  background: rgba(26, 27, 62, 0.6);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+#mind-canvas {
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 79, 163, 0.1);
+}
+
+.viz-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  justify-content: center;
+}
+
+.viz-controls button {
+  padding: 8px 16px;
+  background: rgba(124, 58, 237, 0.3);
+  color: white;
+  border: 1px solid rgba(124, 58, 237, 0.5);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9em;
+}
+
+.viz-controls button:hover {
+  background: rgba(124, 58, 237, 0.5);
+  border-color: rgba(124, 58, 237, 0.7);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+}
+
+/* Modal and inspector styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, rgba(26, 27, 62, 0.95), rgba(91, 33, 182, 0.1));
+  padding: 30px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 79, 163, 0.3);
+  max-width: 90%;
+  max-height: 80%;
+  overflow-y: auto;
+  box-shadow: 0 0 30px rgba(255, 79, 163, 0.2);
+}
+
+.modal-content h3 {
+  color: #FF4FA3;
+  margin-top: 0;
+  text-align: center;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-buttons button.primary {
+  background: linear-gradient(45deg, #FF4FA3, #7C3AED);
+  color: white;
+}
+
+.modal-buttons button.secondary {
+  background: rgba(124, 58, 237, 0.3);
+  color: white;
+  border: 1px solid rgba(124, 58, 237, 0.5);
+}
+
+.inspector-panel {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  width: 300px;
+  max-height: 70vh;
+  background: rgba(26, 27, 62, 0.95);
+  border: 1px solid rgba(255, 79, 163, 0.3);
+  border-radius: 15px;
+  padding: 20px;
+  z-index: 999;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.inspector-panel.hidden {
+  display: none;
+}
+
+.inspector-panel h3 {
+  color: #FF4FA3;
+  margin-top: 0;
+  text-align: center;
+}
+
+#state-json {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8em;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 8px;
+  overflow-x: auto;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+#close-inspector {
+  width: 100%;
+  margin-top: 15px;
+  padding: 8px;
+  background: rgba(124, 58, 237, 0.3);
+  color: white;
+  border: 1px solid rgba(124, 58, 237, 0.5);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#close-inspector:hover {
+  background: rgba(124, 58, 237, 0.5);
+}

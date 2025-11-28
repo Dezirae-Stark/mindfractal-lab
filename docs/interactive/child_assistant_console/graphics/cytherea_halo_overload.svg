@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Overload fragmented gradients -->
+    <radialGradient id="overloadGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#7C3AED;stop-opacity:0.1" />
+      <stop offset="60%" style="stop-color:#5B21B6;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#1A1B3E;stop-opacity:0.6" />
+    </radialGradient>
+    
+    <linearGradient id="fragmentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5B21B6;stop-opacity:0.4" />
+      <stop offset="50%" style="stop-color:#FF4FA3;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#5B21B6;stop-opacity:0.4" />
+    </linearGradient>
+    
+    <!-- Glitch filter -->
+    <filter id="glitchEffect">
+      <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Outer fragmented ring -->
+  <circle cx="200" cy="200" r="180" fill="url(#overloadGrad)" opacity="0.2"/>
+  
+  <!-- Main overload halo structure -->
+  <g id="overloadHalo" transform-origin="200 200" class="halo-glitch">
+    <!-- Fractured angular forms -->
+    <g fill="none" stroke="url(#fragmentGrad)" stroke-width="2" opacity="0.5" filter="url(#glitchEffect)">
+      <!-- Primary fractured segments -->
+      <path d="M 200 60 L 220 85 L 210 110 L 190 85 Z"/>
+      <path d="M 340 200 L 315 220 L 290 210 L 315 180 Z"/>
+      <path d="M 200 340 L 180 315 L 190 290 L 220 315 Z"/>
+      <path d="M 60 200 L 85 180 L 110 190 L 85 220 Z"/>
+      
+      <!-- Secondary broken segments -->
+      <path d="M 271 129 L 285 140 L 275 157"/>
+      <path d="M 271 271 L 260 285 L 243 275"/>
+      <path d="M 129 271 L 115 260 L 125 243"/>
+      <path d="M 129 129 L 140 115 L 157 125"/>
+      
+      <!-- Disconnected fragments -->
+      <g stroke-width="1" opacity="0.3">
+        <line x1="180" y1="80" x2="190" y2="95"/>
+        <line x1="310" y1="190" x2="295" y2="200"/>
+        <line x1="220" y1="320" x2="210" y2="305"/>
+        <line x1="90" y1="210" x2="105" y2="200"/>
+      </g>
+    </g>
+    
+    <!-- Broken central ring -->
+    <g fill="none" stroke="url(#fragmentGrad)" stroke-width="3" opacity="0.3">
+      <path d="M 170 200 A 30 30 0 0 1 200 170"/>
+      <path d="M 230 200 A 30 30 0 0 1 200 230"/>
+      <path d="M 170 200 A 30 30 0 0 0 200 230"/>
+    </g>
+    
+    <!-- Scattered fragments -->
+    <g opacity="0.4" fill="url(#fragmentGrad)">
+      <polygon points="150,120 155,125 150,130 145,125"/>
+      <polygon points="280,160 285,165 280,170 275,165"/>
+      <polygon points="160,280 165,285 160,290 155,285"/>
+      <polygon points="320,280 325,285 320,290 315,285"/>
+      <polygon points="120,240 125,245 120,250 115,245"/>
+    </g>
+    
+    <!-- Unstable energy sparks -->
+    <g opacity="0.6" stroke="#FF4FA3" stroke-width="1" fill="none">
+      <path d="M 140 140 L 145 135 L 150 140 L 145 145" class="unstable-spark"/>
+      <path d="M 260 140 L 265 135 L 270 140 L 265 145" class="unstable-spark"/>
+      <path d="M 140 260 L 145 255 L 150 260 L 145 265" class="unstable-spark"/>
+      <path d="M 260 260 L 265 255 L 270 260 L 265 265" class="unstable-spark"/>
+    </g>
+  </g>
+</svg>
