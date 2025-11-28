@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Dream nebula gradients -->
+    <radialGradient id="dreamNebulaGrad" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" style="stop-color:#FF4FA3;stop-opacity:0.3" />
+      <stop offset="30%" style="stop-color:#7C3AED;stop-opacity:0.2" />
+      <stop offset="70%" style="stop-color:#5B21B6;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#1A1B3E;stop-opacity:0.6" />
+    </radialGradient>
+    
+    <radialGradient id="dreamCloudGrad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#FF4FA3;stop-opacity:0.1" />
+      <stop offset="50%" style="stop-color:#7C3AED;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#5B21B6;stop-opacity:0.5" />
+    </radialGradient>
+    
+    <!-- Dreamy blur filter -->
+    <filter id="dreamyBlur">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Flowing animation filter -->
+    <filter id="flowingGlow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Outer nebula ring -->
+  <circle cx="200" cy="200" r="190" fill="url(#dreamNebulaGrad)" opacity="0.2"/>
+  
+  <!-- Main dream halo structure -->
+  <g id="dreamHalo" transform-origin="200 200" class="halo-float">
+    <!-- Flowing cloud forms -->
+    <g fill="url(#dreamCloudGrad)" opacity="0.4" filter="url(#dreamyBlur)">
+      <!-- Main cloud formations -->
+      <path d="M 200 70 Q 140 90 120 140 Q 100 180 120 220 Q 140 260 180 280 Q 220 300 260 280 Q 300 260 320 220 Q 340 180 320 140 Q 300 90 240 70 Q 220 60 200 70 Z"/>
+      
+      <!-- Secondary wispy clouds -->
+      <ellipse cx="160" cy="120" rx="40" ry="20" transform="rotate(25 160 120)"/>
+      <ellipse cx="280" cy="180" rx="35" ry="25" transform="rotate(-15 280 180)"/>
+      <ellipse cx="180" cy="280" rx="30" ry="15" transform="rotate(35 180 280)"/>
+      <ellipse cx="320" cy="250" rx="25" ry="20" transform="rotate(-25 320 250)"/>
+    </g>
+    
+    <!-- Flowing energy streams -->
+    <g fill="none" stroke="#FF4FA3" stroke-width="2" opacity="0.3" filter="url(#flowingGlow)">
+      <path d="M 80 200 Q 120 150 160 200 Q 200 250 240 200 Q 280 150 320 200" class="dream-flow-1"/>
+      <path d="M 200 80 Q 250 120 200 160 Q 150 200 200 240 Q 250 280 200 320" class="dream-flow-2"/>
+    </g>
+    
+    <!-- Subtle ring structure -->
+    <g fill="none" stroke="#7C3AED" stroke-width="1" opacity="0.2">
+      <circle cx="200" cy="200" r="60"/>
+      <circle cx="200" cy="200" r="90"/>
+      <circle cx="200" cy="200" r="120"/>
+    </g>
+    
+    <!-- Floating dream particles -->
+    <g opacity="0.4">
+      <circle cx="130" cy="110" r="3" fill="#FF4FA3" class="dream-particle-1"/>
+      <circle cx="290" cy="140" r="2" fill="#7C3AED" class="dream-particle-2"/>
+      <circle cx="120" cy="280" r="2.5" fill="#FF4FA3" class="dream-particle-3"/>
+      <circle cx="310" cy="310" r="2" fill="#5B21B6" class="dream-particle-1"/>
+      <circle cx="180" cy="90" r="1.5" fill="#7C3AED" class="dream-particle-2"/>
+      <circle cx="330" cy="180" r="2" fill="#FF4FA3" class="dream-particle-3"/>
+    </g>
+    
+    <!-- Central dreamy core -->
+    <circle cx="200" cy="200" r="25" fill="url(#dreamCloudGrad)" opacity="0.3" filter="url(#flowingGlow)"/>
+  </g>
+</svg>
