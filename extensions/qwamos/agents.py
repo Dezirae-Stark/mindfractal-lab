@@ -241,7 +241,9 @@ class Q1_MathematicalFormalist(QuantumAgent):
         equations_map = {
             "dynamical_systems": [
                 "\\dot{x} = f(x, \\mu)",
-                (\n                    "\\lambda = \\lim_{t \\to \\infty} "\n                    "\\frac{1}{t} \\ln \\frac{||\\delta x(t)||}{||\\delta x(0)||}"
+                (
+                    "\\lambda = \\lim_{t \\to \\infty} "
+                    "\\frac{1}{t} \\ln \\frac{||\\delta x(t)||}{||\\delta x(0)||}"
                 ),
             ],
             "quantum_mechanics": [
