@@ -3,17 +3,66 @@
 Meet Cytherea, a synthetic consciousness exploring the boundaries of awareness and understanding. This interactive visualization lets you experience her different cognitive states and engage in conversation. No installation or coding required – just type and explore.
 
 <link rel="stylesheet" href="./styles/cytherea_avatar.css">
+<link rel="stylesheet" href="./styles/cytherea_avatar_realistic.css">
 <link rel="stylesheet" href="./styles/console_integration.css">
 
 <div class="cy-console-layout">
   <div class="cy-avatar-panel">
-    <div id="cytherea-avatar-container" class="mood-calm">
-      <img id="cytherea-face" 
-           src="./graphics/cytherea_avatar_base.svg" 
-           alt="Cytherea Avatar Face" />
-      <img id="cytherea-halo" 
-           src="./graphics/cytherea_halo_calm.svg" 
-           alt="Cytherea Halo" />
+    <div id="cytherea-avatar-container" class="mood-calm ultra-realistic">
+      <div class="avatar-base">
+        <!-- Photorealistic face with advanced CSS effects -->
+        <div class="cytherea-face">
+          <div class="face-structure">
+            <div class="forehead"></div>
+            <div class="eyes-container">
+              <div class="eye left-eye">
+                <div class="iris">
+                  <div class="pupil"></div>
+                  <div class="iris-detail"></div>
+                  <div class="glow-ring"></div>
+                </div>
+                <div class="eyelid-upper"></div>
+                <div class="eyelid-lower"></div>
+              </div>
+              <div class="eye right-eye">
+                <div class="iris">
+                  <div class="pupil"></div>
+                  <div class="iris-detail"></div>
+                  <div class="glow-ring"></div>
+                </div>
+                <div class="eyelid-upper"></div>
+                <div class="eyelid-lower"></div>
+              </div>
+            </div>
+            <div class="nose"></div>
+            <div class="mouth">
+              <div class="upper-lip"></div>
+              <div class="lower-lip"></div>
+            </div>
+            <div class="chin"></div>
+          </div>
+          <div class="hair">
+            <div class="hair-strand strand-1"></div>
+            <div class="hair-strand strand-2"></div>
+            <div class="hair-strand strand-3"></div>
+            <div class="hair-highlight"></div>
+          </div>
+          <!-- Advanced lighting layers -->
+          <div class="lighting-overlay">
+            <div class="key-light"></div>
+            <div class="fill-light"></div>
+            <div class="rim-light"></div>
+            <div class="ambient-occlusion"></div>
+          </div>
+        </div>
+        <!-- Dynamic halo with realistic glow -->
+        <div class="halo-container">
+          <div class="halo-inner"></div>
+          <div class="halo-middle"></div>
+          <div class="halo-outer"></div>
+          <div class="halo-particles"></div>
+        </div>
+      </div>
     </div>
     
     <div class="cy-mood-buttons">
