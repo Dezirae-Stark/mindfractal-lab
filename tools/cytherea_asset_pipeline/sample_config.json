@@ -1,0 +1,62 @@
+{
+  "input": {
+    "raw_directory": "docs/interactive/child_assistant_console/graphics/source_raw",
+    "file_patterns": ["*.jpg", "*.jpeg", "*.png", "*.JPG", "*.JPEG", "*.PNG"]
+  },
+  "output": {
+    "directory": "docs/interactive/child_assistant_console/graphics/realistic",
+    "format": "webp",
+    "width": 800,
+    "height": 1000,
+    "quality": 90,
+    "method": 6
+  },
+  "moods": {
+    "neutral": {
+      "keywords": ["neutral", "calm", "default", "normal"],
+      "enhance": {
+        "contrast": 1.1,
+        "color": 1.05,
+        "brightness": 1.0
+      }
+    },
+    "focused": {
+      "keywords": ["focused", "alert", "concentrate", "attention"],
+      "enhance": {
+        "contrast": 1.15,
+        "color": 1.1,
+        "brightness": 1.05
+      }
+    },
+    "dream": {
+      "keywords": ["dream", "soft", "dreamy", "gentle"],
+      "enhance": {
+        "contrast": 0.95,
+        "color": 1.15,
+        "brightness": 1.1
+      }
+    },
+    "overload": {
+      "keywords": ["overload", "stress", "overwhelm", "tired"],
+      "enhance": {
+        "contrast": 0.9,
+        "color": 0.9,
+        "brightness": 0.95
+      }
+    },
+    "celebrate": {
+      "keywords": ["celebrate", "happy", "joy", "excited"],
+      "enhance": {
+        "contrast": 1.2,
+        "color": 1.2,
+        "brightness": 1.1
+      }
+    }
+  },
+  "processing": {
+    "auto_crop": true,
+    "maintain_aspect_ratio": false,
+    "center_crop": true,
+    "sharpen": false
+  }
+}
