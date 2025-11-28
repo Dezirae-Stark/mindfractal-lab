@@ -165,7 +165,7 @@ nav:
     - Holographic Projector: interactive/holographic-universe.md
     - Many-Worlds Explorer: interactive/many-worlds.md
     - Child Mind Lab: interactive/child-mind-lab.md
-    - Cytherea Console: interactive/child_assistant_console.md
+    - Cytherea Console: interactive/child_assistant_console/index.md
 
   # SECONDARY: Conceptual/scientific explanations
   - The Science:
@@ -198,6 +198,7 @@ nav:
       - Contributing: developer/contributing.md
       - Testing: developer/testing.md
       - CI/CD: developer/ci-cd.md
+      - Cytherea Avatar System: for_contributors/cytherea_avatar_system.md
     - Roadmap: roadmap.md
 
 # Social links
