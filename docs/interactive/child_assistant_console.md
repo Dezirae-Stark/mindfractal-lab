@@ -70,7 +70,7 @@
 <link rel="stylesheet" href="../site/interactive/child_assistant_console/styles/cytherea_avatar.css">
 <link rel="stylesheet" href="../site/interactive/child_assistant_console/styles/console_integration.css">
 <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
-<script src="../site/interactive/child_assistant_console/scripts/cytherea_avatar.js"></script>
+<script src="../site/interactive/child_assistant_console/scripts/cytherea_avatar.js" defer></script>
 <script src="../site/interactive/js/child_assistant_console.js"></script>
 <script type="module">
     // Initialize Cytherea Console

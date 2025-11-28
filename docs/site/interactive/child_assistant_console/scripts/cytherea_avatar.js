@@ -23,8 +23,8 @@ class CythereaAvatarController {
     // Valid mood states
     this.validMoods = ['calm', 'focused', 'dream', 'overload', 'celebrate'];
     
-    // Transition timing
-    this.transitionDuration = 800; // ms
+    // Transition timing (300-600ms as per spec)
+    this.transitionDuration = 400; // ms
     
     // Debug mode flag
     this.debugMode = false;
@@ -284,8 +284,11 @@ class CythereaAvatarController {
     // Extract mood from various possible backend formats
     let mood = null;
     
+    // Direct mood mapping (highest priority)
     if (backendState.mood) {
       mood = backendState.mood;
+    } else if (backendState.avatar_mood) {
+      mood = backendState.avatar_mood;
     } else if (backendState.emotional_state) {
       mood = this.mapEmotionalStateToMood(backendState.emotional_state);
     } else if (backendState.activity) {
@@ -293,73 +296,159 @@ class CythereaAvatarController {
     } else if (backendState.status) {
       mood = this.mapStatusToMood(backendState.status);
     }
+    
+    // Check for low coherence override
+    if (backendState.coherence && backendState.coherence < 0.3) {
+      mood = 'overload';
+    }
 
     if (mood) {
       this.updateCythereaMood(mood);
     }
+    
+    // Trigger callback hook for custom integrations
+    if (typeof this.onBackendStateUpdate === 'function') {
+      this.onBackendStateUpdate(backendState, mood);
+    }
+  }
+  
+  /**
+   * Set a callback for backend state updates
+   * @param {Function} callback - Function to call when backend state is received
+   */
+  setBackendUpdateCallback(callback) {
+    this.onBackendStateUpdate = callback;
   }
 
   /**
    * Map emotional state to mood
+   * Following the specification:
+   * - "calm" or no mood field → Mode 1 (Lab Default)
+   * - "focused" or "analysis" → Mode 2 (Deep Work)
+   * - "dream" or "introspect" → Mode 3 (Dream)
+   * - "overload" or "low_coherence" → Mode 4 (Overload)
+   * - "celebrate" or "success" → Mode 5 (Celebration)
    */
   mapEmotionalStateToMood(emotionalState) {
-    const mapping = {
-      'happy': 'celebrate',
-      'excited': 'celebrate',
-      'calm': 'calm',
-      'peaceful': 'calm',
-      'focused': 'focused',
-      'analyzing': 'focused',
-      'thinking': 'focused',
-      'dreamy': 'dream',
-      'introspective': 'dream',
-      'contemplative': 'dream',
-      'stressed': 'overload',
-      'overwhelmed': 'overload',
-      'confused': 'overload'
-    };
+    if (!emotionalState) return 'calm';
     
-    return mapping[emotionalState.toLowerCase()] || 'calm';
+    const stateStr = emotionalState.toString().toLowerCase();
+    
+    // Mode 1: Calm (default)
+    if (stateStr === 'calm' || stateStr === 'peaceful' || stateStr === 'ready') {
+      return 'calm';
+    }
+    
+    // Mode 2: Focused
+    if (stateStr === 'focused' || stateStr === 'analysis' || stateStr === 'analyzing' || 
+        stateStr === 'thinking' || stateStr === 'calculating') {
+      return 'focused';
+    }
+    
+    // Mode 3: Dream
+    if (stateStr === 'dream' || stateStr === 'introspect' || stateStr === 'introspective' ||
+        stateStr === 'contemplative' || stateStr === 'dreamy' || stateStr === 'reflecting') {
+      return 'dream';
+    }
+    
+    // Mode 4: Overload
+    if (stateStr === 'overload' || stateStr === 'low_coherence' || stateStr === 'stressed' ||
+        stateStr === 'overwhelmed' || stateStr === 'confused' || stateStr === 'error') {
+      return 'overload';
+    }
+    
+    // Mode 5: Celebrate
+    if (stateStr === 'celebrate' || stateStr === 'success' || stateStr === 'happy' ||
+        stateStr === 'excited' || stateStr === 'achievement' || stateStr === 'completed') {
+      return 'celebrate';
+    }
+    
+    return 'calm'; // Default
   }
 
   /**
    * Map activity to mood
    */
   mapActivityToMood(activity) {
+    if (!activity) return 'calm';
+    
+    const activityStr = activity.toString().toLowerCase();
+    
     const mapping = {
+      // Mode 1: Calm
       'idle': 'calm',
       'listening': 'calm',
+      'ready': 'calm',
+      
+      // Mode 2: Focused
       'processing': 'focused',
       'calculating': 'focused',
       'analyzing': 'focused',
+      'analysis': 'focused',
+      'working': 'focused',
+      
+      // Mode 3: Dream
       'dreaming': 'dream',
       'reflecting': 'dream',
+      'introspect': 'dream',
+      'sleeping': 'dream',
+      
+      // Mode 4: Overload
       'error': 'overload',
       'overloaded': 'overload',
+      'low_coherence': 'overload',
+      'failure': 'overload',
+      
+      // Mode 5: Celebrate
       'success': 'celebrate',
-      'completed': 'celebrate'
+      'completed': 'celebrate',
+      'celebrate': 'celebrate',
+      'achievement': 'celebrate'
     };
     
-    return mapping[activity.toLowerCase()] || 'calm';
+    return mapping[activityStr] || 'calm';
   }
 
   /**
    * Map status to mood
    */
   mapStatusToMood(status) {
+    if (!status) return 'calm';
+    
+    const statusStr = status.toString().toLowerCase();
+    
     const mapping = {
+      // Mode 1: Calm
       'ready': 'calm',
+      'idle': 'calm',
+      'calm': 'calm',
+      
+      // Mode 2: Focused
       'busy': 'focused',
       'working': 'focused',
+      'focused': 'focused',
+      'analysis': 'focused',
+      
+      // Mode 3: Dream
       'sleeping': 'dream',
       'offline': 'dream',
+      'dream': 'dream',
+      'introspect': 'dream',
+      
+      // Mode 4: Overload
       'error': 'overload',
       'failure': 'overload',
+      'overload': 'overload',
+      'low_coherence': 'overload',
+      
+      // Mode 5: Celebrate
       'success': 'celebrate',
-      'achievement': 'celebrate'
+      'achievement': 'celebrate',
+      'celebrate': 'celebrate',
+      'completed': 'celebrate'
     };
     
-    return mapping[status.toLowerCase()] || 'calm';
+    return mapping[statusStr] || 'calm';
   }
 
   /**
