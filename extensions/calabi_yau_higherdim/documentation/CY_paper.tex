@@ -1,0 +1,113 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Calabi-Yau Inspired Higher-Dimensional Consciousness Dynamics:\\
+A Computational Framework}
+\author{MindFractal Lab Contributors}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We present a computational framework for exploring higher-dimensional complex state spaces inspired by the mathematical structure of Calabi-Yau manifolds. Our model implements a discrete-time nonlinear dynamical system in $\mathbb{C}^k$ with unitary evolution and nonlinear perturbations.
+
+\textbf{DISCLAIMER}: This is a CONCEPTUAL MODELING TOOL, NOT a physical theory of spacetime or consciousness.
+\end{abstract}
+
+\section{Mathematical Framework}
+
+\subsection{State Space}
+
+The state space is $\mathbb{C}^k$ with states:
+\begin{equation}
+z = (z_1, z_2, \ldots, z_k) \in \mathbb{C}^k
+\end{equation}
+
+\subsection{Dynamical System}
+
+The update rule is:
+\begin{equation}
+z_{n+1} = U z_n + \varepsilon (z_n \odot z_n) + c
+\end{equation}
+
+where:
+\begin{itemize}
+\item $U \in \mathbb{C}^{k \times k}$ is unitary ($U^\dagger U = I$)
+\item $\varepsilon \in \mathbb{R}^+$ controls nonlinearity
+\item $\odot$ denotes element-wise product
+\item $c \in \mathbb{C}^k$ is the parameter vector
+\end{itemize}
+
+\subsection{Jacobian}
+
+The Jacobian at state $z$ is:
+\begin{equation}
+J(z) = U + \varepsilon \, \text{diag}(2z_1, 2z_2, \ldots, 2z_k)
+\end{equation}
+
+\section{Parameter Space Fractals}
+
+For fixed $(U, \varepsilon, z_0)$, define the bounded set:
+\begin{equation}
+\mathcal{M} = \{ c \in \mathbb{C}^k : \text{orbit} \{z_n\} \text{ remains bounded} \}
+\end{equation}
+
+This set typically has fractal boundaries.
+
+\section{Lyapunov Exponents}
+
+The largest Lyapunov exponent is:
+\begin{equation}
+\lambda = \lim_{N \to \infty} \frac{1}{N} \sum_{n=1}^N \log \| J(z_n) v_n \|
+\end{equation}
+
+where $v_n$ is a unit tangent vector, renormalized at each step.
+
+\section{CY-Inspired Geometry}
+
+\subsection{Hermitian Metric}
+
+We define toy Hermitian metrics:
+\begin{equation}
+g_{ij}(z) = \delta_{ij} \quad \text{(flat)}
+\end{equation}
+
+or position-dependent:
+\begin{equation}
+g_{ij}(z) = \frac{\delta_{ij}}{1 + \|z\|^2}
+\end{equation}
+
+\subsection{Curvature Proxy}
+
+Ricci curvature proxy:
+\begin{equation}
+\text{Ric}_{\text{proxy}}(z) = \log|\det J(z)|
+\end{equation}
+
+\textbf{Note}: These are heuristic diagnostics, not actual geometric curvatures.
+
+\section{Attractor Types}
+
+\begin{itemize}
+\item \textbf{Fixed Point}: $z^* = U z^* + \varepsilon (z^* \odot z^*) + c$
+\item \textbf{Periodic}: $z_{n+p} = z_n$
+\item \textbf{Chaotic}: $\lambda > 0$ and bounded
+\item \textbf{Unbounded}: $\|z_n\| \to \infty$
+\end{itemize}
+
+\section{Conclusions}
+
+This framework provides a mathematically-grounded tool for exploring high-dimensional complex dynamics inspired by Calabi-Yau geometry. It is a \textbf{conceptual modeling tool}, not a physical theory.
+
+\bibliographystyle{plain}
+\begin{thebibliography}{9}
+\bibitem{candelas} P. Candelas et al., \textit{Vacuum configurations for superstrings}, Nuclear Physics B 258 (1985).
+\bibitem{strogatz} S.H. Strogatz, \textit{Nonlinear Dynamics and Chaos}, Westview Press (2015).
+\bibitem{ott} E. Ott, \textit{Chaos in Dynamical Systems}, Cambridge (2002).
+\end{thebibliography}
+
+\end{document}
