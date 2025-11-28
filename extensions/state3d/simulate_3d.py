@@ -1,13 +1,12 @@
 """3D Simulation Functions"""
 
 import numpy as np
+
 from .model_3d import FractalDynamicsModel3D
 
 
 def simulate_orbit_3d(
-    model: FractalDynamicsModel3D,
-    x0: np.ndarray,
-    n_steps: int = 1000
+    model: FractalDynamicsModel3D, x0: np.ndarray, n_steps: int = 1000
 ) -> np.ndarray:
     """Simulate 3D orbit"""
     x = np.array(x0, dtype=np.float64)
@@ -22,10 +21,7 @@ def simulate_orbit_3d(
 
 
 def lyapunov_spectrum_3d(
-    model: FractalDynamicsModel3D,
-    x0: np.ndarray,
-    n_steps: int = 5000,
-    transient: int = 1000
+    model: FractalDynamicsModel3D, x0: np.ndarray, n_steps: int = 5000, transient: int = 1000
 ) -> np.ndarray:
     """Compute full Lyapunov spectrum (3 exponents)"""
     x = np.array(x0, dtype=np.float64)

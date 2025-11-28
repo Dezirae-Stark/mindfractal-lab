@@ -2,10 +2,14 @@
 Test Suite for Tenth Dimension Possibility Module
 """
 
-import pytest
 import numpy as np
+import pytest
+
 from ..possibility_manifold import (
-    PossibilityManifold, ParameterPoint, UpdateRuleFamily, StabilityRegion
+    ParameterPoint,
+    PossibilityManifold,
+    StabilityRegion,
+    UpdateRuleFamily,
 )
 from ..possibility_metrics import ManifoldMetrics, StabilityClassifier
 from ..possibility_slicer import TimelineSlicer
@@ -79,5 +83,5 @@ class TestTimelineSlicer:
         assert len(branch.orbits) == 10
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

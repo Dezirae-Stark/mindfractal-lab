@@ -17,14 +17,16 @@ This is the formal mathematical analogue of the "10th dimension" metaphor:
 the space containing all possible timelines, versions, and realities.
 """
 
-import numpy as np
 from dataclasses import dataclass, field
-from typing import Callable, Optional, List, Tuple, Dict
 from enum import Enum
+from typing import Callable, Dict, List, Optional, Tuple
+
+import numpy as np
 
 
 class UpdateRuleFamily(Enum):
     """Types of dynamical update rules"""
+
     TANH_2D = "tanh_2d"  # x_{n+1} = A x_n + B tanh(W x_n) + c
     SIGMOID_2D = "sigmoid_2d"  # x_{n+1} = A x_n + B σ(W x_n) + c
     STATE_3D = "state_3d"  # 3-dimensional state space extension
@@ -34,6 +36,7 @@ class UpdateRuleFamily(Enum):
 
 class StabilityRegion(Enum):
     """Classification of manifold regions by stability"""
+
     STABLE_ATTRACTOR = "stable"  # Converges to fixed point/cycle
     CHAOTIC = "chaotic"  # Sensitive dependence on init conditions
     DIVERGENT = "divergent"  # Orbit escapes to infinity
@@ -48,6 +51,7 @@ class ParameterPoint:
 
     Represents a specific configuration: (initial state, parameters, update rule)
     """
+
     z0: np.ndarray  # Initial state
     c: np.ndarray  # Parameter vector
     rule_family: UpdateRuleFamily
@@ -72,7 +76,7 @@ class ParameterPoint:
         """Dimensionality of the state space"""
         return len(self.z0)
 
-    def copy(self) -> 'ParameterPoint':
+    def copy(self) -> "ParameterPoint":
         """Create a deep copy of this point"""
         return ParameterPoint(
             z0=self.z0.copy(),
@@ -81,7 +85,7 @@ class ParameterPoint:
             A=self.A.copy() if self.A is not None else None,
             B=self.B.copy() if self.B is not None else None,
             W=self.W.copy() if self.W is not None else None,
-            metadata=self.metadata.copy()
+            metadata=self.metadata.copy(),
         )
 
 
@@ -126,10 +130,12 @@ class PossibilityManifold:
         self.sampled_points: List[ParameterPoint] = []
         self.stability_map: Dict[int, StabilityRegion] = {}
 
-    def sample_point(self,
-                    rule_family: UpdateRuleFamily = UpdateRuleFamily.TANH_2D,
-                    z0: Optional[np.ndarray] = None,
-                    c: Optional[np.ndarray] = None) -> ParameterPoint:
+    def sample_point(
+        self,
+        rule_family: UpdateRuleFamily = UpdateRuleFamily.TANH_2D,
+        z0: Optional[np.ndarray] = None,
+        c: Optional[np.ndarray] = None,
+    ) -> ParameterPoint:
         """
         Sample a random point from the manifold
 
@@ -178,8 +184,9 @@ class PossibilityManifold:
         self.sampled_points.append(point)
         return point
 
-    def compute_orbit(self, point: ParameterPoint, steps: int = 100,
-                     max_radius: float = 1e6) -> np.ndarray:
+    def compute_orbit(
+        self, point: ParameterPoint, steps: int = 100, max_radius: float = 1e6
+    ) -> np.ndarray:
         """
         Compute the orbit (trajectory) for a given point in 𝒫
 
@@ -201,7 +208,7 @@ class PossibilityManifold:
         orbit[0] = point.z0
 
         for i in range(1, steps):
-            z = orbit[i-1]
+            z = orbit[i - 1]
 
             # Apply update rule based on family
             if point.rule_family == UpdateRuleFamily.TANH_2D:
@@ -226,8 +233,7 @@ class PossibilityManifold:
 
         return orbit
 
-    def classify_stability(self, orbit: np.ndarray,
-                          threshold_lyap: float = 0.1) -> StabilityRegion:
+    def classify_stability(self, orbit: np.ndarray, threshold_lyap: float = 0.1) -> StabilityRegion:
         """
         Classify the stability of an orbit
 
@@ -297,14 +303,14 @@ class PossibilityManifold:
         # Matrix distances (if available)
         d_matrix = 0.0
         if p1.A is not None and p2.A is not None:
-            d_matrix += np.linalg.norm(p1.A - p2.A, 'fro')
+            d_matrix += np.linalg.norm(p1.A - p2.A, "fro")
         if p1.B is not None and p2.B is not None:
-            d_matrix += np.linalg.norm(p1.B - p2.B, 'fro')
+            d_matrix += np.linalg.norm(p1.B - p2.B, "fro")
         if p1.W is not None and p2.W is not None:
-            d_matrix += np.linalg.norm(p1.W - p2.W, 'fro')
+            d_matrix += np.linalg.norm(p1.W - p2.W, "fro")
 
         # Weighted combination
-        return np.sqrt(d_state**2 + d_param**2 + 0.1*d_matrix**2)
+        return np.sqrt(d_state**2 + d_param**2 + 0.1 * d_matrix**2)
 
     def _random_complex_vector(self, n: int) -> np.ndarray:
         """Generate random complex vector in bounds"""
@@ -328,7 +334,7 @@ class PossibilityManifold:
         M = self._random_matrix(n, n, scale=1.0)
         Q, R = np.linalg.qr(M)
         # Make Q truly unitary
-        return Q @ np.diag(np.exp(1j * np.random.uniform(0, 2*np.pi, n)))
+        return Q @ np.diag(np.exp(1j * np.random.uniform(0, 2 * np.pi, n)))
 
     def get_statistics(self) -> Dict:
         """
@@ -356,5 +362,5 @@ class PossibilityManifold:
             "dimension": self.dim,
             "bounds": self.bounds,
             "rule_distribution": rule_counts,
-            "stability_distribution": stability_counts
+            "stability_distribution": stability_counts,
         }

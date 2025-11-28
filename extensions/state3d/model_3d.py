@@ -9,8 +9,9 @@ Extends the fractal dynamics model to 3D:
 This provides richer dynamics and additional dimensions for consciousness modeling.
 """
 
-import numpy as np
 from typing import Optional
+
+import numpy as np
 
 
 class FractalDynamicsModel3D:
@@ -21,16 +22,14 @@ class FractalDynamicsModel3D:
         A: Optional[np.ndarray] = None,
         B: Optional[np.ndarray] = None,
         W: Optional[np.ndarray] = None,
-        c: Optional[np.ndarray] = None
+        c: Optional[np.ndarray] = None,
     ):
         self.dim = 3
 
         self.A = A if A is not None else 0.9 * np.eye(3)
-        self.B = B if B is not None else np.array([
-            [0.2, 0.1, 0.1],
-            [0.1, 0.2, 0.1],
-            [0.1, 0.1, 0.2]
-        ])
+        self.B = (
+            B if B is not None else np.array([[0.2, 0.1, 0.1], [0.1, 0.2, 0.1], [0.1, 0.1, 0.2]])
+        )
         self.W = W if W is not None else np.eye(3) + 0.1 * np.random.randn(3, 3)
         self.c = c if c is not None else np.array([0.1, 0.1, 0.1])
 
@@ -51,7 +50,7 @@ class FractalDynamicsModel3D:
     def jacobian(self, x: np.ndarray) -> np.ndarray:
         """Jacobian matrix at x"""
         wx = self.W @ x
-        sech_sq = 1.0 - np.tanh(wx)**2
+        sech_sq = 1.0 - np.tanh(wx) ** 2
         D = np.diag(sech_sq)
         return self.A + self.B @ D @ self.W
 

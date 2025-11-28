@@ -22,9 +22,9 @@ possibility_viewer.py    : Visualization tools
 possibility_cli.py       : Command-line interface
 """
 
-from .possibility_manifold import PossibilityManifold, ParameterPoint
+from .possibility_manifold import ParameterPoint, PossibilityManifold
 from .possibility_metrics import ManifoldMetrics, StabilityClassifier
-from .possibility_slicer import TimelineSlicer, OrbitBranch
+from .possibility_slicer import OrbitBranch, TimelineSlicer
 from .possibility_viewer import PossibilityVisualizer
 
 __version__ = "0.3.0"

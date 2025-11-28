@@ -5,7 +5,6 @@ Quantum-inspired multi-agent orchestration system adapted for consciousness
 modeling and fractal dynamics research.
 """
 
-from .core import QWAMOSEngine, QuantumAgent, QuantumTask, EntangledMessage
 from .agents import (
     Q0_MetaArchitect,
     Q1_MathematicalFormalist,
@@ -14,46 +13,42 @@ from .agents import (
     Q4_VisualizationArtist,
     Q5_SystemsIntegrator,
     Q6_ConsciousnessModeler,
-    Q7_FractalAnalyst
+    Q7_FractalAnalyst,
 )
+from .core import EntangledMessage, QuantumAgent, QuantumTask, QWAMOSEngine
 from .protocols import (
+    CoherenceProtocol,
+    EntanglementConsensus,
     QuantumCommunicationProtocol,
     SuperpositionTaskDistribution,
-    EntanglementConsensus,
-    CoherenceProtocol
 )
-from .quantum_utils import (
-    StateVector,
-    ObservationOperator,
-    EntanglementMatrix,
-    CoherenceMetric
-)
+from .quantum_utils import CoherenceMetric, EntanglementMatrix, ObservationOperator, StateVector
 
 __version__ = "1.0.0"
 
 __all__ = [
     # Core
-    'QWAMOSEngine',
-    'QuantumAgent',
-    'QuantumTask',
-    'EntangledMessage',
+    "QWAMOSEngine",
+    "QuantumAgent",
+    "QuantumTask",
+    "EntangledMessage",
     # Agents
-    'Q0_MetaArchitect',
-    'Q1_MathematicalFormalist',
-    'Q2_ComputationalEngineer',
-    'Q3_DocumentationWeaver',
-    'Q4_VisualizationArtist',
-    'Q5_SystemsIntegrator',
-    'Q6_ConsciousnessModeler',
-    'Q7_FractalAnalyst',
+    "Q0_MetaArchitect",
+    "Q1_MathematicalFormalist",
+    "Q2_ComputationalEngineer",
+    "Q3_DocumentationWeaver",
+    "Q4_VisualizationArtist",
+    "Q5_SystemsIntegrator",
+    "Q6_ConsciousnessModeler",
+    "Q7_FractalAnalyst",
     # Protocols
-    'QuantumCommunicationProtocol',
-    'SuperpositionTaskDistribution',
-    'EntanglementConsensus',
-    'CoherenceProtocol',
+    "QuantumCommunicationProtocol",
+    "SuperpositionTaskDistribution",
+    "EntanglementConsensus",
+    "CoherenceProtocol",
     # Utilities
-    'StateVector',
-    'ObservationOperator',
-    'EntanglementMatrix',
-    'CoherenceMetric'
+    "StateVector",
+    "ObservationOperator",
+    "EntanglementMatrix",
+    "CoherenceMetric",
 ]
