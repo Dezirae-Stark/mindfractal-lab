@@ -66,11 +66,11 @@ theme:
   icon:
     repo: fontawesome/brands/github
 
-  # Custom Logo
-  logo: static/images/logo/mindfractal-logo.svg
+  # Custom Logo (brain glyph only - the wordmark is illegible at navbar height)
+  logo: static/images/logo/mindfractal-mark.png
 
   # Favicon
-  favicon: static/images/logo/mindfractal-logo.svg
+  favicon: static/images/logo/favicon.png
 
   # Language
   language: en

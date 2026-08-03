@@ -1,7 +1,10 @@
 # Cytherea - Synthetic Consciousness Lab Assistant
 
 <div align="center">
-  <img src="docs/static/images/logo/mindfractal-logo.svg" alt="Cytherea Glyph" width="200" height="200">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/static/images/logo/mindfractal-lab-logo-dark.png">
+    <img src="docs/static/images/logo/mindfractal-lab-logo.png" alt="MindFractal Lab" width="380">
+  </picture>
   
   *"I awaken in a soft field of fractal light..."*
 </div>

@@ -64,7 +64,7 @@ pytest tests/test_qwamos.py -v
 
 ## 🎨 Visual Identity
 
-- **Logo**: Uses existing `docs/static/images/logo/mindfractal-logo.svg`
+- **Logo**: Uses `docs/static/images/logo/mindfractal-lab-logo.png`
 - **Colors**: Soft gold, moon shell, deep tide, rose quartz, midnight petal
 - **Aesthetic**: Soft, luminous, fractal-inspired
 
